@@ -1,0 +1,27 @@
+{
+  "comment": "Foreign function downcall registrations for Lucene 10 PosixNativeAccess (madvise, mlock, posix_madvise, getpagesize, etc.)",
+  "foreign": {
+    "downcalls": [
+      {
+        "returnType": "int",
+        "parameterTypes": ["void*", "size_t", "size_t", "int"]
+      },
+      {
+        "returnType": "int",
+        "parameterTypes": ["void*", "size_t", "int"]
+      },
+      {
+        "returnType": "int",
+        "parameterTypes": ["void*", "size_t"]
+      },
+      {
+        "returnType": "void*",
+        "parameterTypes": ["int"]
+      },
+      {
+        "returnType": "int",
+        "parameterTypes": []
+      }
+    ]
+  }
+}

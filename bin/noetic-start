@@ -1,0 +1,199 @@
+#!/usr/bin/env bash
+# noetic-start - Start Noetic as a background REST API service.
+#
+# Usage:
+#   noetic-start              # Start with defaults (port 8090, DuckDuckGo search, local embeddings)
+#   noetic-start --port 9090  # Custom port
+#   noetic-start --mode mcp   # Start as MCP server (foreground, STDIO)
+#
+# The service PID is written to ~/.noetic/noetic.pid for use by noetic-stop.
+# Logs are written to ~/.noetic/noetic.log.
+
+set -euo pipefail
+
+# ─── Defaults ─────────────────────────────────────────────────────────────────
+
+NOETIC_PORT="${NOETIC_PORT:-8090}"
+NOETIC_MODE="${NOETIC_MODE:-rest}"
+NOETIC_LOG_DIR="${NOETIC_LOG_DIR:-$HOME/.noetic}"
+NOETIC_PID_FILE="$NOETIC_LOG_DIR/noetic.pid"
+NOETIC_LOG_FILE="$NOETIC_LOG_DIR/noetic.log"
+
+# ─── Resolve binary ──────────────────────────────────────────────────────────
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [[ -x "$SCRIPT_DIR/noetic-bin" ]]; then
+    BINARY="$SCRIPT_DIR/noetic-bin"
+elif [[ -x "$SCRIPT_DIR/../build/native/nativeCompile/noetic" ]]; then
+    BINARY="$SCRIPT_DIR/../build/native/nativeCompile/noetic"
+else
+    BINARY="$(command -v noetic-bin 2>/dev/null || true)"
+    if [[ -z "$BINARY" ]]; then
+        echo "Error: noetic binary not found." >&2
+        echo "Build with: cd $(dirname "$SCRIPT_DIR") && ./gradlew nativeCompile" >&2
+        exit 1
+    fi
+fi
+
+# ─── Parse arguments ─────────────────────────────────────────────────────────
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --port)  NOETIC_PORT="$2"; shift 2 ;;
+        --mode)  NOETIC_MODE="$2"; shift 2 ;;
+        --help|-h)
+            cat <<'EOF'
+noetic-start - Start the Noetic service.
+
+USAGE:
+  noetic-start [OPTIONS]
+
+OPTIONS:
+  --port PORT     Server port (default: 8090, env: NOETIC_PORT)
+  --mode MODE     Operational mode: rest | mcp | cli (default: rest, env: NOETIC_MODE)
+  --help          Show this help message
+
+ENVIRONMENT VARIABLES (all optional, defaults work out of the box):
+
+  Core:
+    NOETIC_PORT                 Server port (default: 8090)
+    NOETIC_MODE                 Operational mode (default: rest)
+    NOETIC_LOG_DIR              Log/pid directory (default: ~/.noetic)
+    SERVER_PORT                 Alternative port override (Spring Boot)
+
+  Search providers (default: DuckDuckGo scraping, no key needed):
+    BRAVE_API_KEY               Brave Search API key
+    SERP_API_KEY                SerpAPI key
+    TAVILY_API_KEY              Tavily API key
+
+  Embedding providers (default: local ONNX, no key needed):
+    OPENAI_API_KEY              OpenAI embeddings
+    COHERE_API_KEY              Cohere embeddings
+    VOYAGE_API_KEY              Voyage AI embeddings
+    AWS_REGION                  AWS Bedrock region (default: us-east-1)
+    AZURE_OPENAI_ENDPOINT       Azure OpenAI endpoint
+    AZURE_OPENAI_API_KEY        Azure OpenAI key
+    GCP_PROJECT_ID              Google Vertex AI project
+
+  Vector stores (default: local Lucene, no key needed):
+    PINECONE_API_KEY            Pinecone vector store
+    QDRANT_API_KEY / QDRANT_URL Qdrant vector store
+    WEAVIATE_API_KEY / WEAVIATE_URL  Weaviate vector store
+    MILVUS_URI / MILVUS_TOKEN   Milvus vector store
+
+  Content fetching (default: Jsoup + auto-detected Chromium):
+    FIRECRAWL_API_KEY           Firecrawl API fetcher
+    BROWSERLESS_API_KEY         Browserless API fetcher
+
+  CAPTCHA solving (default: none):
+    TWO_CAPTCHA_API_KEY         2Captcha solver
+    CAPSOLVER_API_KEY           CapSolver solver
+
+  Proxy (default: disabled):
+    Set in application.yml or via Spring properties:
+      --websearch.proxy.enabled=true
+      --websearch.proxy.type=SOCKS5
+      --websearch.proxy.host=127.0.0.1
+      --websearch.proxy.port=9050
+
+EXAMPLES:
+  noetic-start                              # Defaults: REST on :8090
+  noetic-start --port 9090                  # REST on :9090
+  BRAVE_API_KEY=xxx noetic-start            # Use Brave Search
+  NOETIC_MODE=mcp noetic-start             # MCP server (foreground)
+
+FILES:
+  ~/.noetic/noetic.pid    Process ID (for noetic-stop)
+  ~/.noetic/noetic.log    Application log
+EOF
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1 (use --help)" >&2
+            exit 1
+            ;;
+    esac
+done
+
+# ─── Pre-flight checks ───────────────────────────────────────────────────────
+
+mkdir -p "$NOETIC_LOG_DIR"
+
+# Check if already running
+if [[ -f "$NOETIC_PID_FILE" ]]; then
+    OLD_PID=$(cat "$NOETIC_PID_FILE")
+    if kill -0 "$OLD_PID" 2>/dev/null; then
+        echo "Noetic is already running (PID $OLD_PID). Use noetic-stop first." >&2
+        exit 1
+    else
+        rm -f "$NOETIC_PID_FILE"
+    fi
+fi
+
+# Check port availability (REST/MCP-SSE mode)
+if [[ "$NOETIC_MODE" != "cli" ]]; then
+    if lsof -i :"$NOETIC_PORT" -sTCP:LISTEN >/dev/null 2>&1; then
+        echo "Error: Port $NOETIC_PORT is already in use." >&2
+        echo "  Use --port to specify a different port, or stop the existing service." >&2
+        exit 1
+    fi
+fi
+
+# ─── Start ────────────────────────────────────────────────────────────────────
+
+echo "Starting Noetic..."
+echo "  Binary:  $BINARY"
+echo "  Mode:    $NOETIC_MODE"
+echo "  Port:    $NOETIC_PORT"
+echo "  Log:     $NOETIC_LOG_FILE"
+echo "  PID:     $NOETIC_PID_FILE"
+
+if [[ "$NOETIC_MODE" == "mcp" ]]; then
+    # MCP STDIO mode runs in foreground (LLM client expects stdin/stdout)
+    echo ""
+    echo "Starting MCP server (foreground, STDIO)..."
+    exec "$BINARY" \
+        --server.port="$NOETIC_PORT" \
+        --websearch.adapter.default-mode=mcp
+else
+    # REST mode runs in background
+    nohup "$BINARY" \
+        --server.port="$NOETIC_PORT" \
+        --websearch.adapter.default-mode="$NOETIC_MODE" \
+        >> "$NOETIC_LOG_FILE" 2>&1 &
+
+    PID=$!
+    echo "$PID" > "$NOETIC_PID_FILE"
+
+    # Wait for startup
+    echo ""
+    echo "Waiting for Noetic to start..."
+    for i in $(seq 1 30); do
+        if curl -sf "http://localhost:$NOETIC_PORT/actuator/health" >/dev/null 2>&1; then
+            echo "Noetic is running (PID $PID) on http://localhost:$NOETIC_PORT"
+            echo ""
+            echo "  Health:  http://localhost:$NOETIC_PORT/actuator/health"
+            echo "  Search:  POST http://localhost:$NOETIC_PORT/api/v1/search"
+            echo "  Crawl:   POST http://localhost:$NOETIC_PORT/api/v1/crawl"
+            echo "  Cache:   POST http://localhost:$NOETIC_PORT/api/v1/cache"
+            echo ""
+            echo "Stop with: noetic-stop"
+            exit 0
+        fi
+
+        # Check if process died
+        if ! kill -0 "$PID" 2>/dev/null; then
+            echo "Error: Noetic failed to start. Check $NOETIC_LOG_FILE" >&2
+            rm -f "$NOETIC_PID_FILE"
+            tail -20 "$NOETIC_LOG_FILE" >&2
+            exit 1
+        fi
+
+        sleep 1
+    done
+
+    echo "Warning: Noetic started (PID $PID) but health check timed out after 30s." >&2
+    echo "Check $NOETIC_LOG_FILE for details." >&2
+    exit 1
+fi

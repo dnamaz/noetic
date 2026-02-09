@@ -1,0 +1,22 @@
+{
+  "resources": {
+    "includes": [
+      {"pattern": "native/.*"},
+      {"pattern": "native/lib/.*"},
+      {"pattern": ".*tokenizers\\.properties"},
+      {"pattern": "ai/djl/.*"},
+      {"pattern": "ai/onnxruntime/.*"},
+      {"pattern": "models/.*"},
+      {"pattern": ".*\\.onnx"},
+      {"pattern": ".*\\.dylib"},
+      {"pattern": ".*\\.so"},
+      {"pattern": ".*tokenizer\\.json"},
+      {"pattern": ".*config\\.json"},
+      {"pattern": "META-INF/services/.*"},
+      {"pattern": "instructions/.*"},
+      {"pattern": "logback.*\\.xml"},
+      {"pattern": "application.*\\.yml"},
+      {"pattern": "application.*\\.properties"}
+    ]
+  }
+}

@@ -1,0 +1,202 @@
+spring:
+  application:
+    name: noetic
+  main:
+    lazy-initialization: true   # Defer heavy beans (ONNX, Lucene, Chromium) so
+                                 # fast-path commands (install-skill, --version)
+                                 # exit quickly without loading them.
+  ai:
+    mcp:
+      server:
+        enabled: true
+        name: noetic
+        version: 0.1.0
+        stdio: true
+        type: SYNC
+        capabilities:
+          tool: true
+          resource: true
+          prompt: true
+        annotation-scanner:
+          enabled: true
+    embedding:
+      transformer:
+        onnx:
+          modelUri: https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/onnx/model.onnx
+        tokenizer:
+          uri: https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/raw/main/tokenizer.json
+
+websearch:
+  proxy:
+    enabled: false
+    type: SOCKS5                               # NONE | HTTP | SOCKS4 | SOCKS5
+    host: 127.0.0.1
+    port: 9050
+    username:
+    password:
+    use-onion-services: false
+    rotation:
+      enabled: true                            # SOCKS5 stream isolation for privacy
+      every-n-requests: 20                     # rotate proxy stream every N search requests
+      on-empty-results: true                   # rotate + retry when search returns 0 results
+
+  adapter:
+    default-mode: mcp                        # mcp | rest | cli
+    mcp:
+      transport: stdio                       # stdio | sse
+    rest:
+      port: 8080
+      context-path: /api/v1
+    cli:
+      output-format: json                    # json | text
+
+  fetcher:
+    default: static
+    fallback-chain:
+      - static
+      - dynamic
+      - api
+    auto-detect-js: true
+    dynamic:
+      enabled: true
+      chromium-path: auto
+      timeout-ms: 10000
+      wait-for-idle: true
+      pool-size: 2
+    api:
+      active: firecrawl
+      firecrawl:
+        api-key: ${FIRECRAWL_API_KEY:}
+        base-url: https://api.firecrawl.dev/v1
+        output-format: markdown
+        timeout-ms: 15000
+      browserless:
+        api-key: ${BROWSERLESS_API_KEY:}
+        base-url: https://chrome.browserless.io
+        timeout-ms: 15000
+    rules:                                     # domain pattern -> fetcher type
+      []                                       # e.g. ["*.notion.so=dynamic", "docs.google.com/*=dynamic"]
+
+  captcha:
+    active: none                               # none | 2captcha | capsolver
+    2captcha:
+      api-key: ${TWO_CAPTCHA_API_KEY:}
+      polling-interval-ms: 5000
+    capsolver:
+      api-key: ${CAPSOLVER_API_KEY:}
+
+  search:
+    active: scraping                         # scraping | brave | serp | tavily
+    scraping:
+      rate-limit-ms: 1000
+    brave:
+      api-key: ${BRAVE_API_KEY:}
+      base-url: https://api.search.brave.com/res/v1
+      extra-snippets: true
+      timeout-ms: 5000
+    serp:
+      api-key: ${SERP_API_KEY:}
+      base-url: https://serpapi.com
+      engine: google
+      timeout-ms: 5000
+    tavily:
+      api-key: ${TAVILY_API_KEY:}
+      base-url: https://api.tavily.com
+      search-depth: basic
+      include-raw-content: false
+      timeout-ms: 5000
+    max-results: 10
+
+  batch-crawl:
+    max-concurrency: 3
+    rate-limit-ms: 1000
+    max-urls: 100
+    auto-chunk: true
+    chunk-strategy: sentence
+
+  chunking:
+    default-strategy: sentence
+    max-chunk-size: 512
+    overlap: 50
+
+  embedding:
+    active: onnx                             # onnx | openai | cohere | voyage | bedrock | azure-openai | vertex
+    onnx:
+      model-path: classpath:models/all-MiniLM-L6-v2.onnx
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      model: text-embedding-3-small
+      dimensions: 1536
+      base-url: https://api.openai.com/v1
+      timeout-ms: 10000
+    cohere:
+      api-key: ${COHERE_API_KEY:}
+      model: embed-v4.0
+      base-url: https://api.cohere.com/v2
+      timeout-ms: 10000
+    voyage:
+      api-key: ${VOYAGE_API_KEY:}
+      model: voyage-4-large
+      dimensions: 1024
+      base-url: https://api.voyageai.com/v1
+      timeout-ms: 10000
+    bedrock:
+      region: ${AWS_REGION:us-east-1}
+      model-id: amazon.titan-embed-text-v2:0
+      dimensions: 1024
+    azure-openai:
+      endpoint: ${AZURE_OPENAI_ENDPOINT:}
+      api-key: ${AZURE_OPENAI_API_KEY:}
+      deployment-name: text-embedding-3-small
+    vertex:
+      project-id: ${GCP_PROJECT_ID:}
+      location: us-central1
+      model: gemini-embedding-001
+      dimensions: 768
+
+  store:
+    active: lucene                           # lucene | pinecone | qdrant | weaviate | milvus
+    namespace: default
+    similarity-threshold: 0.03
+    lucene:
+      index-path: ${user.home}/.websearch/index
+    pinecone:
+      api-key: ${PINECONE_API_KEY:}
+      environment: us-east-1
+      index-name: websearch
+    qdrant:
+      api-key: ${QDRANT_API_KEY:}
+      url: ${QDRANT_URL:}
+      collection-name: websearch
+    weaviate:
+      api-key: ${WEAVIATE_API_KEY:}
+      url: ${WEAVIATE_URL:}
+      class-name: WebSearchChunk
+    milvus:
+      uri: ${MILVUS_URI:}
+      token: ${MILVUS_TOKEN:}
+      collection-name: websearch
+      native-ttl-seconds: 86400
+
+  eviction:
+    enabled: true
+    schedule: "0 0 * * * *"                  # cron: every hour
+    max-entries: 100000
+    policies:
+      search_result:
+        ttl: 24h
+      query_cache:
+        ttl: 6h
+      crawl_chunk:
+        ttl: 7d
+    native-ttl:
+      enabled: true
+
+server:
+  port: ${SERVER_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

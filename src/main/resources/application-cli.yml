@@ -1,0 +1,19 @@
+# Profile for CLI one-shot mode - minimal logging, clean JSON output.
+#
+# Like STDIO mode, we cannot disable the web context in native images
+# (AOT-compiled web beans would crash). The embedded server starts on
+# an ephemeral port and is harmless since the process exits immediately
+# after the command completes.
+spring:
+  main:
+    banner-mode: off
+
+server:
+  port: 0   # random ephemeral port -- avoids conflicts with running servers
+
+# Suppress all log output except errors.
+# Uses Spring Boot's built-in logging properties (no custom logback XML)
+# to avoid GraalVM native-image reflection issues.
+logging:
+  level:
+    root: ERROR

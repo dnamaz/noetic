@@ -1,0 +1,44 @@
+# ── Build artifacts ────────────────────────────────────────────────────────────
+build/
+out/
+.gradle/
+
+# Stray compiled classes at project root (root-level only)
+/com/
+
+# ── Compiled classes and binaries in bin/ ─────────────────────────────────────
+# Ignore everything in bin/ except the shell scripts we distribute
+bin/*
+!bin/mcp-server.sh
+!bin/noetic
+!bin/noetic-start
+!bin/noetic-stop
+
+# ── Java / JVM ────────────────────────────────────────────────────────────────
+*.class
+*.jar
+*.war
+*.ear
+!gradle/wrapper/gradle-wrapper.jar
+hs_err_pid*
+replay_pid*
+
+# ── IDE / editor ──────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+.cursor/mcp.json
+.kilocode/mcp.json
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Environment / secrets ─────────────────────────────────────────────────────
+.env
+.env.*
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+*.log

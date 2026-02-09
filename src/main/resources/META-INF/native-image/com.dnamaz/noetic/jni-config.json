@@ -1,0 +1,50 @@
+[
+  {
+    "name": "ai.onnxruntime.OnnxRuntime",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "ai.onnxruntime.OrtEnvironment",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "ai.onnxruntime.OrtSession",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "ai.onnxruntime.OrtSession$SessionOptions",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "ai.onnxruntime.OnnxTensor",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "ai.onnxruntime.OnnxValue",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "ai.onnxruntime.OrtProvider",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "ai.djl.huggingface.tokenizers.jni.TokenizersLibrary",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  }
+]

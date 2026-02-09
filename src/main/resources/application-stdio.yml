@@ -1,0 +1,20 @@
+# Profile for MCP STDIO mode - logging to file only (not stdout).
+#
+# NOTE: We do NOT set web-application-type=none here because GraalVM native
+# images compile all bean definitions at build time (AOT). Disabling the
+# servlet context at runtime causes "No ServletContext set" crashes since
+# the AOT-compiled web beans still expect it. Instead, we let the embedded
+# web server start on an ephemeral port (harmless) and only redirect
+# logging to a file so stdout stays clean for JSON-RPC.
+spring:
+  main:
+    banner-mode: off
+
+server:
+  port: 0   # random ephemeral port -- avoids conflicts, not exposed
+
+# MCP STDIO transport uses stdout for JSON-RPC.
+# Console logging MUST be disabled to avoid corrupting the protocol.
+# Use logback-stdio.xml which only has a FILE appender.
+logging:
+  config: classpath:logback-stdio.xml

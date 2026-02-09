@@ -1,0 +1,202 @@
+# Build native binaries and publish a GitHub Release with Homebrew-ready tarballs.
+#
+# Triggered by pushing a version tag: git tag v0.1.0 && git push --tags
+#
+# Matrix builds for:
+#   - macOS arm64 (Apple Silicon)
+#   - macOS x86_64 (Intel)
+#   - Linux x86_64
+#
+# After all builds complete, a release job collects the artifacts, creates a
+# GitHub Release, and (optionally) opens a PR to update the Homebrew formula.
+
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+env:
+  JAVA_VERSION: "25"
+  GRAALVM_DISTRIBUTION: "graalvm-community"
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Build native binaries on each platform
+  # ---------------------------------------------------------------------------
+  build:
+    name: Build (${{ matrix.os-label }}-${{ matrix.arch-label }})
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-14            # Apple Silicon (M1+)
+            os-label: macos
+            arch-label: arm64
+          - runner: macos-13            # Intel
+            os-label: macos
+            arch-label: x86_64
+          - runner: ubuntu-latest       # Linux x86_64
+            os-label: linux
+            arch-label: x86_64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.GRAALVM_DISTRIBUTION }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Build native image
+        run: ./gradlew nativeCompile
+
+      - name: Verify binary
+        run: |
+          ls -lh build/native/nativeCompile/noetic
+          file build/native/nativeCompile/noetic
+
+      # Optional: sign macOS binary (requires APPLE_CERTIFICATE secret)
+      - name: Sign binary (macOS)
+        if: matrix.os-label == 'macos' && env.APPLE_CERTIFICATE != ''
+        env:
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_IDENTITY: ${{ secrets.APPLE_IDENTITY }}
+        run: |
+          # Import certificate
+          echo "$APPLE_CERTIFICATE" | base64 --decode > certificate.p12
+          security create-keychain -p "" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          security import certificate.p12 -k build.keychain \
+            -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: \
+            -s -k "" build.keychain
+
+          # Sign
+          codesign --force --options runtime \
+            --sign "$APPLE_IDENTITY" \
+            build/native/nativeCompile/noetic
+
+          # Verify
+          codesign --verify --verbose build/native/nativeCompile/noetic
+          rm -f certificate.p12
+
+      - name: Package tarball
+        id: package
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          OS_LABEL: ${{ matrix.os-label }}
+          ARCH_LABEL: ${{ matrix.arch-label }}
+        run: |
+          TARBALL="noetic-${VERSION}-${OS_LABEL}-${ARCH_LABEL}.tar.gz"
+
+          mkdir -p dist/staging
+          cp build/native/nativeCompile/noetic dist/staging/noetic-bin
+          cp bin/noetic dist/staging/noetic
+          chmod +x dist/staging/noetic dist/staging/noetic-bin
+
+          tar -czf "dist/${TARBALL}" -C dist/staging noetic noetic-bin
+          rm -rf dist/staging
+
+          SHA256=$(shasum -a 256 "dist/${TARBALL}" | awk '{print $1}')
+          echo "tarball=${TARBALL}" >> "$GITHUB_OUTPUT"
+          echo "sha256=${SHA256}" >> "$GITHUB_OUTPUT"
+
+          echo "Tarball: ${TARBALL}"
+          echo "SHA256:  ${SHA256}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: noetic-${{ matrix.os-label }}-${{ matrix.arch-label }}
+          path: dist/${{ steps.package.outputs.tarball }}
+
+      - name: Save SHA256
+        run: |
+          mkdir -p dist
+          echo "${{ steps.package.outputs.sha256 }}  ${{ steps.package.outputs.tarball }}" > dist/sha256-${{ matrix.os-label }}-${{ matrix.arch-label }}.txt
+
+      - name: Upload SHA256
+        uses: actions/upload-artifact@v4
+        with:
+          name: sha256-${{ matrix.os-label }}-${{ matrix.arch-label }}
+          path: dist/sha256-${{ matrix.os-label }}-${{ matrix.arch-label }}.txt
+
+  # ---------------------------------------------------------------------------
+  # Create GitHub Release with all platform tarballs
+  # ---------------------------------------------------------------------------
+  release:
+    name: Publish Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Collect release assets
+        run: |
+          mkdir -p release
+          find artifacts -name '*.tar.gz' -exec cp {} release/ \;
+
+          # Combine checksums
+          echo "# SHA256 Checksums" > release/checksums.txt
+          echo "" >> release/checksums.txt
+          find artifacts -name 'sha256-*.txt' -exec cat {} \; >> release/checksums.txt
+          cat release/checksums.txt
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Noetic v${{ steps.version.outputs.version }}
+          body: |
+            ## Noetic v${{ steps.version.outputs.version }}
+
+            Web search, crawl, and knowledge cache for AI coding assistants.
+
+            ### Install via Homebrew
+
+            ```bash
+            brew tap dnamaz/tap
+            brew install noetic
+            ```
+
+            ### Manual install
+
+            Download the tarball for your platform below, extract, and add to your PATH:
+
+            ```bash
+            tar -xzf noetic-${{ steps.version.outputs.version }}-macos-arm64.tar.gz
+            sudo mv noetic noetic-bin /usr/local/bin/
+            ```
+
+            ### Checksums
+
+            See `checksums.txt` attached to this release.
+          files: |
+            release/*.tar.gz
+            release/checksums.txt
+          draft: false
+          prerelease: false

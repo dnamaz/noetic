@@ -1,0 +1,645 @@
+{
+  "info": {
+    "name": "Web Search API",
+    "description": "Integration tests for the Web Search API MCP Service.\n\nBase URL defaults to http://localhost:8090. Change the {{baseUrl}} variable to point to your running instance.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8090",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health & Info",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/actuator/health"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is UP', () => {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json().status).to.eql('UP');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Metrics",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/actuator/metrics"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "item": [
+        {
+          "name": "Basic Search",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/search",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"Java 25 new features\",\n  \"maxResults\": 5,\n  \"freshness\": \"NONE\",\n  \"safeSearch\": false,\n  \"searchDepth\": \"BASIC\",\n  \"includeDomains\": [],\n  \"excludeDomains\": [],\n  \"extra\": {}\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Has provider', () => pm.expect(pm.response.json().provider).to.be.a('string'));",
+                  "pm.test('Has results array', () => pm.expect(pm.response.json().results).to.be.an('array'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Search with Freshness",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/search",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"AI news\",\n  \"maxResults\": 5,\n  \"freshness\": \"WEEK\",\n  \"safeSearch\": false,\n  \"searchDepth\": \"BASIC\",\n  \"includeDomains\": [],\n  \"excludeDomains\": [],\n  \"extra\": {}\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Crawl",
+      "item": [
+        {
+          "name": "Crawl Page (Static)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/crawl",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com\",\n  \"fetchMode\": \"static\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Has content', () => pm.expect(pm.response.json().content.length).to.be.greaterThan(0));",
+                  "pm.test('Title is Example Domain', () => pm.expect(pm.response.json().title).to.eql('Example Domain'));",
+                  "pm.test('Fetcher is static', () => pm.expect(pm.response.json().fetcherUsed).to.eql('static'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crawl with Links & Images",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/crawl",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://jsoup.org\",\n  \"fetchMode\": \"static\",\n  \"includeLinks\": true,\n  \"includeImages\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Has links', () => pm.expect(pm.response.json().links.length).to.be.greaterThan(0));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crawl with Custom Headers & Cookies",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/crawl",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com\",\n  \"fetchMode\": \"static\",\n  \"headers\": {\n    \"Accept-Language\": \"en-US\",\n    \"X-Custom-Header\": \"test-value\"\n  },\n  \"cookies\": {\n    \"session\": \"abc123\"\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Crawl PDF Document",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/crawl",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf\",\n  \"fetchMode\": \"static\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Detected as PDF', () => pm.expect(pm.response.json().providerMeta.contentType).to.eql('application/pdf'));",
+                  "pm.test('Has content', () => pm.expect(pm.response.json().content).to.include('Dummy'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crawl (Dynamic Mode)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/crawl",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com\",\n  \"fetchMode\": \"dynamic\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Map",
+      "item": [
+        {
+          "name": "Map Site (BFS Link Discovery)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/map",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com\",\n  \"maxDepth\": 2,\n  \"maxUrls\": 20\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Has URLs', () => pm.expect(pm.response.json().urls).to.be.an('array'));",
+                  "pm.test('Has domain', () => pm.expect(pm.response.json().domain).to.be.a('string'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Map Site with Path Filter",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/map",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://jsoup.org\",\n  \"maxDepth\": 2,\n  \"maxUrls\": 10,\n  \"pathFilter\": \"/cookbook/.*\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sitemap",
+      "item": [
+        {
+          "name": "Discover Sitemap",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/sitemap",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"domain\": \"jsoup.org\",\n  \"maxUrls\": 10\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Has URLs', () => pm.expect(pm.response.json().discoveredUrls.length).to.be.greaterThan(0));",
+                  "pm.test('Has domain', () => pm.expect(pm.response.json().domain).to.eql('jsoup.org'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Discover Sitemap with Path Filter",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/sitemap",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"domain\": \"jsoup.org\",\n  \"maxUrls\": 50,\n  \"pathFilter\": \"/cookbook/.*\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Batch Crawl",
+      "item": [
+        {
+          "name": "Batch Crawl (Sync, URL List)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/batch-crawl",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"urls\": [\"https://example.com\", \"https://example.org\"],\n  \"fetchMode\": \"static\",\n  \"chunkStrategy\": \"sentence\",\n  \"maxConcurrency\": 2,\n  \"rateLimitMs\": 500\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('All crawled', () => {",
+                  "  pm.expect(pm.response.json().totalUrls).to.eql(2);",
+                  "  pm.expect(pm.response.json().crawled).to.eql(2);",
+                  "  pm.expect(pm.response.json().failed).to.eql(0);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Batch Crawl (Sync, Domain Sitemap)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/batch-crawl",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"domain\": \"jsoup.org\",\n  \"fetchMode\": \"static\",\n  \"chunkStrategy\": \"sentence\",\n  \"maxConcurrency\": 2,\n  \"rateLimitMs\": 1000,\n  \"pathFilter\": \"/cookbook/.*\",\n  \"maxUrls\": 3\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Async Jobs",
+      "item": [
+        {
+          "name": "Submit Async Job",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/jobs",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"urls\": [\"https://example.com\", \"https://example.org\"],\n  \"fetchMode\": \"static\",\n  \"chunkStrategy\": \"sentence\",\n  \"maxConcurrency\": 2,\n  \"rateLimitMs\": 500\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Returns jobId', () => {",
+                  "  pm.expect(pm.response.json().jobId).to.be.a('string');",
+                  "  pm.collectionVariables.set('jobId', pm.response.json().jobId);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Job Status",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/jobs/{{jobId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Has state', () => pm.expect(pm.response.json().state).to.be.a('string'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List Jobs",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/jobs"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Returns array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cancel Job",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/jobs/{{jobId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Returns cancelled status', () => pm.expect(pm.response.json()).to.have.property('cancelled'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Chunk",
+      "item": [
+        {
+          "name": "Chunk (Sentence Strategy)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/chunk",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Java 25 introduces several exciting new features. Scoped values provide a modern alternative to thread-local variables. Flexible constructors allow statements before super calls. Compact object headers reduce memory overhead.\",\n  \"strategy\": \"sentence\",\n  \"maxChunkSize\": 200,\n  \"sourceUrl\": \"https://example.com/java25\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Has chunks', () => pm.expect(pm.response.json().length).to.be.greaterThan(0));",
+                  "pm.test('Embeddings stored', () => pm.response.json().forEach(c => pm.expect(c.embeddingStored).to.be.true));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Chunk (Token Strategy)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/chunk",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Apache Lucene is a high-performance full-featured search engine library written entirely in Java. It supports structured searching full-text searching faceting and nearest-neighbor search.\",\n  \"strategy\": \"token\",\n  \"maxChunkSize\": 15,\n  \"overlap\": 3\n}"
+            }
+          }
+        },
+        {
+          "name": "Chunk (Semantic Strategy)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/chunk",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"# Introduction\\n\\nThe Web Search API provides tools for LLMs.\\n\\n# Architecture\\n\\nThe service uses a provider-based architecture with Java interfaces.\\n\\n# Features\\n\\nKey features include web search, crawling, chunking, and caching.\",\n  \"strategy\": \"semantic\",\n  \"maxChunkSize\": 300\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cache",
+      "item": [
+        {
+          "name": "Cache Query",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/cache",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"What are the new features in Java 25?\",\n  \"topK\": 5\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Returns array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cache Query with Threshold",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/cache",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"vector database embedding\",\n  \"topK\": 3,\n  \"similarityThreshold\": 0.03\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "End-to-End Workflows",
+      "item": [
+        {
+          "name": "E2E: Crawl -> Chunk -> Cache Query",
+          "item": [
+            {
+              "name": "Step 1: Crawl a page",
+              "request": {
+                "method": "POST",
+                "url": "{{baseUrl}}/api/v1/crawl",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"https://example.com\",\n  \"fetchMode\": \"auto\",\n  \"includeLinks\": true\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                      "pm.collectionVariables.set('crawledContent', pm.response.json().content);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Step 2: Chunk the content",
+              "request": {
+                "method": "POST",
+                "url": "{{baseUrl}}/api/v1/chunk",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content\": \"{{crawledContent}}\",\n  \"strategy\": \"sentence\",\n  \"maxChunkSize\": 300,\n  \"sourceUrl\": \"https://example.com\"\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Chunks stored', () => pm.expect(pm.response.json().length).to.be.greaterThan(0));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Step 3: Query the cache",
+              "request": {
+                "method": "POST",
+                "url": "{{baseUrl}}/api/v1/cache",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"example domain documentation\",\n  \"topK\": 3\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Has cached results', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "E2E: Async Job Lifecycle",
+          "item": [
+            {
+              "name": "Submit job",
+              "request": {
+                "method": "POST",
+                "url": "{{baseUrl}}/api/v1/jobs",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"urls\": [\"https://example.com\"],\n  \"fetchMode\": \"static\",\n  \"chunkStrategy\": \"sentence\"\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.collectionVariables.set('asyncJobId', pm.response.json().jobId);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Check status (wait 3s first)",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/v1/jobs/{{asyncJobId}}"
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": ["setTimeout(() => {}, 3000);"]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Job exists', () => pm.expect(pm.response.json().jobId).to.be.a('string'));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Cancel job",
+              "request": {
+                "method": "DELETE",
+                "url": "{{baseUrl}}/api/v1/jobs/{{asyncJobId}}"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

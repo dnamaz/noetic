@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+# noetic-stop - Stop the running Noetic service.
+#
+# Usage:
+#   noetic-stop          # Graceful shutdown
+#   noetic-stop --force  # Force kill (SIGKILL)
+
+set -euo pipefail
+
+NOETIC_LOG_DIR="${NOETIC_LOG_DIR:-$HOME/.noetic}"
+NOETIC_PID_FILE="$NOETIC_LOG_DIR/noetic.pid"
+NOETIC_PORT="${NOETIC_PORT:-8090}"
+FORCE=false
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --force|-f) FORCE=true; shift ;;
+        --help|-h)
+            cat <<'EOF'
+noetic-stop - Stop the running Noetic service.
+
+USAGE:
+  noetic-stop [OPTIONS]
+
+OPTIONS:
+  --force, -f     Force kill (SIGKILL) instead of graceful shutdown
+  --help          Show this help message
+
+ENVIRONMENT VARIABLES:
+  NOETIC_LOG_DIR   Directory containing noetic.pid (default: ~/.noetic)
+  NOETIC_PORT      Port to check (default: 8090)
+EOF
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1 (use --help)" >&2
+            exit 1
+            ;;
+    esac
+done
+
+# ─── Find the process ────────────────────────────────────────────────────────
+
+PID=""
+
+# Try PID file first
+if [[ -f "$NOETIC_PID_FILE" ]]; then
+    PID=$(cat "$NOETIC_PID_FILE")
+    if ! kill -0 "$PID" 2>/dev/null; then
+        echo "Stale PID file (process $PID not running). Cleaning up."
+        rm -f "$NOETIC_PID_FILE"
+        PID=""
+    fi
+fi
+
+# Fall back to port-based detection
+if [[ -z "$PID" ]]; then
+    PID=$(lsof -ti :"$NOETIC_PORT" -sTCP:LISTEN 2>/dev/null || true)
+fi
+
+if [[ -z "$PID" ]]; then
+    echo "Noetic is not running."
+    rm -f "$NOETIC_PID_FILE"
+    exit 0
+fi
+
+# ─── Stop ─────────────────────────────────────────────────────────────────────
+
+echo "Stopping Noetic (PID $PID)..."
+
+if [[ "$FORCE" == "true" ]]; then
+    kill -9 "$PID" 2>/dev/null || true
+    echo "Force killed."
+else
+    # Graceful shutdown via Spring Boot actuator
+    if curl -sf -X POST "http://localhost:$NOETIC_PORT/actuator/shutdown" >/dev/null 2>&1; then
+        echo "Graceful shutdown initiated via actuator."
+    else
+        # Fall back to SIGTERM
+        kill "$PID" 2>/dev/null || true
+        echo "Sent SIGTERM."
+    fi
+
+    # Wait for process to exit
+    for i in $(seq 1 15); do
+        if ! kill -0 "$PID" 2>/dev/null; then
+            echo "Noetic stopped."
+            rm -f "$NOETIC_PID_FILE"
+            exit 0
+        fi
+        sleep 1
+    done
+
+    # Force kill after timeout
+    echo "Process did not stop after 15s. Sending SIGKILL..."
+    kill -9 "$PID" 2>/dev/null || true
+fi
+
+rm -f "$NOETIC_PID_FILE"
+echo "Noetic stopped."

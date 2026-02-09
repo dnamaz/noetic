@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+# noetic - wrapper for the native binary that handles --help/--version
+# without starting the Spring Boot context.
+
+set -euo pipefail
+
+VERSION="0.1.0"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Resolve binary: check same directory, then build output, then PATH
+if [[ -x "$SCRIPT_DIR/noetic-bin" ]]; then
+    BINARY="$SCRIPT_DIR/noetic-bin"
+elif [[ -x "$SCRIPT_DIR/../build/native/nativeCompile/noetic" ]]; then
+    BINARY="$SCRIPT_DIR/../build/native/nativeCompile/noetic"
+else
+    BINARY="$(command -v noetic-bin 2>/dev/null || true)"
+    if [[ -z "$BINARY" ]]; then
+        echo "Error: noetic binary not found. Build with: ./gradlew nativeCompile" >&2
+        exit 1
+    fi
+fi
+
+case "${1:-}" in
+    --help|-h|help)
+        cat <<'EOF'
+noetic 0.1.0 - Web search, crawl, and knowledge cache for AI coding assistants.
+
+USAGE:
+  noetic [OPTIONS]                         Start as MCP server (default)
+  noetic [OPTIONS] --websearch.adapter.default-mode=rest
+                                           Start as REST API server
+  noetic [OPTIONS] --websearch.adapter.default-mode=cli <command> [ARGS]
+                                           Run a one-shot CLI command
+  noetic install-skill [ARGS]               Install AI assistant instructions
+
+MODES:
+  mcp (default)    MCP server over STDIO for LLM clients (Cursor, Claude, etc.)
+  rest             REST API with endpoints under /api/v1/
+  cli              One-shot commands, JSON output to stdout
+
+CLI COMMANDS:
+  search <query>          Search the web
+    --max-results=N         Maximum results (default: 10)
+    --freshness=PERIOD      day, week, month, year
+
+  crawl <url>             Fetch and extract page content
+    --fetch-mode=MODE       auto | static | dynamic (default: auto)
+    --include-links         Extract links from the page
+    --include-images        Extract image URLs from the page
+
+  cache <query>           Search the local vector cache
+    --top-k=N               Number of results (default: 5)
+
+  chunk <text>            Split content into chunks and cache
+    --strategy=TYPE         sentence | token | semantic (default: sentence)
+    --max-chunk-size=N      Max tokens per chunk (default: 512)
+
+  sitemap <domain>        Discover URLs from domain sitemap
+    --max-urls=N            Maximum URLs to return (default: 50)
+
+  batch-crawl             Crawl multiple URLs or a domain
+    --domain=DOMAIN         Domain to crawl via sitemap discovery
+    --max-urls=N            Maximum URLs (default: 100)
+
+INSTALL-SKILL:
+  noetic install-skill --list               List supported targets
+  noetic install-skill --target=<target>    Generate instructions file
+
+  Targets: cursor, antigravity, droid, claude-code, openhands,
+           copilot, windsurf, cline, roo, kilo, vibe
+
+COMMON OPTIONS:
+  --server.port=PORT                  Server port (default: 8080)
+  --websearch.fetcher.dynamic.enabled=false
+                                      Disable headless Chromium
+  --websearch.search.active=brave      Switch search provider
+  --websearch.proxy.enabled=true        Enable proxy
+
+EXAMPLES:
+  noetic                                           # MCP server
+  noetic --server.port=8090 \
+         --websearch.adapter.default-mode=rest     # REST API on :8090
+  noetic --websearch.adapter.default-mode=cli \
+         search "kubernetes best practices"        # CLI search
+  noetic --websearch.adapter.default-mode=cli \
+         crawl "https://example.com" \
+         --fetch-mode=dynamic --include-links      # Dynamic crawl
+  noetic install-skill --target=cursor             # Install for Cursor
+EOF
+        exit 0
+        ;;
+    --version|-V)
+        echo "noetic $VERSION"
+        exit 0
+        ;;
+esac
+
+exec "$BINARY" "$@"
