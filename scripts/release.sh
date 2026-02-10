@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # release.sh - Build and package Noetic for a GitHub Release.
 #
-# Produces a release tarball containing the native binary and wrapper script,
-# prints the SHA256 hash for the Homebrew formula, and optionally signs the
-# binary for macOS distribution.
+# Produces a release tarball containing the native binary and helper scripts,
+# computes SHA256 for the Homebrew formula, and optionally signs the binary.
 #
 # Usage:
 #   ./scripts/release.sh                        # build + package
 #   ./scripts/release.sh --sign                  # build + sign + package
 #   ./scripts/release.sh --sign --notarize       # build + sign + notarize + package
+#   ./scripts/release.sh --skip-build            # package existing binary (no rebuild)
 #
 # Environment variables:
 #   APPLE_IDENTITY    - Code signing identity (default: "Developer ID Application")
@@ -19,6 +19,7 @@
 # Output:
 #   dist/noetic-<version>-<os>-<arch>.tar.gz
 #   dist/checksums.txt
+#   Formula/noetic.rb (SHA256 updated for this platform)
 
 set -euo pipefail
 
@@ -29,16 +30,19 @@ DIST_DIR="$PROJECT_DIR/dist"
 
 SIGN=false
 NOTARIZE=false
+SKIP_BUILD=false
 
 for arg in "$@"; do
     case "$arg" in
         --sign) SIGN=true ;;
         --notarize) NOTARIZE=true; SIGN=true ;;
+        --skip-build) SKIP_BUILD=true ;;
         --help|-h)
-            echo "Usage: $0 [--sign] [--sign --notarize]"
+            echo "Usage: $0 [--sign] [--notarize] [--skip-build]"
             echo ""
             echo "  --sign        Sign the binary with Apple Developer ID (macOS only)"
             echo "  --notarize    Sign and notarize for full Gatekeeper trust (macOS only)"
+            echo "  --skip-build  Package existing binary without rebuilding"
             echo ""
             echo "Set APPLE_IDENTITY, APPLE_ID, APPLE_TEAM_ID, APPLE_APP_PWD for signing/notarization."
             exit 0
@@ -63,19 +67,21 @@ esac
 
 TARBALL_NAME="noetic-${VERSION}-${OS_LABEL}-${ARCH_LABEL}.tar.gz"
 BINARY="$PROJECT_DIR/build/native/nativeCompile/noetic"
-WRAPPER="$PROJECT_DIR/bin/noetic"
 
 echo "==> Building Noetic $VERSION for $OS_LABEL-$ARCH_LABEL"
 echo ""
 
 # --- Build native image ---
-echo "--- Step 1: Native compile ---"
-cd "$PROJECT_DIR"
-./gradlew nativeCompile
-echo ""
+if [[ "$SKIP_BUILD" == false ]]; then
+    echo "--- Step 1: Native compile ---"
+    cd "$PROJECT_DIR"
+    ./gradlew nativeCompile
+    echo ""
+fi
 
 if [[ ! -x "$BINARY" ]]; then
     echo "Error: native binary not found at $BINARY"
+    echo "Run without --skip-build or build first with: ./gradlew nativeCompile"
     exit 1
 fi
 
@@ -87,7 +93,7 @@ echo ""
 if [[ "$SIGN" == true && "$OS_LABEL" == "macos" ]]; then
     IDENTITY="${APPLE_IDENTITY:-Developer ID Application}"
 
-    echo "--- Step 2: Code signing ---"
+    echo "--- Code signing ---"
     codesign --force --options runtime \
         --sign "$IDENTITY" \
         "$BINARY"
@@ -99,7 +105,7 @@ if [[ "$SIGN" == true && "$OS_LABEL" == "macos" ]]; then
 
     # --- Notarize (macOS only) ---
     if [[ "$NOTARIZE" == true ]]; then
-        echo "--- Step 3: Notarization ---"
+        echo "--- Notarization ---"
         APPLE_ID="${APPLE_ID:?Set APPLE_ID for notarization}"
         APPLE_TEAM_ID="${APPLE_TEAM_ID:?Set APPLE_TEAM_ID for notarization}"
         APPLE_APP_PWD="${APPLE_APP_PWD:?Set APPLE_APP_PWD for notarization}"
@@ -125,26 +131,53 @@ elif [[ "$SIGN" == true ]]; then
 fi
 
 # --- Package ---
-echo "--- Step $([ "$SIGN" == true ] && echo "4" || echo "2"): Packaging ---"
+echo "--- Packaging ---"
 mkdir -p "$DIST_DIR"
 
-# Create a staging directory with both binary and wrapper
 STAGING="$DIST_DIR/staging"
 rm -rf "$STAGING"
 mkdir -p "$STAGING"
 
-# Install native binary as noetic-bin, wrapper as noetic
-cp "$BINARY" "$STAGING/noetic-bin"
-cp "$WRAPPER" "$STAGING/noetic"
-chmod +x "$STAGING/noetic" "$STAGING/noetic-bin"
+# Single native binary
+cp "$BINARY" "$STAGING/noetic"
+chmod +x "$STAGING/noetic"
+
+# Include helper scripts if they exist
+for script in noetic-start noetic-stop mcp-server.sh; do
+    if [[ -f "$PROJECT_DIR/bin/$script" ]]; then
+        cp "$PROJECT_DIR/bin/$script" "$STAGING/$script"
+        chmod +x "$STAGING/$script"
+    fi
+done
 
 # Create tarball
-tar -czf "$DIST_DIR/$TARBALL_NAME" -C "$STAGING" noetic noetic-bin
+tar -czf "$DIST_DIR/$TARBALL_NAME" -C "$STAGING" .
 rm -rf "$STAGING"
 
 # --- Checksums ---
 CHECKSUM=$(shasum -a 256 "$DIST_DIR/$TARBALL_NAME" | awk '{print $1}')
 echo "$CHECKSUM  $TARBALL_NAME" >> "$DIST_DIR/checksums.txt"
+
+# --- Update Formula SHA256 ---
+FORMULA="$PROJECT_DIR/Formula/noetic.rb"
+if [[ -f "$FORMULA" ]]; then
+    echo "--- Updating Formula ---"
+    case "${OS_LABEL}-${ARCH_LABEL}" in
+        macos-arm64)   PLACEHOLDER="PLACEHOLDER_ARM64_SHA256" ;;
+        macos-x86_64)  PLACEHOLDER="PLACEHOLDER_X86_64_SHA256" ;;
+        linux-arm64)   PLACEHOLDER="PLACEHOLDER_LINUX_ARM64_SHA256" ;;
+        linux-x86_64)  PLACEHOLDER="PLACEHOLDER_LINUX_X86_64_SHA256" ;;
+    esac
+
+    if grep -q "$PLACEHOLDER" "$FORMULA"; then
+        sed -i '' "s/$PLACEHOLDER/$CHECKSUM/" "$FORMULA" 2>/dev/null || \
+        sed -i "s/$PLACEHOLDER/$CHECKSUM/" "$FORMULA"
+        echo "Updated Formula: $PLACEHOLDER -> $CHECKSUM"
+    else
+        echo "Formula placeholder '$PLACEHOLDER' not found (may already be set)"
+    fi
+    echo ""
+fi
 
 echo ""
 echo "=========================================="
@@ -156,12 +189,13 @@ echo "  Size:     $(du -h "$DIST_DIR/$TARBALL_NAME" | cut -f1)"
 echo "  SHA256:   $CHECKSUM"
 echo ""
 echo "Next steps:"
-echo "  1. Upload $TARBALL_NAME to GitHub Release v$VERSION"
-echo "  2. Update homebrew-tap/Formula/noetic.rb:"
-echo "     - Set version to \"$VERSION\""
-echo "     - Set sha256 for $OS_LABEL/$ARCH_LABEL to \"$CHECKSUM\""
-echo "  3. Push the homebrew-tap repo"
+echo "  1. Create GitHub Release:"
+echo "     gh release create v$VERSION $DIST_DIR/$TARBALL_NAME --title 'Noetic v$VERSION'"
 echo ""
-echo "Users can then install with:"
-echo "  brew tap dnamaz/tap"
-echo "  brew install noetic"
+echo "  2. Or push a tag to trigger CI release:"
+echo "     git tag v$VERSION && git push --tags"
+echo ""
+echo "  3. After all platform builds, update Formula with SHA256s and push to tap:"
+echo "     brew tap dnamaz/tap"
+echo "     brew install noetic"
+echo ""

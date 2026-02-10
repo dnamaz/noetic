@@ -7,7 +7,7 @@ class Noetic < Formula
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/dnamaz/noetic/releases/download/v#{version}/noetic-#{version}-macos-arm64.tar.gz"
-      sha256 "PLACEHOLDER_ARM64_SHA256"
+      sha256 "e09995f981f3dfbb41b747eb7b49232f1fcaaaa74431cf34bd11b0b4b84a44d7"
     else
       url "https://github.com/dnamaz/noetic/releases/download/v#{version}/noetic-#{version}-macos-x86_64.tar.gz"
       sha256 "PLACEHOLDER_X86_64_SHA256"

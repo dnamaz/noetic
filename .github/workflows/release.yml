@@ -6,9 +6,10 @@
 #   - macOS arm64 (Apple Silicon)
 #   - macOS x86_64 (Intel)
 #   - Linux x86_64
+#   - Linux arm64
 #
 # After all builds complete, a release job collects the artifacts, creates a
-# GitHub Release, and (optionally) opens a PR to update the Homebrew formula.
+# GitHub Release, and prints SHA256s for updating the Homebrew formula.
 
 name: Release
 
@@ -41,9 +42,12 @@ jobs:
           - runner: macos-13            # Intel
             os-label: macos
             arch-label: x86_64
-          - runner: ubuntu-latest       # Linux x86_64
+          - runner: ubuntu-24.04        # Linux x86_64
             os-label: linux
             arch-label: x86_64
+          - runner: ubuntu-24.04-arm    # Linux arm64
+            os-label: linux
+            arch-label: arm64
 
     steps:
       - name: Checkout
@@ -67,6 +71,7 @@ jobs:
         run: |
           ls -lh build/native/nativeCompile/noetic
           file build/native/nativeCompile/noetic
+          ./build/native/nativeCompile/noetic --version
 
       # Optional: sign macOS binary (requires APPLE_CERTIFICATE secret)
       - name: Sign binary (macOS)
@@ -105,11 +110,20 @@ jobs:
           TARBALL="noetic-${VERSION}-${OS_LABEL}-${ARCH_LABEL}.tar.gz"
 
           mkdir -p dist/staging
-          cp build/native/nativeCompile/noetic dist/staging/noetic-bin
-          cp bin/noetic dist/staging/noetic
-          chmod +x dist/staging/noetic dist/staging/noetic-bin
 
-          tar -czf "dist/${TARBALL}" -C dist/staging noetic noetic-bin
+          # Single native binary
+          cp build/native/nativeCompile/noetic dist/staging/noetic
+          chmod +x dist/staging/noetic
+
+          # Helper scripts
+          for script in noetic-start noetic-stop mcp-server.sh; do
+            if [ -f "bin/$script" ]; then
+              cp "bin/$script" "dist/staging/$script"
+              chmod +x "dist/staging/$script"
+            fi
+          done
+
+          tar -czf "dist/${TARBALL}" -C dist/staging .
           rm -rf dist/staging
 
           SHA256=$(shasum -a 256 "dist/${TARBALL}" | awk '{print $1}')
@@ -188,9 +202,14 @@ jobs:
             Download the tarball for your platform below, extract, and add to your PATH:
 
             ```bash
-            tar -xzf noetic-${{ steps.version.outputs.version }}-macos-arm64.tar.gz
-            sudo mv noetic noetic-bin /usr/local/bin/
+            tar -xzf noetic-${{ steps.version.outputs.version }}-macos-arm64.tar.gz -C ~/.local/bin/
             ```
+
+            ### What's included
+
+            - `noetic` - Single native binary (MCP server, REST API, CLI)
+            - `noetic-start` / `noetic-stop` - Service management scripts
+            - `mcp-server.sh` - MCP STDIO launcher for IDE integration
 
             ### Checksums
 
