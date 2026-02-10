@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Command(
         name = "noetic",
         mixinStandardHelpOptions = true,
-        version = "noetic 0.1.0",
+        version = "noetic",  // actual version resolved at runtime from VERSION
         description = "Noetic - CLI interface for search, crawl, chunk, and cache operations.",
         subcommands = {
                 SearchCommand.class,

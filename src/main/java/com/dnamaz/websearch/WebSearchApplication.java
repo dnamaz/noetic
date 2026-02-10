@@ -28,7 +28,7 @@ import java.util.Set;
 @EnableScheduling
 public class WebSearchApplication {
 
-    static final String VERSION = "0.1.0";
+    public static final String VERSION = loadVersion();
 
     public static void main(String[] args) {
         // Fast-path commands run BEFORE Spring context starts.
@@ -85,6 +85,19 @@ public class WebSearchApplication {
             }
         }
         return false;
+    }
+
+    /** Reads version from build-generated version.properties (single source of truth). */
+    private static String loadVersion() {
+        try (var in = WebSearchApplication.class.getResourceAsStream("/version/version.properties")) {
+            if (in != null) {
+                var props = new java.util.Properties();
+                props.load(in);
+                return props.getProperty("version", "dev");
+            }
+        } catch (Exception ignored) {
+        }
+        return "dev";
     }
 
     /** Checks if any arg is a fast-path command that should run quietly. */

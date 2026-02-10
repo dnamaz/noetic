@@ -74,7 +74,7 @@ public class McpServerConfig {
                 .build();
 
         mcpServer = McpServer.sync(transportProvider)
-                .serverInfo("noetic", "0.1.0")
+                .serverInfo("noetic", com.dnamaz.websearch.WebSearchApplication.VERSION)
                 .capabilities(capabilities)
                 .tools(toolSpecs)
                 .prompts(promptSpecs)

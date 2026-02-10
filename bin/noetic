@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-VERSION="0.1.0"
+# Version is read from the binary itself (single source of truth in gradle.properties)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Resolve binary: check same directory, then build output, then PATH
@@ -23,7 +23,7 @@ fi
 case "${1:-}" in
     --help|-h|help)
         cat <<'EOF'
-noetic 0.1.0 - Web search, crawl, and knowledge cache for AI coding assistants.
+noetic - Web search, crawl, and knowledge cache for AI coding assistants.
 
 USAGE:
   noetic [OPTIONS]                         Start as MCP server (default)
@@ -90,8 +90,7 @@ EOF
         exit 0
         ;;
     --version|-V)
-        echo "noetic $VERSION"
-        exit 0
+        exec "$BINARY" --version
         ;;
 esac
 

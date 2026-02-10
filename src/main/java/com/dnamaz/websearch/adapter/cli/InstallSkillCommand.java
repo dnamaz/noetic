@@ -1,5 +1,6 @@
 package com.dnamaz.websearch.adapter.cli;
 
+import com.dnamaz.websearch.WebSearchApplication;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -189,7 +190,7 @@ public class InstallSkillCommand implements Runnable {
 
         // Resolve template variables
         String javaPath = detectJavaPath();
-        String jarPath = baseDir.resolve("build/libs/noetic-0.1.0-SNAPSHOT.jar")
+        String jarPath = baseDir.resolve("build/libs/noetic-" + WebSearchApplication.VERSION + ".jar")
                 .toAbsolutePath().toString();
         String noeticBin = detectMcpCommand(baseDir); // native binary or script path
 

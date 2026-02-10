@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.dnamaz"
-version = "0.1.0-SNAPSHOT"
+version = property("appVersion") as String
 
 java {
     toolchain {
@@ -64,6 +64,29 @@ dependencies {
 
     // Testing
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+// Generate version.properties from gradle version — single source of truth
+tasks.register("generateVersionProperties") {
+    val outputDir = layout.buildDirectory.dir("generated/resources")
+    outputs.dir(outputDir)
+    doLast {
+        val dir = outputDir.get().asFile.resolve("version")
+        dir.mkdirs()
+        dir.resolve("version.properties").writeText("version=${project.version}\n")
+    }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir(layout.buildDirectory.dir("generated/resources"))
+        }
+    }
+}
+
+tasks.named("processResources") {
+    dependsOn("generateVersionProperties")
 }
 
 tasks.withType<JavaCompile> {
