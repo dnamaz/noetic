@@ -17,18 +17,30 @@ Noetic gives your AI agent the ability to search the web, crawl pages, extract c
 - **Install skill** command for 11 AI coding environments (Cursor, Antigravity, Droid, Claude Code, OpenHands, Copilot, Windsurf, Cline, Roo, Kilo, Mistral Vibe)
 - **Pluggable providers** for search, embeddings, and vector storage
 - **SOCKS5/HTTP proxy** support with stream isolation for privacy
-- **GraalVM native image** -- compiles to a single ~167MB binary with sub-second startup
+- **GraalVM native image** -- compiles to a single native binary with ~100ms startup
 
-## Quick Start
+## Install
 
-### Prerequisites
-
-- Java 25+ (GraalVM recommended)
-- Gradle 9+ (wrapper included)
-
-### Build
+### Homebrew (macOS)
 
 ```bash
+brew tap dnamaz/tap
+brew install noetic
+```
+
+### Manual Install
+
+Download the binary for your platform from [GitHub Releases](https://github.com/dnamaz/noetic/releases), extract, and add to your PATH:
+
+```bash
+tar -xzf noetic-0.1.0-macos-arm64.tar.gz -C ~/.local/bin/
+```
+
+### Build from Source
+
+```bash
+# Prerequisites: Java 25+ (GraalVM recommended), Gradle 9+ (wrapper included)
+
 # Fat JAR
 ./gradlew bootJar
 
@@ -36,29 +48,34 @@ Noetic gives your AI agent the ability to search the web, crawl pages, extract c
 ./gradlew nativeCompile
 ```
 
-### Run
+## Quick Start
+
+### MCP Server (default)
 
 ```bash
-# JAR
-java --enable-preview -jar build/libs/noetic-0.1.0-SNAPSHOT.jar --server.port=8090
-
-# Native binary
-./build/native/nativeCompile/noetic --server.port=8090
+noetic
 ```
 
-### Run as MCP Server
+The MCP server uses STDIO transport -- point your AI assistant's MCP config at the binary.
+
+### REST API Server
 
 ```bash
-java --enable-preview -jar build/libs/noetic-0.1.0-SNAPSHOT.jar
+noetic --websearch.adapter.default-mode=rest --server.port=8090
 ```
 
-The MCP server uses STDIO transport by default -- point your AI assistant's MCP config at the command above.
-
-### Run as CLI
+### CLI (one-shot commands)
 
 ```bash
-java --enable-preview -jar build/libs/noetic-0.1.0-SNAPSHOT.jar \
-  --websearch.adapter.default-mode=cli search "your query"
+noetic --websearch.adapter.default-mode=cli search "your query"
+noetic --websearch.adapter.default-mode=cli crawl "https://example.com"
+noetic --websearch.adapter.default-mode=cli cache "your query" --top-k=5
+```
+
+### Docker
+
+```bash
+docker run -p 8080:8080 ghcr.io/dnamaz/noetic:latest
 ```
 
 ## Install AI Assistant Instructions
@@ -297,7 +314,7 @@ websearch:
     active: onnx               # onnx | openai | cohere | voyage | bedrock | azure-openai | vertex
 ```
 
-The default `onnx` provider uses a local all-MiniLM-L6-v2 model (384 dimensions) -- no API key needed. The model downloads from Hugging Face on first use (~86MB, cached afterward).
+The default `onnx` provider uses a local all-MiniLM-L6-v2 model (384 dimensions) -- no API key needed. The model (~23MB) and vocabulary (~231KB) download from Hugging Face on first use and are cached at `~/.websearch/models/`.
 
 ### Vector Store
 
@@ -401,23 +418,28 @@ Build a single standalone binary with GraalVM (no JVM required at runtime):
 ./gradlew nativeCompile
 ```
 
-Output: `build/native/nativeCompile/noetic` (~167MB)
+Output: `build/native/nativeCompile/noetic`
 
 ```bash
 # Run the native binary
 ./build/native/nativeCompile/noetic --server.port=8090
 
-# With proxy
+# With Tor proxy
 WEBSEARCH_PROXY_ENABLED=true WEBSEARCH_PROXY_TYPE=SOCKS5 \
 ./build/native/nativeCompile/noetic --server.port=8090
+
+# With Brave Search
+BRAVE_API_KEY=BSA-xxxxxxxx \
+./build/native/nativeCompile/noetic --websearch.search.active=brave --server.port=8090
 ```
 
-Startup time is under 1 second (with warm ONNX model cache).
+Startup time is ~100ms. First embedding request downloads the ONNX model (~23MB) and vocabulary (~231KB) from Hugging Face, cached at `~/.websearch/models/`.
 
 ## Notes
 
-- First request after startup is slow (~5-10s for JVM + embedding model warmup). Subsequent requests are fast. Native binary startup is under 1 second.
-- The ONNX embedding model downloads from Hugging Face on first use (~86MB, cached at `~/.cache/huggingface/`).
+- Native binary starts in ~100ms. First embedding request downloads model files, subsequent requests are sub-second.
+- JVM mode has ~2s startup + ~5s first embedding warmup.
+- The ONNX embedding model (all-MiniLM-L6-v2, 384 dimensions) and vocabulary are cached at `~/.websearch/models/`.
 - DuckDuckGo may rate-limit after many rapid searches. Use `skipCache: true` to force live searches, or switch to Brave Search API for higher volume.
 - Vector cache persists at `~/.websearch/index/`. Use `DELETE /api/v1/cache` or `POST /api/v1/cache/evict` to manage.
 - PDF files are automatically detected and text-extracted when crawled.
@@ -426,11 +448,12 @@ Startup time is under 1 second (with warm ONNX model cache).
 ## Tech Stack
 
 - **Java 25** with preview features
-- **Spring Boot 4.0** + Spring AI 1.1
+- **Spring Boot 4.0**
+- **MCP Java SDK 0.17** (official Model Context Protocol)
+- **DJL 0.36** + **ONNX Runtime 1.23** for local embeddings (all-MiniLM-L6-v2)
 - **Apache Lucene 10** for local vector search (HNSW)
-- **ONNX Runtime** for local embeddings (all-MiniLM-L6-v2)
 - **Jsoup** for static HTML fetching
 - **Jvppeteer** for headless Chromium (dynamic pages)
 - **Apache PDFBox** for PDF text extraction
 - **Picocli** for CLI
-- **GraalVM** native image support
+- **GraalVM 25** native image support
