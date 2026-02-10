@@ -1,32 +1,55 @@
 package com.dnamaz.websearch.adapter.mcp;
 
 import com.dnamaz.websearch.service.BatchCrawlService;
-import com.dnamaz.websearch.service.SitemapParser;
-import org.springaicommunity.mcp.annotation.McpTool;
-import org.springaicommunity.mcp.annotation.McpToolParam;
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.modelcontextprotocol.server.McpServerFeatures;
+import io.modelcontextprotocol.spec.McpSchema;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 /**
  * MCP tool: discover_sitemap
  * Finds crawlable URLs from a domain by parsing robots.txt and sitemap XML.
  */
-@Component
+@Configuration
 public class DiscoverSitemapMcpTool {
 
-    private final BatchCrawlService batchCrawlService;
+    @Bean
+    McpServerFeatures.SyncToolSpecification discoverSitemapTool(
+            BatchCrawlService batchCrawlService,
+            ObjectMapper objectMapper) {
 
-    public DiscoverSitemapMcpTool(BatchCrawlService batchCrawlService) {
-        this.batchCrawlService = batchCrawlService;
-    }
+        var schema = """
+                {
+                  "type": "object",
+                  "properties": {
+                    "domain": { "type": "string", "description": "Domain to discover (e.g. example.com)" },
+                    "maxUrls": { "type": "integer", "description": "Max URLs to return" },
+                    "pathFilter": { "type": "string", "description": "Regex to filter URLs by path (e.g. /blog/.*)" }
+                  },
+                  "required": ["domain"]
+                }
+                """;
 
-    @McpTool(name = "discover_sitemap", description = "Find crawlable URLs from a domain by parsing "
-            + "robots.txt and sitemap XML. Returns a list of discovered URLs. Use pathFilter to "
-            + "restrict to specific sections (e.g. '/blog/.*' for blog posts only).")
-    public SitemapParser.SitemapResult discoverSitemap(
-            @McpToolParam(description = "Domain to discover (e.g. example.com)") String domain,
-            @McpToolParam(description = "Max URLs to return", required = false) Integer maxUrls,
-            @McpToolParam(description = "Regex to filter URLs by path (e.g. /blog/.*)", required = false) String pathFilter
-    ) {
-        return batchCrawlService.discoverSitemap(domain, maxUrls, pathFilter);
+        return new McpServerFeatures.SyncToolSpecification(
+                McpSchema.Tool.builder()
+                        .name("discover_sitemap")
+                        .description("Find crawlable URLs from a domain by parsing robots.txt and sitemap XML. "
+                                + "Returns a list of discovered URLs. Use pathFilter to restrict to "
+                                + "specific sections (e.g. '/blog/.*' for blog posts only).")
+                        .inputSchema(McpToolHelper.parseSchema(schema))
+                        .build(),
+                (exchange, args) -> {
+                    var domain = (String) args.get("domain");
+                    var maxUrls = args.get("maxUrls") instanceof Number n ? n.intValue() : null;
+                    var pathFilter = (String) args.get("pathFilter");
+
+                    var result = batchCrawlService.discoverSitemap(domain, maxUrls, pathFilter);
+
+                    return McpToolHelper.toResult(objectMapper, result);
+                }
+        );
     }
 }

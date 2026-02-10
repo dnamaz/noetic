@@ -1,53 +1,78 @@
 package com.dnamaz.websearch.adapter.mcp;
 
-import com.dnamaz.websearch.model.FetchResult;
 import com.dnamaz.websearch.model.OutputFormat;
 import com.dnamaz.websearch.service.CrawlService;
-import org.springaicommunity.mcp.annotation.McpTool;
-import org.springaicommunity.mcp.annotation.McpToolParam;
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.modelcontextprotocol.server.McpServerFeatures;
+import io.modelcontextprotocol.spec.McpSchema;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 /**
  * MCP tool: crawl_page
  * Fetches and extracts content from a web page.
  */
-@Component
+@Configuration
 public class CrawlPageMcpTool {
 
-    private final CrawlService crawlService;
+    @Bean
+    McpServerFeatures.SyncToolSpecification crawlPageTool(
+            CrawlService crawlService,
+            ObjectMapper objectMapper) {
 
-    public CrawlPageMcpTool(CrawlService crawlService) {
-        this.crawlService = crawlService;
-    }
+        var schema = """
+                {
+                  "type": "object",
+                  "properties": {
+                    "url": { "type": "string", "description": "The URL to crawl" },
+                    "fetchMode": { "type": "string", "description": "Fetch mode: auto, static, dynamic, api" },
+                    "outputFormat": { "type": "string", "description": "Output format: html, markdown, text" },
+                    "includeLinks": { "type": "boolean", "description": "Include links found on the page" },
+                    "includeImages": { "type": "boolean", "description": "Include image URLs found on the page" },
+                    "waitForSelector": { "type": "string", "description": "CSS selector to wait for (dynamic mode)" }
+                  },
+                  "required": ["url"]
+                }
+                """;
 
-    @McpTool(name = "crawl_page", description = "Fetch and extract content from a web page. Returns "
-            + "clean text/markdown content. Supports static HTML fetching and dynamic JavaScript "
-            + "rendering. Use fetchMode 'auto' for automatic detection, 'static' for fast HTML-only, "
-            + "or 'dynamic' for JavaScript-rendered pages.")
-    public FetchResult crawlPage(
-            @McpToolParam(description = "The URL to crawl") String url,
-            @McpToolParam(description = "Fetch mode: auto, static, dynamic, api", required = false) String fetchMode,
-            @McpToolParam(description = "Output format: html, markdown, text", required = false) String outputFormat,
-            @McpToolParam(description = "Include links found on the page", required = false) Boolean includeLinks,
-            @McpToolParam(description = "Include image URLs found on the page", required = false) Boolean includeImages,
-            @McpToolParam(description = "CSS selector to wait for (dynamic mode)", required = false) String waitForSelector
-    ) {
-        OutputFormat format = null;
-        if (outputFormat != null) {
-            try {
-                format = OutputFormat.valueOf(outputFormat.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                format = OutputFormat.MARKDOWN;
-            }
-        }
+        return new McpServerFeatures.SyncToolSpecification(
+                McpSchema.Tool.builder()
+                        .name("crawl_page")
+                        .description("Fetch and extract content from a web page. Returns clean text/markdown "
+                                + "content. Supports static HTML fetching and dynamic JavaScript rendering. "
+                                + "Use fetchMode 'auto' for automatic detection, 'static' for fast HTML-only, "
+                                + "or 'dynamic' for JavaScript-rendered pages.")
+                        .inputSchema(McpToolHelper.parseSchema(schema))
+                        .build(),
+                (exchange, args) -> {
+                    var url = (String) args.get("url");
+                    var fetchMode = (String) args.get("fetchMode");
+                    var outputFormatStr = (String) args.get("outputFormat");
+                    var includeLinks = args.get("includeLinks") instanceof Boolean b ? b : false;
+                    var includeImages = args.get("includeImages") instanceof Boolean b ? b : false;
+                    var waitForSelector = (String) args.get("waitForSelector");
 
-        return crawlService.crawl(
-                url,
-                fetchMode != null ? fetchMode : "auto",
-                format,
-                includeLinks != null && includeLinks,
-                includeImages != null && includeImages,
-                waitForSelector
+                    OutputFormat format = null;
+                    if (outputFormatStr != null) {
+                        try {
+                            format = OutputFormat.valueOf(outputFormatStr.toUpperCase());
+                        } catch (IllegalArgumentException e) {
+                            format = OutputFormat.MARKDOWN;
+                        }
+                    }
+
+                    var result = crawlService.crawl(
+                            url,
+                            fetchMode != null ? fetchMode : "auto",
+                            format,
+                            includeLinks,
+                            includeImages,
+                            waitForSelector);
+
+                    return McpToolHelper.toResult(objectMapper, result);
+                }
         );
     }
 }

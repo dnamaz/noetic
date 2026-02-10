@@ -26,10 +26,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
-    // Spring AI MCP Server (STDIO transport)
-    implementation("org.springframework.ai:spring-ai-starter-mcp-server:1.1.2")
-    // Spring AI MCP Server (WebMVC transport for REST + SSE)
-    implementation("org.springframework.ai:spring-ai-starter-mcp-server-webmvc:1.1.2")
+    // Official MCP Java SDK (STDIO, SSE, Streamable-HTTP transports)
+    implementation("io.modelcontextprotocol.sdk:mcp:${property("mcpSdkVersion")}")
 
     // Web scraping
     implementation("org.jsoup:jsoup:${property("jsoupVersion")}")
@@ -42,8 +40,12 @@ dependencies {
     implementation("org.apache.lucene:lucene-analysis-common:${property("luceneVersion")}")
     implementation("org.apache.lucene:lucene-queryparser:${property("luceneVersion")}")
 
-    // Local embeddings via Spring AI Transformers (ONNX + tokenizer)
-    implementation("org.springframework.ai:spring-ai-starter-model-transformers:1.1.2")
+    // DJL + ONNX Runtime (manual translator approach for local embeddings)
+    // Tokenization is handled by pure Java BertWordPieceTokenizer (no Rust JNI)
+    implementation("ai.djl:api:${property("djlVersion")}")
+    implementation("ai.djl.onnxruntime:onnxruntime-engine:${property("djlVersion")}") {
+        exclude(group = "com.microsoft.onnxruntime", module = "onnxruntime")
+    }
     implementation("com.microsoft.onnxruntime:onnxruntime:${property("onnxruntimeVersion")}")
 
     // PDF parsing
@@ -74,7 +76,7 @@ tasks.withType<Test> {
 }
 
 tasks.withType<JavaExec> {
-    jvmArgs("--enable-preview")
+    jvmArgs("--enable-preview", "--enable-native-access=ALL-UNNAMED")
 }
 
 graalvmNative {
@@ -96,7 +98,6 @@ graalvmNative {
                 "--initialize-at-run-time=ai.onnxruntime",
                 "--initialize-at-run-time=com.microsoft.onnxruntime",
                 "--initialize-at-run-time=ai.djl.onnxruntime.engine",
-                "--initialize-at-run-time=ai.djl.huggingface.tokenizers.jni",
                 "--initialize-at-run-time=ai.djl.pytorch",
                 "--initialize-at-run-time=ai.djl.pytorch.jni",
                 "--initialize-at-run-time=ai.djl.engine.rust"

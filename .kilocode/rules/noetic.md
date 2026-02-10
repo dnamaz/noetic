@@ -174,8 +174,8 @@ curl -s http://localhost:8090/api/v1/jobs
 
 ## Notes
 
-- First request after startup is slow (~10s for JVM + model warmup). Subsequent requests are fast.
-- The ONNX embedding model (all-MiniLM-L6-v2) downloads from Hugging Face on first use (~23MB, cached afterward).
+- Native binary starts in ~100ms. First embedding request downloads the ONNX model (~23MB) and vocabulary (~231KB) from Hugging Face, cached afterward at `~/.websearch/models/`.
+- Subsequent embedding requests are sub-second. JVM mode has ~2s startup + ~5s first embedding warmup.
 - DuckDuckGo may rate-limit after many rapid searches. Space requests or use `crawl` directly if you have URLs.
 - PDF files are automatically detected and text-extracted via PDFBox.
 - Vector cache persists at `~/.websearch/index/`. Delete this directory to reset.

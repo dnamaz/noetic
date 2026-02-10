@@ -1,32 +1,58 @@
 package com.dnamaz.websearch.adapter.mcp;
 
 import com.dnamaz.websearch.service.MapService;
-import org.springaicommunity.mcp.annotation.McpTool;
-import org.springaicommunity.mcp.annotation.McpToolParam;
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.modelcontextprotocol.server.McpServerFeatures;
+import io.modelcontextprotocol.spec.McpSchema;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 /**
  * MCP tool: map_site
  * Discover all reachable URLs from a starting URL via BFS link crawling.
  */
-@Component
+@Configuration
 public class MapSiteMcpTool {
 
-    private final MapService mapService;
+    @Bean
+    McpServerFeatures.SyncToolSpecification mapSiteTool(
+            MapService mapService,
+            ObjectMapper objectMapper) {
 
-    public MapSiteMcpTool(MapService mapService) {
-        this.mapService = mapService;
-    }
+        var schema = """
+                {
+                  "type": "object",
+                  "properties": {
+                    "startUrl": { "type": "string", "description": "Starting URL or domain (e.g. https://example.com)" },
+                    "maxDepth": { "type": "integer", "description": "Maximum link depth to crawl (default 3)" },
+                    "maxUrls": { "type": "integer", "description": "Maximum URLs to discover (default 100)" },
+                    "pathFilter": { "type": "string", "description": "Regex to filter URLs by path (e.g. /docs/.*)" }
+                  },
+                  "required": ["startUrl"]
+                }
+                """;
 
-    @McpTool(name = "map_site", description = "Discover all reachable URLs from a starting URL "
-            + "by following links. Uses BFS crawling with same-domain filtering. Faster than "
-            + "discover_sitemap for sites without sitemaps. Returns a flat list of discovered URLs.")
-    public MapService.MapResult mapSite(
-            @McpToolParam(description = "Starting URL or domain (e.g. https://example.com)") String startUrl,
-            @McpToolParam(description = "Maximum link depth to crawl (default 3)", required = false) Integer maxDepth,
-            @McpToolParam(description = "Maximum URLs to discover (default 100)", required = false) Integer maxUrls,
-            @McpToolParam(description = "Regex to filter URLs by path (e.g. /docs/.*)", required = false) String pathFilter
-    ) {
-        return mapService.map(startUrl, maxDepth, maxUrls, pathFilter);
+        return new McpServerFeatures.SyncToolSpecification(
+                McpSchema.Tool.builder()
+                        .name("map_site")
+                        .description("Discover all reachable URLs from a starting URL by following links. "
+                                + "Uses BFS crawling with same-domain filtering. Faster than "
+                                + "discover_sitemap for sites without sitemaps. Returns a flat list "
+                                + "of discovered URLs.")
+                        .inputSchema(McpToolHelper.parseSchema(schema))
+                        .build(),
+                (exchange, args) -> {
+                    var startUrl = (String) args.get("startUrl");
+                    var maxDepth = args.get("maxDepth") instanceof Number n ? n.intValue() : null;
+                    var maxUrls = args.get("maxUrls") instanceof Number n ? n.intValue() : null;
+                    var pathFilter = (String) args.get("pathFilter");
+
+                    var result = mapService.map(startUrl, maxDepth, maxUrls, pathFilter);
+
+                    return McpToolHelper.toResult(objectMapper, result);
+                }
+        );
     }
 }

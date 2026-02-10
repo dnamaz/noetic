@@ -58,14 +58,17 @@ public class NativeImageConfig {
             registerAllMembers(reflection, SitemapParser.SitemapResult.class);
             registerAllMembers(reflection, EvictionService.EvictionResult.class);
 
-            // ---- DJL engine discovery (ServiceLoader) ----
-            registerByName(reflection, "ai.djl.pytorch.engine.PtEngineProvider");
+            // ---- DJL core + engine discovery ----
+            registerByName(reflection, "ai.djl.engine.Engine");
+            registerByName(reflection, "ai.djl.engine.EngineProvider");
+            registerByName(reflection, "ai.djl.onnxruntime.engine.OrtEngine");
             registerByName(reflection, "ai.djl.onnxruntime.engine.OrtEngineProvider");
+            registerByName(reflection, "ai.djl.pytorch.engine.PtEngineProvider");
             registerByName(reflection, "ai.djl.engine.rust.RsEngineProvider");
-            registerByName(reflection, "ai.djl.huggingface.tokenizers.HuggingFaceTokenizer");
-            registerByName(reflection, "ai.djl.huggingface.tokenizers.jni.CharSpan");
-            registerByName(reflection, "ai.djl.huggingface.tokenizers.jni.CharSpan[]");
-            registerByName(reflection, "ai.djl.huggingface.tokenizers.jni.TokenizersLibrary");
+            registerByName(reflection, "ai.djl.ndarray.NDManager");
+            registerByName(reflection, "ai.djl.ndarray.BaseNDManager");
+            registerByName(reflection, "ai.djl.repository.zoo.ZooModel");
+            registerByName(reflection, "ai.djl.repository.zoo.Criteria");
 
             // ---- ONNX Runtime ----
             registerByName(reflection, "ai.onnxruntime.OnnxRuntime");
@@ -76,6 +79,18 @@ public class NativeImageConfig {
             registerByName(reflection, "ai.onnxruntime.OnnxValue");
             registerByName(reflection, "ai.onnxruntime.TensorInfo");
             registerByName(reflection, "ai.onnxruntime.OrtProvider");
+            registerByName(reflection, "ai.onnxruntime.OrtLoggingLevel");
+
+            // ---- MCP SDK (JSON-RPC serialization) ----
+            registerByName(reflection, "io.modelcontextprotocol.spec.McpSchema");
+            registerByName(reflection, "io.modelcontextprotocol.spec.McpSchema$Tool");
+            registerByName(reflection, "io.modelcontextprotocol.spec.McpSchema$Prompt");
+            registerByName(reflection, "io.modelcontextprotocol.spec.McpSchema$PromptArgument");
+            registerByName(reflection, "io.modelcontextprotocol.spec.McpSchema$PromptMessage");
+            registerByName(reflection, "io.modelcontextprotocol.spec.McpSchema$CallToolResult");
+            registerByName(reflection, "io.modelcontextprotocol.spec.McpSchema$TextContent");
+            registerByName(reflection, "io.modelcontextprotocol.spec.McpSchema$GetPromptResult");
+            registerByName(reflection, "io.modelcontextprotocol.spec.McpSchema$ServerCapabilities");
 
             // ---- Lucene internal class loading (TestSecrets uses Class.forName at runtime) ----
             registerByName(reflection, "org.apache.lucene.index.ConcurrentMergeScheduler");
@@ -98,13 +113,12 @@ public class NativeImageConfig {
             var resources = hints.resources();
             resources.registerPattern("models/.*");
             resources.registerPattern(".*\\.onnx");
-            resources.registerPattern(".*tokenizer\\.json");
+            resources.registerPattern(".*vocab\\.txt");
             resources.registerPattern(".*config\\.json");
             resources.registerPattern("ai/djl/.*");
             resources.registerPattern("ai/onnxruntime/.*");
             resources.registerPattern("native/.*");
             resources.registerPattern("native/lib/.*");
-            resources.registerPattern(".*tokenizers\\.properties");
             resources.registerPattern(".*\\.dylib");
             resources.registerPattern(".*\\.so");
             resources.registerPattern("META-INF/services/.*");
@@ -120,10 +134,13 @@ public class NativeImageConfig {
 
         private void registerByName(ReflectionHints reflection, String className) {
             try {
-                reflection.registerType(
-                        Class.forName(className), MemberCategory.values());
-            } catch (ClassNotFoundException e) {
-                // Class may not be on classpath (optional provider)
+                // Use initialize=false to avoid triggering static initializers
+                // during AOT processing (e.g. OnnxRuntime loads native libs in <clinit>)
+                Class<?> clazz = Class.forName(className, false,
+                        Thread.currentThread().getContextClassLoader());
+                reflection.registerType(clazz, MemberCategory.values());
+            } catch (ClassNotFoundException | NoClassDefFoundError | UnsatisfiedLinkError e) {
+                // Class may not be on classpath (optional provider) or native lib unavailable
             }
         }
 

@@ -5,26 +5,6 @@ spring:
     lazy-initialization: true   # Defer heavy beans (ONNX, Lucene, Chromium) so
                                  # fast-path commands (install-skill, --version)
                                  # exit quickly without loading them.
-  ai:
-    mcp:
-      server:
-        enabled: true
-        name: noetic
-        version: 0.1.0
-        stdio: true
-        type: SYNC
-        capabilities:
-          tool: true
-          resource: true
-          prompt: true
-        annotation-scanner:
-          enabled: true
-    embedding:
-      transformer:
-        onnx:
-          modelUri: https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/onnx/model.onnx
-        tokenizer:
-          uri: https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/raw/main/tokenizer.json
 
 websearch:
   proxy:
@@ -122,7 +102,7 @@ websearch:
   embedding:
     active: onnx                             # onnx | openai | cohere | voyage | bedrock | azure-openai | vertex
     onnx:
-      model-path: classpath:models/all-MiniLM-L6-v2.onnx
+      cache-dir: ${user.home}/.websearch/models/all-MiniLM-L6-v2
     openai:
       api-key: ${OPENAI_API_KEY:}
       model: text-embedding-3-small

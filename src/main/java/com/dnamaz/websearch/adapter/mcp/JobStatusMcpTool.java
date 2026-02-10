@@ -2,43 +2,85 @@ package com.dnamaz.websearch.adapter.mcp;
 
 import com.dnamaz.websearch.model.JobStatus;
 import com.dnamaz.websearch.service.JobService;
-import org.springaicommunity.mcp.annotation.McpTool;
-import org.springaicommunity.mcp.annotation.McpToolParam;
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.modelcontextprotocol.server.McpServerFeatures;
+import io.modelcontextprotocol.spec.McpSchema;
+import io.modelcontextprotocol.spec.McpSchema.CallToolResult;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
 import java.util.Map;
 
 /**
- * MCP tool: job_status
+ * MCP tools: job_status, job_cancel
  * Check status of an async batch crawl job, or cancel it.
  */
-@Component
+@Configuration
 public class JobStatusMcpTool {
 
-    private final JobService jobService;
+    @Bean
+    McpServerFeatures.SyncToolSpecification jobStatusTool(
+            JobService jobService,
+            ObjectMapper objectMapper) {
 
-    public JobStatusMcpTool(JobService jobService) {
-        this.jobService = jobService;
+        var schema = """
+                {
+                  "type": "object",
+                  "properties": {
+                    "jobId": { "type": "string", "description": "The job ID returned by batch_crawl" }
+                  },
+                  "required": ["jobId"]
+                }
+                """;
+
+        return new McpServerFeatures.SyncToolSpecification(
+                McpSchema.Tool.builder()
+                        .name("job_status")
+                        .description("Check the status of an async batch crawl job. Returns progress "
+                                + "(crawled, failed, chunked counts) and state (PENDING, RUNNING, "
+                                + "COMPLETED, CANCELLED, FAILED).")
+                        .inputSchema(McpToolHelper.parseSchema(schema))
+                        .build(),
+                (exchange, args) -> {
+                    var jobId = (String) args.get("jobId");
+                    JobStatus status = jobService.getStatus(jobId);
+                    if (status == null) {
+                        return new CallToolResult(
+                                List.of(new McpSchema.TextContent("Job not found: " + jobId)), true);
+                    }
+                    return McpToolHelper.toResult(objectMapper, status);
+                }
+        );
     }
 
-    @McpTool(name = "job_status", description = "Check the status of an async batch crawl job. "
-            + "Returns progress (crawled, failed, chunked counts) and state (PENDING, RUNNING, "
-            + "COMPLETED, CANCELLED, FAILED).")
-    public JobStatus jobStatus(
-            @McpToolParam(description = "The job ID returned by batch_crawl") String jobId
-    ) {
-        JobStatus status = jobService.getStatus(jobId);
-        if (status == null) {
-            throw new IllegalArgumentException("Job not found: " + jobId);
-        }
-        return status;
-    }
+    @Bean
+    McpServerFeatures.SyncToolSpecification jobCancelTool(
+            JobService jobService,
+            ObjectMapper objectMapper) {
 
-    @McpTool(name = "job_cancel", description = "Cancel a running batch crawl job.")
-    public Map<String, Object> jobCancel(
-            @McpToolParam(description = "The job ID to cancel") String jobId
-    ) {
-        boolean cancelled = jobService.cancel(jobId);
-        return Map.of("jobId", jobId, "cancelled", cancelled);
+        var schema = """
+                {
+                  "type": "object",
+                  "properties": {
+                    "jobId": { "type": "string", "description": "The job ID to cancel" }
+                  },
+                  "required": ["jobId"]
+                }
+                """;
+
+        return new McpServerFeatures.SyncToolSpecification(
+                McpSchema.Tool.builder()
+                        .name("job_cancel")
+                        .description("Cancel a running batch crawl job.")
+                        .inputSchema(McpToolHelper.parseSchema(schema))
+                        .build(),
+                (exchange, args) -> {
+                    var jobId = (String) args.get("jobId");
+                    boolean cancelled = jobService.cancel(jobId);
+                    return McpToolHelper.toResult(objectMapper,
+                            Map.of("jobId", jobId, "cancelled", cancelled));
+                }
+        );
     }
 }

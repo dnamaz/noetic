@@ -1,9 +1,11 @@
 package com.dnamaz.websearch.adapter.mcp;
 
 import com.dnamaz.websearch.service.BatchCrawlService;
-import org.springaicommunity.mcp.annotation.McpTool;
-import org.springaicommunity.mcp.annotation.McpToolParam;
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.modelcontextprotocol.server.McpServerFeatures;
+import io.modelcontextprotocol.spec.McpSchema;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
@@ -11,29 +13,54 @@ import java.util.List;
  * MCP tool: batch_crawl
  * Crawls multiple URLs with optional sitemap discovery.
  */
-@Component
+@Configuration
 public class BatchCrawlMcpTool {
 
-    private final BatchCrawlService batchCrawlService;
+    @Bean
+    McpServerFeatures.SyncToolSpecification batchCrawlTool(
+            BatchCrawlService batchCrawlService,
+            ObjectMapper objectMapper) {
 
-    public BatchCrawlMcpTool(BatchCrawlService batchCrawlService) {
-        this.batchCrawlService = batchCrawlService;
-    }
+        var schema = """
+                {
+                  "type": "object",
+                  "properties": {
+                    "urls": { "type": "array", "items": { "type": "string" }, "description": "List of URLs to crawl" },
+                    "domain": { "type": "string", "description": "Domain for sitemap discovery (e.g. example.com)" },
+                    "fetchMode": { "type": "string", "description": "Fetch mode: auto, static, dynamic" },
+                    "chunkStrategy": { "type": "string", "description": "Chunking strategy: sentence, token, semantic" },
+                    "maxConcurrency": { "type": "integer", "description": "Max concurrent crawls" },
+                    "rateLimitMs": { "type": "integer", "description": "Delay between requests in ms" },
+                    "pathFilter": { "type": "string", "description": "Regex to filter URLs by path" },
+                    "maxUrls": { "type": "integer", "description": "Max URLs to crawl" }
+                  }
+                }
+                """;
 
-    @McpTool(name = "batch_crawl", description = "Crawl multiple URLs or an entire domain. Provide "
-            + "either a list of URLs or a domain (for automatic sitemap discovery). Each page is "
-            + "crawled, chunked, and cached into the vector store. Use for bulk site ingestion.")
-    public BatchCrawlService.BatchCrawlResult batchCrawl(
-            @McpToolParam(description = "List of URLs to crawl", required = false) List<String> urls,
-            @McpToolParam(description = "Domain for sitemap discovery (e.g. example.com)", required = false) String domain,
-            @McpToolParam(description = "Fetch mode: auto, static, dynamic", required = false) String fetchMode,
-            @McpToolParam(description = "Chunking strategy: sentence, token, semantic", required = false) String chunkStrategy,
-            @McpToolParam(description = "Max concurrent crawls", required = false) Integer maxConcurrency,
-            @McpToolParam(description = "Delay between requests in ms", required = false) Long rateLimitMs,
-            @McpToolParam(description = "Regex to filter URLs by path", required = false) String pathFilter,
-            @McpToolParam(description = "Max URLs to crawl", required = false) Integer maxUrls
-    ) {
-        return batchCrawlService.batchCrawl(urls, domain, fetchMode, chunkStrategy,
-                maxConcurrency, rateLimitMs, pathFilter, maxUrls);
+        return new McpServerFeatures.SyncToolSpecification(
+                McpSchema.Tool.builder()
+                        .name("batch_crawl")
+                        .description("Crawl multiple URLs or an entire domain. Provide either a list of URLs "
+                                + "or a domain (for automatic sitemap discovery). Each page is crawled, "
+                                + "chunked, and cached into the vector store. Use for bulk site ingestion.")
+                        .inputSchema(McpToolHelper.parseSchema(schema))
+                        .build(),
+                (exchange, args) -> {
+                    @SuppressWarnings("unchecked")
+                    var urls = (List<String>) args.get("urls");
+                    var domain = (String) args.get("domain");
+                    var fetchMode = (String) args.get("fetchMode");
+                    var chunkStrategy = (String) args.get("chunkStrategy");
+                    var maxConcurrency = args.get("maxConcurrency") instanceof Number n ? n.intValue() : null;
+                    var rateLimitMs = args.get("rateLimitMs") instanceof Number n ? n.longValue() : null;
+                    var pathFilter = (String) args.get("pathFilter");
+                    var maxUrls = args.get("maxUrls") instanceof Number n ? n.intValue() : null;
+
+                    var result = batchCrawlService.batchCrawl(urls, domain, fetchMode, chunkStrategy,
+                            maxConcurrency, rateLimitMs, pathFilter, maxUrls);
+
+                    return McpToolHelper.toResult(objectMapper, result);
+                }
+        );
     }
 }

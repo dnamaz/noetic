@@ -1,0 +1,19 @@
+# Profile for the noetic-cli binary — no web server, minimal logging, clean JSON output.
+#
+# Activated automatically when the binary is named "noetic-cli".
+# Uses a separate Lucene index to avoid lock conflicts with the MCP/REST server.
+spring:
+  main:
+    banner-mode: off
+
+websearch:
+  adapter:
+    default-mode: cli
+  store:
+    lucene:
+      index-path: ${user.home}/.websearch/cli-index
+
+# Suppress all log output except errors.
+logging:
+  level:
+    root: ERROR

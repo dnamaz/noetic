@@ -40,11 +40,5 @@
     "allDeclaredMethods": true,
     "allDeclaredFields": true,
     "allDeclaredConstructors": true
-  },
-  {
-    "name": "ai.djl.huggingface.tokenizers.jni.TokenizersLibrary",
-    "allDeclaredMethods": true,
-    "allDeclaredFields": true,
-    "allDeclaredConstructors": true
   }
 ]
