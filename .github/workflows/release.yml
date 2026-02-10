@@ -1,22 +1,40 @@
-# Build native binaries and publish a GitHub Release with Homebrew-ready tarballs.
+# Build native binaries and publish a GitHub Release.
 #
-# Triggered manually via workflow_dispatch. After release, update the Homebrew
-# Formula in dnamaz/homebrew-tap with the SHA256s from the checksums.txt.
+# Triggers:
+#   - Tag push:          git tag v0.2.0 && git push --tags
+#   - Manual dispatch:   Actions UI with version + platform selection
 #
 # Matrix builds for:
 #   - macOS arm64 (Apple Silicon)
-#   - Linux x86_64 (built on Ubuntu 22.04 for broad glibc 2.35+ compatibility)
-#   - Linux arm64  (built on Ubuntu 22.04 for broad glibc 2.35+ compatibility)
+#   - Linux x86_64 (Ubuntu 22.04, glibc 2.35+)
+#   - Linux arm64  (Ubuntu 22.04, glibc 2.35+)
+#
+# After release, manually update dnamaz/homebrew-tap Formula with SHA256s.
 
 name: Release
 
 on:
+  push:
+    tags:
+      - "v*"
   workflow_dispatch:
     inputs:
       version:
-        description: "Release version (e.g. 0.1.0)"
-        required: true
+        description: "Release version (e.g. 0.2.0). Ignored if triggered by tag."
+        required: false
         default: "0.1.0"
+      build_macos_arm64:
+        description: "Build macOS arm64"
+        type: boolean
+        default: true
+      build_linux_x86_64:
+        description: "Build Linux x86_64"
+        type: boolean
+        default: true
+      build_linux_arm64:
+        description: "Build Linux arm64"
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -27,24 +45,55 @@ env:
 
 jobs:
   # ---------------------------------------------------------------------------
-  # Build native binaries on each platform
+  # Resolve version from tag or manual input
+  # ---------------------------------------------------------------------------
+  prepare:
+    name: Prepare
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - name: Resolve version
+        id: version
+        run: |
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=${{ inputs.version }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build matrix
+        id: matrix
+        run: |
+          INCLUDES="["
+
+          # Tag push: build all platforms. Manual: respect checkboxes.
+          if [[ "${{ github.ref_type }}" == "tag" ]] || [[ "${{ inputs.build_macos_arm64 }}" == "true" ]]; then
+            INCLUDES="${INCLUDES}{\"runner\":\"macos-15\",\"os-label\":\"macos\",\"arch-label\":\"arm64\"},"
+          fi
+          if [[ "${{ github.ref_type }}" == "tag" ]] || [[ "${{ inputs.build_linux_x86_64 }}" == "true" ]]; then
+            INCLUDES="${INCLUDES}{\"runner\":\"ubuntu-22.04\",\"os-label\":\"linux\",\"arch-label\":\"x86_64\"},"
+          fi
+          if [[ "${{ github.ref_type }}" == "tag" ]] || [[ "${{ inputs.build_linux_arm64 }}" == "true" ]]; then
+            INCLUDES="${INCLUDES}{\"runner\":\"ubuntu-22.04-arm\",\"os-label\":\"linux\",\"arch-label\":\"arm64\"},"
+          fi
+
+          # Remove trailing comma, close bracket
+          INCLUDES="${INCLUDES%,}]"
+          echo "matrix={\"include\":${INCLUDES}}" >> "$GITHUB_OUTPUT"
+          echo "Matrix: ${INCLUDES}"
+
+  # ---------------------------------------------------------------------------
+  # Build native binaries
   # ---------------------------------------------------------------------------
   build:
     name: Build (${{ matrix.os-label }}-${{ matrix.arch-label }})
+    needs: prepare
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - runner: macos-15            # Apple Silicon (M1+)
-            os-label: macos
-            arch-label: arm64
-          - runner: ubuntu-22.04        # Linux x86_64 (glibc 2.35 for broad compat)
-            os-label: linux
-            arch-label: x86_64
-          - runner: ubuntu-22.04-arm    # Linux arm64 (glibc 2.35 for broad compat)
-            os-label: linux
-            arch-label: arm64
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
 
     steps:
       - name: Checkout
@@ -66,7 +115,6 @@ jobs:
           file build/native/nativeCompile/noetic
           ./build/native/nativeCompile/noetic --version
 
-      # Optional: sign macOS binary (requires APPLE_CERTIFICATE secret)
       - name: Sign binary (macOS)
         if: matrix.os-label == 'macos' && env.APPLE_CERTIFICATE != ''
         env:
@@ -91,7 +139,7 @@ jobs:
       - name: Package tarball
         id: package
         env:
-          VERSION: ${{ inputs.version }}
+          VERSION: ${{ needs.prepare.outputs.version }}
           OS_LABEL: ${{ matrix.os-label }}
           ARCH_LABEL: ${{ matrix.arch-label }}
         run: |
@@ -114,7 +162,6 @@ jobs:
           SHA256=$(shasum -a 256 "dist/${TARBALL}" | awk '{print $1}')
           echo "tarball=${TARBALL}" >> "$GITHUB_OUTPUT"
           echo "sha256=${SHA256}" >> "$GITHUB_OUTPUT"
-
           echo "Tarball: ${TARBALL}"
           echo "SHA256:  ${SHA256}"
 
@@ -136,11 +183,11 @@ jobs:
           path: dist/sha256-${{ matrix.os-label }}-${{ matrix.arch-label }}.txt
 
   # ---------------------------------------------------------------------------
-  # Create GitHub Release with all platform tarballs
+  # Create GitHub Release
   # ---------------------------------------------------------------------------
   release:
     name: Publish Release
-    needs: build
+    needs: [prepare, build]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -159,15 +206,17 @@ jobs:
           echo "# SHA256 Checksums" > release/checksums.txt
           echo "" >> release/checksums.txt
           find artifacts -name 'sha256-*.txt' -exec cat {} \; >> release/checksums.txt
+          echo ""
+          echo "=== Checksums ==="
           cat release/checksums.txt
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ inputs.version }}
-          name: Noetic v${{ inputs.version }}
+          tag_name: v${{ needs.prepare.outputs.version }}
+          name: Noetic v${{ needs.prepare.outputs.version }}
           body: |
-            ## Noetic v${{ inputs.version }}
+            ## Noetic v${{ needs.prepare.outputs.version }}
 
             Web search, crawl, and knowledge cache for AI coding assistants.
 
@@ -180,10 +229,8 @@ jobs:
 
             ### Manual install
 
-            Download the tarball for your platform below, extract, and add to your PATH:
-
             ```bash
-            tar -xzf noetic-${{ inputs.version }}-macos-arm64.tar.gz -C ~/.local/bin/
+            tar -xzf noetic-${{ needs.prepare.outputs.version }}-macos-arm64.tar.gz -C ~/.local/bin/
             ```
 
             ### What's included
@@ -192,13 +239,7 @@ jobs:
             - `noetic-start` / `noetic-stop` - Service management scripts
             - `mcp-server.sh` - MCP STDIO launcher for IDE integration
 
-            Linux binaries are built on Ubuntu 22.04 (glibc 2.35) for broad compatibility
-            with Ubuntu 22.04+, Debian 12+, Fedora 36+, Amazon Linux 2023+.
-
-            ### Update Homebrew Formula
-
-            After this release, update `dnamaz/homebrew-tap` Formula/noetic.rb
-            with the SHA256 values from `checksums.txt`.
+            Linux binaries built on Ubuntu 22.04 (glibc 2.35+).
 
             ### Checksums
 
