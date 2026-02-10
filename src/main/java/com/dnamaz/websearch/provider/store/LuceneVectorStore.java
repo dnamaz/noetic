@@ -13,6 +13,7 @@ import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.Bits;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,28 +23,49 @@ import java.util.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * Local vector store backed by Apache Lucene with HNSW indexing.
+ * Two-tier Lucene vector store with per-agent isolation and shared main index.
  *
- * <p>Stores VectorEntry as Lucene documents with stored fields (id, content,
- * metadata) plus a KnnFloatVectorField for the embedding vector.</p>
+ * <p><b>Tier 1: Agent index</b> -- Each agent/session writes to its own index
+ * directory ({@code ~/.websearch/agents/<agent-id>/}). No write lock contention
+ * between agents.</p>
+ *
+ * <p><b>Tier 2: Shared index</b> -- The main index ({@code ~/.websearch/index/})
+ * is used by MCP/REST servers and for promoted content. CLI agents can promote
+ * their local entries to the shared index.</p>
+ *
+ * <p>Searches use Lucene {@link MultiReader} to query both the agent's own index
+ * and the shared index simultaneously.</p>
  */
 @Component
 public class LuceneVectorStore implements VectorStore {
 
     private static final Logger log = LoggerFactory.getLogger(LuceneVectorStore.class);
-    private static final String FIELD_ID = "id";
-    private static final String FIELD_VECTOR = "vector";
-    private static final String FIELD_CONTENT = "content";
-    private static final String FIELD_ENTRY_TYPE = "entryType";
-    private static final String FIELD_NAMESPACE = "namespace";
-    private static final String FIELD_CREATED_AT = "createdAt";
+    static final String FIELD_ID = "id";
+    static final String FIELD_VECTOR = "vector";
+    static final String FIELD_CONTENT = "content";
+    static final String FIELD_ENTRY_TYPE = "entryType";
+    static final String FIELD_NAMESPACE = "namespace";
+    static final String FIELD_CREATED_AT = "createdAt";
 
     @Value("${websearch.store.lucene.index-path:${user.home}/.websearch/index}")
-    private String indexPath;
+    private String sharedIndexPath;
 
-    private FSDirectory directory;
+    @Value("${websearch.store.agent-id:#{null}}")
+    private String agentId;
+
+    @Value("${websearch.store.lucene.agents-dir:${user.home}/.websearch/agents}")
+    private String agentsDir;
+
+    /** The writable index -- either the shared index or an agent-specific index. */
+    private FSDirectory writeDirectory;
     private IndexWriter writer;
+
+    /** The shared index opened read-only (null if this IS the shared index). */
+    private FSDirectory sharedDirectory;
+
     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+
+    private boolean isAgentMode;
 
     @Override
     public String type() {
@@ -53,30 +75,58 @@ public class LuceneVectorStore implements VectorStore {
     @Override
     public StoreCapabilities capabilities() {
         return new StoreCapabilities(
-                true,       // supportsNamespaces
-                true,       // supportsMetadataFiltering
-                true,       // supportsBatchOperations
-                true,       // supportsGet
-                false,      // supportsNativeTtl
-                false,      // requiresExplicitDimensions
-                1000        // maxBatchSize
-        );
+                true, true, true, true, false, false, 1000);
     }
 
     @Override
     @PostConstruct
     public void initialize() {
         try {
-            Path path = Path.of(indexPath);
-            Files.createDirectories(path);
-            directory = FSDirectory.open(path);
+            isAgentMode = agentId != null && !agentId.isBlank();
 
-            IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer());
-            config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
-            writer = new IndexWriter(directory, config);
-            writer.commit();
+            if (isAgentMode) {
+                // Agent mode: write to per-agent index, read from both
+                Path agentPath = Path.of(agentsDir, agentId);
+                Files.createDirectories(agentPath);
+                writeDirectory = FSDirectory.open(agentPath);
 
-            log.info("LuceneVectorStore initialized at: {}", indexPath);
+                IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer());
+                config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+                writer = new IndexWriter(writeDirectory, config);
+                writer.commit();
+
+                // Open shared index read-only (if it exists)
+                Path sharedPath = Path.of(sharedIndexPath);
+                if (Files.exists(sharedPath) && Files.exists(sharedPath.resolve("segments_1").resolveSibling("write.lock").getParent())) {
+                    try {
+                        sharedDirectory = FSDirectory.open(sharedPath);
+                        // Verify it's a valid index by trying to open a reader
+                        if (DirectoryReader.indexExists(sharedDirectory)) {
+                            log.info("Agent '{}' will also search shared index at: {}", agentId, sharedIndexPath);
+                        } else {
+                            sharedDirectory.close();
+                            sharedDirectory = null;
+                        }
+                    } catch (IOException e) {
+                        log.debug("Shared index not available for reading: {}", e.getMessage());
+                        sharedDirectory = null;
+                    }
+                }
+
+                log.info("LuceneVectorStore initialized in agent mode: agent={}, path={}", agentId, agentPath);
+            } else {
+                // Server mode: write directly to the shared index
+                Path path = Path.of(sharedIndexPath);
+                Files.createDirectories(path);
+                writeDirectory = FSDirectory.open(path);
+
+                IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer());
+                config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+                writer = new IndexWriter(writeDirectory, config);
+                writer.commit();
+
+                log.info("LuceneVectorStore initialized at: {}", sharedIndexPath);
+            }
         } catch (IOException e) {
             throw new RuntimeException("Failed to initialize Lucene index: " + e.getMessage(), e);
         }
@@ -90,8 +140,11 @@ public class LuceneVectorStore implements VectorStore {
                 writer.commit();
                 writer.close();
             }
-            if (directory != null) {
-                directory.close();
+            if (writeDirectory != null) {
+                writeDirectory.close();
+            }
+            if (sharedDirectory != null) {
+                sharedDirectory.close();
             }
             log.info("LuceneVectorStore closed");
         } catch (IOException e) {
@@ -101,57 +154,17 @@ public class LuceneVectorStore implements VectorStore {
         }
     }
 
+    // -- Write operations (always go to the writable index) --
+
     @Override
     public void upsert(VectorEntry entry) {
         lock.writeLock().lock();
         try {
-            // Delete existing document with same ID
             writer.deleteDocuments(new Term(FIELD_ID, entry.id()));
-
-            Document doc = createDocument(entry);
-            writer.addDocument(doc);
+            writer.addDocument(createDocument(entry));
             writer.commit();
         } catch (IOException e) {
             throw new RuntimeException("Upsert failed: " + e.getMessage(), e);
-        } finally {
-            lock.writeLock().unlock();
-        }
-    }
-
-    @Override
-    public Optional<VectorEntry> get(String id) {
-        lock.readLock().lock();
-        try {
-            DirectoryReader reader = DirectoryReader.open(directory);
-            IndexSearcher searcher = new IndexSearcher(reader);
-
-            Query query = new TermQuery(new Term(FIELD_ID, id));
-            TopDocs topDocs = searcher.search(query, 1);
-
-            if (topDocs.totalHits.value() == 0) {
-                reader.close();
-                return Optional.empty();
-            }
-
-            Document doc = searcher.storedFields().document(topDocs.scoreDocs[0].doc);
-            VectorEntry entry = documentToEntry(doc);
-            reader.close();
-            return Optional.of(entry);
-        } catch (IOException e) {
-            throw new RuntimeException("Get failed: " + e.getMessage(), e);
-        } finally {
-            lock.readLock().unlock();
-        }
-    }
-
-    @Override
-    public void delete(String id) {
-        lock.writeLock().lock();
-        try {
-            writer.deleteDocuments(new Term(FIELD_ID, id));
-            writer.commit();
-        } catch (IOException e) {
-            throw new RuntimeException("Delete failed: " + e.getMessage(), e);
         } finally {
             lock.writeLock().unlock();
         }
@@ -174,6 +187,19 @@ public class LuceneVectorStore implements VectorStore {
     }
 
     @Override
+    public void delete(String id) {
+        lock.writeLock().lock();
+        try {
+            writer.deleteDocuments(new Term(FIELD_ID, id));
+            writer.commit();
+        } catch (IOException e) {
+            throw new RuntimeException("Delete failed: " + e.getMessage(), e);
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
+    @Override
     public void deleteBatch(List<String> ids) {
         lock.writeLock().lock();
         try {
@@ -189,22 +215,61 @@ public class LuceneVectorStore implements VectorStore {
     }
 
     @Override
+    public void deleteByMetadata(MetadataFilter filter) {
+        lock.writeLock().lock();
+        try {
+            BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
+            for (Map.Entry<String, String> eq : filter.equals().entrySet()) {
+                queryBuilder.add(new TermQuery(new Term(eq.getKey(), eq.getValue())),
+                        BooleanClause.Occur.MUST);
+            }
+            if (filter.createdBefore() != null) {
+                queryBuilder.add(LongPoint.newRangeQuery(FIELD_CREATED_AT + "_epoch",
+                        Long.MIN_VALUE, filter.createdBefore().toEpochMilli()),
+                        BooleanClause.Occur.MUST);
+            }
+            writer.deleteDocuments(queryBuilder.build());
+            writer.commit();
+        } catch (IOException e) {
+            throw new RuntimeException("DeleteByMetadata failed: " + e.getMessage(), e);
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
+    // -- Read operations (search both agent index + shared index) --
+
+    @Override
+    public Optional<VectorEntry> get(String id) {
+        lock.readLock().lock();
+        try (IndexReader reader = openMultiReader()) {
+            IndexSearcher searcher = new IndexSearcher(reader);
+            Query query = new TermQuery(new Term(FIELD_ID, id));
+            TopDocs topDocs = searcher.search(query, 1);
+            if (topDocs.totalHits.value() == 0) {
+                return Optional.empty();
+            }
+            Document doc = searcher.storedFields().document(topDocs.scoreDocs[0].doc);
+            return Optional.of(documentToEntry(doc));
+        } catch (IOException e) {
+            throw new RuntimeException("Get failed: " + e.getMessage(), e);
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    @Override
     public List<VectorMatch> search(VectorSearchRequest request) {
         lock.readLock().lock();
-        try {
-            DirectoryReader reader = DirectoryReader.open(directory);
+        try (IndexReader reader = openMultiReader()) {
             IndexSearcher searcher = new IndexSearcher(reader);
 
-            // Build KNN query with optional namespace filter
             Query knnQuery;
             if (request.namespace() != null && !request.namespace().isBlank()) {
-                // Filter KNN results to the specified namespace.
-                // Also match legacy entries that have no namespace field (OR with "default").
                 BooleanQuery.Builder nsFilter = new BooleanQuery.Builder();
                 nsFilter.add(new TermQuery(new Term(FIELD_NAMESPACE, request.namespace())),
                         BooleanClause.Occur.SHOULD);
                 if ("default".equals(request.namespace())) {
-                    // Legacy entries without namespace field should match "default"
                     nsFilter.add(new BooleanQuery.Builder()
                             .add(new MatchAllDocsQuery(), BooleanClause.Occur.MUST)
                             .add(new TermQuery(new Term(FIELD_NAMESPACE, request.namespace())),
@@ -223,16 +288,10 @@ public class LuceneVectorStore implements VectorStore {
             List<VectorMatch> matches = new ArrayList<>();
             for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
                 if (scoreDoc.score < request.similarityThreshold()) continue;
-
                 Document doc = searcher.storedFields().document(scoreDoc.doc);
                 String id = doc.get(FIELD_ID);
                 String content = doc.get(FIELD_CONTENT);
-
                 Map<String, String> metadata = new HashMap<>();
-                metadata.put(FIELD_ENTRY_TYPE, doc.get(FIELD_ENTRY_TYPE));
-                metadata.put(FIELD_CREATED_AT, doc.get(FIELD_CREATED_AT));
-
-                // Collect all metadata fields
                 for (IndexableField field : doc.getFields()) {
                     String name = field.name();
                     if (!name.equals(FIELD_ID) && !name.equals(FIELD_VECTOR)
@@ -240,11 +299,8 @@ public class LuceneVectorStore implements VectorStore {
                         metadata.put(name, field.stringValue());
                     }
                 }
-
                 matches.add(new VectorMatch(id, scoreDoc.score, content, metadata));
             }
-
-            reader.close();
             return matches;
         } catch (IOException e) {
             throw new RuntimeException("Search failed: " + e.getMessage(), e);
@@ -256,11 +312,8 @@ public class LuceneVectorStore implements VectorStore {
     @Override
     public long count() {
         lock.readLock().lock();
-        try {
-            DirectoryReader reader = DirectoryReader.open(directory);
-            int count = reader.numDocs();
-            reader.close();
-            return count;
+        try (IndexReader reader = openMultiReader()) {
+            return reader.numDocs();
         } catch (IOException e) {
             throw new RuntimeException("Count failed: " + e.getMessage(), e);
         } finally {
@@ -268,33 +321,90 @@ public class LuceneVectorStore implements VectorStore {
         }
     }
 
-    @Override
-    public void deleteByMetadata(MetadataFilter filter) {
-        lock.writeLock().lock();
+    // -- Promote: copy entries from agent index to shared index --
+
+    /**
+     * Promote all entries from the agent's local index to the shared main index.
+     * Only available in agent mode. Acquires the shared index write lock briefly.
+     *
+     * @return number of entries promoted
+     */
+    public int promoteToShared() {
+        if (!isAgentMode) {
+            log.info("Not in agent mode -- nothing to promote");
+            return 0;
+        }
+
+        lock.readLock().lock();
         try {
-            BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
+            // Read all entries from agent index
+            DirectoryReader agentReader = DirectoryReader.open(writeDirectory);
+            StoredFields storedFields = agentReader.storedFields();
+            List<Document> docs = new ArrayList<>();
+            Bits liveDocs = MultiBits.getLiveDocs(agentReader);
+            for (int i = 0; i < agentReader.maxDoc(); i++) {
+                if (liveDocs != null && !liveDocs.get(i)) continue; // skip deleted
+                docs.add(storedFields.document(i));
+            }
+            agentReader.close();
 
-            for (Map.Entry<String, String> eq : filter.equals().entrySet()) {
-                queryBuilder.add(new TermQuery(new Term(eq.getKey(), eq.getValue())),
-                        BooleanClause.Occur.MUST);
+            if (docs.isEmpty()) {
+                log.info("No entries to promote");
+                return 0;
             }
 
-            if (filter.createdBefore() != null) {
-                queryBuilder.add(LongPoint.newRangeQuery(FIELD_CREATED_AT + "_epoch",
-                        Long.MIN_VALUE, filter.createdBefore().toEpochMilli()),
-                        BooleanClause.Occur.MUST);
+            // Write to shared index
+            Path sharedPath = Path.of(sharedIndexPath);
+            Files.createDirectories(sharedPath);
+            try (FSDirectory sharedDir = FSDirectory.open(sharedPath)) {
+                IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer());
+                config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+                try (IndexWriter sharedWriter = new IndexWriter(sharedDir, config)) {
+                    for (Document doc : docs) {
+                        String id = doc.get(FIELD_ID);
+                        if (id != null) {
+                            sharedWriter.deleteDocuments(new Term(FIELD_ID, id));
+                        }
+                        sharedWriter.addDocument(doc);
+                    }
+                    sharedWriter.commit();
+                }
             }
 
-            writer.deleteDocuments(queryBuilder.build());
-            writer.commit();
+            log.info("Promoted {} entries from agent '{}' to shared index", docs.size(), agentId);
+            return docs.size();
+
         } catch (IOException e) {
-            throw new RuntimeException("DeleteByMetadata failed: " + e.getMessage(), e);
+            throw new RuntimeException("Promote failed: " + e.getMessage(), e);
         } finally {
-            lock.writeLock().unlock();
+            lock.readLock().unlock();
         }
     }
 
-    private Document createDocument(VectorEntry entry) {
+    // -- Internal helpers --
+
+    /**
+     * Opens a reader that searches both the writable index and the shared index
+     * (in agent mode). In server mode, just opens the writable (shared) index.
+     */
+    private IndexReader openMultiReader() throws IOException {
+        DirectoryReader writeReader = DirectoryReader.open(writeDirectory);
+
+        if (isAgentMode && sharedDirectory != null) {
+            try {
+                if (DirectoryReader.indexExists(sharedDirectory)) {
+                    DirectoryReader sharedReader = DirectoryReader.open(sharedDirectory);
+                    return new MultiReader(writeReader, sharedReader);
+                }
+            } catch (IOException e) {
+                log.debug("Could not open shared index for reading: {}", e.getMessage());
+            }
+        }
+
+        return writeReader;
+    }
+
+    static Document createDocument(VectorEntry entry) {
         Document doc = new Document();
         doc.add(new StringField(FIELD_ID, entry.id(), Field.Store.YES));
         doc.add(new KnnFloatVectorField(FIELD_VECTOR, entry.vector()));
@@ -305,11 +415,9 @@ public class LuceneVectorStore implements VectorStore {
                 entry.createdAt().toString(), Field.Store.YES));
         doc.add(new LongPoint(FIELD_CREATED_AT + "_epoch",
                 entry.createdAt().toEpochMilli()));
-
         for (Map.Entry<String, String> meta : entry.metadata().entrySet()) {
             doc.add(new StringField(meta.getKey(), meta.getValue(), Field.Store.YES));
         }
-
         return doc;
     }
 
@@ -324,11 +432,10 @@ public class LuceneVectorStore implements VectorStore {
                 metadata.put(name, field.stringValue());
             }
         }
-
         String namespace = doc.get(FIELD_NAMESPACE);
         return new VectorEntry(
                 doc.get(FIELD_ID),
-                new float[0], // vectors are not stored for retrieval in this implementation
+                new float[0],
                 doc.get(FIELD_CONTENT),
                 doc.get(FIELD_ENTRY_TYPE),
                 namespace != null ? namespace : "default",

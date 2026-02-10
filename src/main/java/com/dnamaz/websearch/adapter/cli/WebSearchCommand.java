@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
                 BatchCrawlCommand.class,
                 ChunkCommand.class,
                 CacheCommand.class,
+                CachePromoteCommand.class,
                 InstallSkillCommand.class
         }
 )

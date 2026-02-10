@@ -138,8 +138,10 @@ websearch:
     active: lucene                           # lucene | pinecone | qdrant | weaviate | milvus
     namespace: default
     similarity-threshold: 0.92
+    agent-id:                                # set to isolate writes to a per-agent index (CLI --session)
     lucene:
       index-path: ${user.home}/.websearch/index
+      agents-dir: ${user.home}/.websearch/agents
     pinecone:
       api-key: ${PINECONE_API_KEY:}
       environment: us-east-1
