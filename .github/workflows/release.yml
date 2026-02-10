@@ -39,9 +39,6 @@ jobs:
           - runner: macos-15            # Apple Silicon (M1+)
             os-label: macos
             arch-label: arm64
-          - runner: macos-15-large      # Intel macOS
-            os-label: macos
-            arch-label: x86_64
           - runner: ubuntu-24.04        # Linux x86_64
             os-label: linux
             arch-label: x86_64
