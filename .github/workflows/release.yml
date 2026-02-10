@@ -4,12 +4,13 @@
 #
 # Matrix builds for:
 #   - macOS arm64 (Apple Silicon)
-#   - macOS x86_64 (Intel)
-#   - Linux x86_64
-#   - Linux arm64
+#   - Linux x86_64 (built on Ubuntu 22.04 for broad glibc 2.35+ compatibility)
+#   - Linux arm64  (built on Ubuntu 22.04 for broad glibc 2.35+ compatibility)
+#   - Docker multi-arch image (linux/amd64 + linux/arm64)
 #
-# After all builds complete, a release job collects the artifacts, creates a
-# GitHub Release, and prints SHA256s for updating the Homebrew formula.
+# After all builds complete, a release job collects the artifacts and creates
+# a GitHub Release. Linux binaries target glibc 2.35+ (Ubuntu 22.04+,
+# Debian 12+, Fedora 36+, Amazon Linux 2023+).
 
 name: Release
 
@@ -39,10 +40,10 @@ jobs:
           - runner: macos-15            # Apple Silicon (M1+)
             os-label: macos
             arch-label: arm64
-          - runner: ubuntu-24.04        # Linux x86_64
+          - runner: ubuntu-22.04        # Linux x86_64 (glibc 2.35 for broad compat)
             os-label: linux
             arch-label: x86_64
-          - runner: ubuntu-24.04-arm    # Linux arm64
+          - runner: ubuntu-22.04-arm    # Linux arm64 (glibc 2.35 for broad compat)
             os-label: linux
             arch-label: arm64
 
@@ -148,11 +149,80 @@ jobs:
           path: dist/sha256-${{ matrix.os-label }}-${{ matrix.arch-label }}.txt
 
   # ---------------------------------------------------------------------------
+  # Build and push multi-arch Docker image
+  # ---------------------------------------------------------------------------
+  docker:
+    name: Docker Image
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Download Linux artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Prepare Docker context
+        run: |
+          mkdir -p docker-ctx/linux-amd64 docker-ctx/linux-arm64
+
+          # Extract binaries from tarballs
+          tar -xzf artifacts/noetic-linux-x86_64/*.tar.gz -C docker-ctx/linux-amd64/
+          tar -xzf artifacts/noetic-linux-arm64/*.tar.gz -C docker-ctx/linux-arm64/
+
+          # Create Dockerfile
+          cat > docker-ctx/Dockerfile <<'DOCKERFILE'
+          FROM debian:bookworm-slim
+          ARG TARGETARCH
+          RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates && rm -rf /var/lib/apt/lists/*
+          COPY linux-${TARGETARCH}/noetic /usr/local/bin/noetic
+          RUN chmod +x /usr/local/bin/noetic
+          EXPOSE 8080
+          ENTRYPOINT ["noetic"]
+          CMD ["--server.port=8080", "--websearch.adapter.default-mode=rest"]
+          DOCKERFILE
+
+          # Map Docker arch names to our directory names
+          # TARGETARCH=amd64 -> linux-amd64, TARGETARCH=arm64 -> linux-arm64
+          # The directories already match since we named them linux-amd64/linux-arm64
+          mv docker-ctx/linux-x86_64 docker-ctx/linux-amd64 2>/dev/null || true
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push multi-arch image
+        uses: docker/build-push-action@v6
+        with:
+          context: docker-ctx
+          file: docker-ctx/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ steps.version.outputs.version }}
+            ghcr.io/${{ github.repository }}:latest
+
+  # ---------------------------------------------------------------------------
   # Create GitHub Release with all platform tarballs
   # ---------------------------------------------------------------------------
   release:
     name: Publish Release
-    needs: build
+    needs: [build, docker]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -202,11 +272,21 @@ jobs:
             tar -xzf noetic-${{ steps.version.outputs.version }}-macos-arm64.tar.gz -C ~/.local/bin/
             ```
 
+            ### Docker
+
+            ```bash
+            docker run -p 8080:8080 ghcr.io/dnamaz/noetic:${{ steps.version.outputs.version }}
+            ```
+
             ### What's included
 
             - `noetic` - Single native binary (MCP server, REST API, CLI)
             - `noetic-start` / `noetic-stop` - Service management scripts
             - `mcp-server.sh` - MCP STDIO launcher for IDE integration
+            - Docker image: `ghcr.io/dnamaz/noetic` (linux/amd64 + linux/arm64)
+
+            Linux binaries are built on Ubuntu 22.04 (glibc 2.35) for broad compatibility
+            with Ubuntu 22.04+, Debian 12+, Fedora 36+, Amazon Linux 2023+.
 
             ### Checksums
 
