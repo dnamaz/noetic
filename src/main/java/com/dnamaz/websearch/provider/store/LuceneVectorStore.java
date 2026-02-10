@@ -337,14 +337,30 @@ public class LuceneVectorStore implements VectorStore {
 
         lock.readLock().lock();
         try {
-            // Read all entries from agent index
+            // Read all entries from agent index (stored fields + vectors)
             DirectoryReader agentReader = DirectoryReader.open(writeDirectory);
             StoredFields storedFields = agentReader.storedFields();
             List<Document> docs = new ArrayList<>();
             Bits liveDocs = MultiBits.getLiveDocs(agentReader);
+
             for (int i = 0; i < agentReader.maxDoc(); i++) {
                 if (liveDocs != null && !liveDocs.get(i)) continue; // skip deleted
-                docs.add(storedFields.document(i));
+                Document storedDoc = storedFields.document(i);
+
+                // Rebuild full document with vector (KnnFloatVectorField is not stored)
+                // Read the vector from the FloatVectorValues for this leaf
+                Document fullDoc = new Document();
+                for (IndexableField field : storedDoc.getFields()) {
+                    fullDoc.add(field);
+                }
+
+                // Extract vector from the index
+                float[] vector = readVector(agentReader, i);
+                if (vector != null) {
+                    fullDoc.add(new KnnFloatVectorField(FIELD_VECTOR, vector));
+                }
+
+                docs.add(fullDoc);
             }
             agentReader.close();
 
@@ -379,6 +395,32 @@ public class LuceneVectorStore implements VectorStore {
         } finally {
             lock.readLock().unlock();
         }
+    }
+
+    /**
+     * Read the float vector for a document from the index.
+     * Navigates through leaf readers to find the correct segment.
+     */
+    private float[] readVector(DirectoryReader reader, int docId) {
+        try {
+            for (LeafReaderContext leaf : reader.leaves()) {
+                int localDoc = docId - leaf.docBase;
+                if (localDoc >= 0 && localDoc < leaf.reader().maxDoc()) {
+                    FloatVectorValues vectors = leaf.reader().getFloatVectorValues(FIELD_VECTOR);
+                    if (vectors == null) continue;
+
+                    // Iterate through the vector values to find our doc
+                    var iter = vectors.iterator();
+                    int ord = iter.advance(localDoc);
+                    if (ord == localDoc) {
+                        return vectors.vectorValue(iter.index()).clone();
+                    }
+                }
+            }
+        } catch (IOException e) {
+            log.warn("Could not read vector for doc {}: {}", docId, e.getMessage());
+        }
+        return null;
     }
 
     // -- Internal helpers --
