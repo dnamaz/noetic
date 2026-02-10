@@ -137,7 +137,7 @@ websearch:
   store:
     active: lucene                           # lucene | pinecone | qdrant | weaviate | milvus
     namespace: default
-    similarity-threshold: 0.03
+    similarity-threshold: 0.92
     lucene:
       index-path: ${user.home}/.websearch/index
     pinecone:

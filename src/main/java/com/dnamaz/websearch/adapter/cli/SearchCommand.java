@@ -38,6 +38,9 @@ public class SearchCommand implements Runnable {
     @Option(names = "--include-domains", split = ",")
     private List<String> includeDomains;
 
+    @Option(names = "--skip-cache", description = "Bypass cache and force a live search")
+    private boolean skipCache;
+
     public SearchCommand(WebSearchService webSearchService) {
         this.webSearchService = webSearchService;
     }
@@ -51,6 +54,7 @@ public class SearchCommand implements Runnable {
                     .freshness(Freshness.parse(freshness))
                     .language(language)
                     .includeDomains(includeDomains)
+                    .skipCache(skipCache)
                     .build(), "default");
             System.out.println(mapper.writeValueAsString(response));
         } catch (Exception e) {
