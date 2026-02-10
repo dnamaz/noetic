@@ -1,21 +1,22 @@
 # Build native binaries and publish a GitHub Release with Homebrew-ready tarballs.
 #
-# Triggered by pushing a version tag: git tag v0.1.0 && git push --tags
+# Triggered manually via workflow_dispatch. After release, update the Homebrew
+# Formula in dnamaz/homebrew-tap with the SHA256s from the checksums.txt.
 #
 # Matrix builds for:
 #   - macOS arm64 (Apple Silicon)
 #   - Linux x86_64 (built on Ubuntu 22.04 for broad glibc 2.35+ compatibility)
 #   - Linux arm64  (built on Ubuntu 22.04 for broad glibc 2.35+ compatibility)
-#
-# After all builds complete, a release job collects the artifacts, creates a
-# GitHub Release, and auto-updates the Homebrew Formula with SHA256s.
 
 name: Release
 
 on:
-  push:
-    tags:
-      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (e.g. 0.1.0)"
+        required: true
+        default: "0.1.0"
 
 permissions:
   contents: write
@@ -56,10 +57,6 @@ jobs:
           distribution: ${{ env.GRAALVM_DISTRIBUTION }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract version from tag
-        id: version
-        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
-
       - name: Build native image
         run: ./gradlew nativeCompile
 
@@ -77,7 +74,6 @@ jobs:
           APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
           APPLE_IDENTITY: ${{ secrets.APPLE_IDENTITY }}
         run: |
-          # Import certificate
           echo "$APPLE_CERTIFICATE" | base64 --decode > certificate.p12
           security create-keychain -p "" build.keychain
           security default-keychain -s build.keychain
@@ -86,32 +82,25 @@ jobs:
             -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple: \
             -s -k "" build.keychain
-
-          # Sign
           codesign --force --options runtime \
             --sign "$APPLE_IDENTITY" \
             build/native/nativeCompile/noetic
-
-          # Verify
           codesign --verify --verbose build/native/nativeCompile/noetic
           rm -f certificate.p12
 
       - name: Package tarball
         id: package
         env:
-          VERSION: ${{ steps.version.outputs.version }}
+          VERSION: ${{ inputs.version }}
           OS_LABEL: ${{ matrix.os-label }}
           ARCH_LABEL: ${{ matrix.arch-label }}
         run: |
           TARBALL="noetic-${VERSION}-${OS_LABEL}-${ARCH_LABEL}.tar.gz"
 
           mkdir -p dist/staging
-
-          # Single native binary
           cp build/native/nativeCompile/noetic dist/staging/noetic
           chmod +x dist/staging/noetic
 
-          # Helper scripts
           for script in noetic-start noetic-stop mcp-server.sh; do
             if [ -f "bin/$script" ]; then
               cp "bin/$script" "dist/staging/$script"
@@ -157,10 +146,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Extract version from tag
-        id: version
-        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
-
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
@@ -171,7 +156,6 @@ jobs:
           mkdir -p release
           find artifacts -name '*.tar.gz' -exec cp {} release/ \;
 
-          # Combine checksums
           echo "# SHA256 Checksums" > release/checksums.txt
           echo "" >> release/checksums.txt
           find artifacts -name 'sha256-*.txt' -exec cat {} \; >> release/checksums.txt
@@ -180,9 +164,10 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: Noetic v${{ steps.version.outputs.version }}
+          tag_name: v${{ inputs.version }}
+          name: Noetic v${{ inputs.version }}
           body: |
-            ## Noetic v${{ steps.version.outputs.version }}
+            ## Noetic v${{ inputs.version }}
 
             Web search, crawl, and knowledge cache for AI coding assistants.
 
@@ -198,7 +183,7 @@ jobs:
             Download the tarball for your platform below, extract, and add to your PATH:
 
             ```bash
-            tar -xzf noetic-${{ steps.version.outputs.version }}-macos-arm64.tar.gz -C ~/.local/bin/
+            tar -xzf noetic-${{ inputs.version }}-macos-arm64.tar.gz -C ~/.local/bin/
             ```
 
             ### What's included
@@ -210,6 +195,11 @@ jobs:
             Linux binaries are built on Ubuntu 22.04 (glibc 2.35) for broad compatibility
             with Ubuntu 22.04+, Debian 12+, Fedora 36+, Amazon Linux 2023+.
 
+            ### Update Homebrew Formula
+
+            After this release, update `dnamaz/homebrew-tap` Formula/noetic.rb
+            with the SHA256 values from `checksums.txt`.
+
             ### Checksums
 
             See `checksums.txt` attached to this release.
@@ -218,113 +208,3 @@ jobs:
             release/checksums.txt
           draft: false
           prerelease: false
-
-      - name: Extract SHA256 values
-        id: sha256
-        run: |
-          for file in artifacts/sha256-*/sha256-*.txt; do
-            hash=$(awk '{print $1}' "$file")
-            name=$(basename "$file" .txt)
-            # sha256-macos-arm64 -> MACOS_ARM64
-            key=$(echo "${name#sha256-}" | tr '[:lower:]-' '[:upper:]_')
-            echo "${key}=${hash}" >> "$GITHUB_OUTPUT"
-            echo "  ${key}=${hash}"
-          done
-
-      - name: Update Homebrew Formula
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERSION: ${{ steps.version.outputs.version }}
-          SHA_MACOS_ARM64: ${{ steps.sha256.outputs.MACOS_ARM64 }}
-          SHA_LINUX_X86_64: ${{ steps.sha256.outputs.LINUX_X86_64 }}
-          SHA_LINUX_ARM64: ${{ steps.sha256.outputs.LINUX_ARM64 }}
-        run: |
-          # Generate updated Formula
-          cat > /tmp/noetic.rb <<FORMULA
-          class Noetic < Formula
-            desc "Web search, crawl, and knowledge cache for AI coding assistants"
-            homepage "https://github.com/dnamaz/noetic"
-            version "${VERSION}"
-            license "MIT"
-
-            on_macos do
-              url "https://github.com/dnamaz/noetic/releases/download/v#{version}/noetic-#{version}-macos-arm64.tar.gz"
-              sha256 "${SHA_MACOS_ARM64}"
-            end
-
-            on_linux do
-              if Hardware::CPU.arm?
-                url "https://github.com/dnamaz/noetic/releases/download/v#{version}/noetic-#{version}-linux-arm64.tar.gz"
-                sha256 "${SHA_LINUX_ARM64}"
-              else
-                url "https://github.com/dnamaz/noetic/releases/download/v#{version}/noetic-#{version}-linux-x86_64.tar.gz"
-                sha256 "${SHA_LINUX_X86_64}"
-              end
-            end
-
-            def install
-              bin.install "noetic"
-              bin.install "noetic-start" if File.exist?("noetic-start")
-              bin.install "noetic-stop"  if File.exist?("noetic-stop")
-              bin.install "mcp-server.sh" if File.exist?("mcp-server.sh")
-            end
-
-            service do
-              run [opt_bin/"noetic",
-                   "--server.port=8090",
-                   "--websearch.adapter.default-mode=rest"]
-              keep_alive true
-              log_path var/"log/noetic.log"
-              error_log_path var/"log/noetic.log"
-              working_dir var/"noetic"
-            end
-
-            def post_install
-              (var/"noetic").mkpath
-              (var/"log").mkpath
-            end
-
-            def caveats
-              <<~EOS
-                CLI (works immediately, no server needed):
-                  noetic --websearch.adapter.default-mode=cli search "your query"
-                  noetic --websearch.adapter.default-mode=cli crawl "https://example.com"
-
-                Start the REST API server as a background service:
-                  brew services start noetic
-
-                Or run the MCP server (foreground, for IDE integration):
-                  noetic
-
-                Install AI assistant instructions:
-                  noetic install-skill --target=cursor
-                  noetic install-skill --list
-
-                Server logs:  #{var}/log/noetic.log
-                Model cache:  ~/.websearch/models/
-                Vector cache: ~/.websearch/index/
-              EOS
-            end
-
-            test do
-              assert_match "noetic", shell_output("#{bin}/noetic --version")
-              assert_match version.to_s, shell_output("#{bin}/noetic --version")
-            end
-          end
-          FORMULA
-
-          # Remove leading whitespace from heredoc
-          sed -i 's/^          //' /tmp/noetic.rb
-
-          # Get current SHA of the file in the tap repo
-          TAP_SHA=$(gh api repos/dnamaz/homebrew-tap/contents/Formula/noetic.rb --jq '.sha')
-
-          # Push updated Formula
-          gh api repos/dnamaz/homebrew-tap/contents/Formula/noetic.rb \
-            -X PUT \
-            -f message="Update Formula for v${VERSION} with CI-built SHA256s" \
-            -f content="$(base64 -w0 /tmp/noetic.rb)" \
-            -f sha="$TAP_SHA" \
-            --silent
-
-          echo "Homebrew Formula updated for v${VERSION}"
