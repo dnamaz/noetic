@@ -2305,10 +2305,12 @@
       "type": "io.modelcontextprotocol.server.McpServerFeatures$SyncToolSpecification"
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$Annotated"
+      "type": "io.modelcontextprotocol.spec.McpSchema$Annotated",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$Annotations"
+      "type": "io.modelcontextprotocol.spec.McpSchema$Annotations",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
       "type": "io.modelcontextprotocol.spec.McpSchema$CallToolRequest",
@@ -2359,25 +2361,32 @@
       ]
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$ClientCapabilities$Elicitation"
+      "type": "io.modelcontextprotocol.spec.McpSchema$ClientCapabilities$Elicitation",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$ClientCapabilities$Elicitation$Form"
+      "type": "io.modelcontextprotocol.spec.McpSchema$ClientCapabilities$Elicitation$Form",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$ClientCapabilities$Elicitation$Url"
+      "type": "io.modelcontextprotocol.spec.McpSchema$ClientCapabilities$Elicitation$Url",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$ClientCapabilities$RootCapabilities"
+      "type": "io.modelcontextprotocol.spec.McpSchema$ClientCapabilities$RootCapabilities",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$ClientCapabilities$Sampling"
+      "type": "io.modelcontextprotocol.spec.McpSchema$ClientCapabilities$Sampling",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$Content"
+      "type": "io.modelcontextprotocol.spec.McpSchema$Content",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$Identifier"
+      "type": "io.modelcontextprotocol.spec.McpSchema$Identifier",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
       "type": "io.modelcontextprotocol.spec.McpSchema$Implementation",
@@ -2444,7 +2453,8 @@
       ]
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$JSONRPCMessage"
+      "type": "io.modelcontextprotocol.spec.McpSchema$JSONRPCMessage",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
       "type": "io.modelcontextprotocol.spec.McpSchema$JSONRPCNotification",
@@ -2495,7 +2505,8 @@
       ]
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$JSONRPCResponse$JSONRPCError"
+      "type": "io.modelcontextprotocol.spec.McpSchema$JSONRPCResponse$JSONRPCError",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
       "type": "io.modelcontextprotocol.spec.McpSchema$JsonSchema",
@@ -2561,7 +2572,8 @@
       ]
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$Meta"
+      "type": "io.modelcontextprotocol.spec.McpSchema$Meta",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
       "type": "io.modelcontextprotocol.spec.McpSchema$Prompt",
@@ -2616,10 +2628,12 @@
       "type": "io.modelcontextprotocol.spec.McpSchema$Prompt[]"
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$Request"
+      "type": "io.modelcontextprotocol.spec.McpSchema$Request",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$Result"
+      "type": "io.modelcontextprotocol.spec.McpSchema$Result",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
       "type": "io.modelcontextprotocol.spec.McpSchema$ServerCapabilities",
@@ -2651,10 +2665,12 @@
       ]
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$ServerCapabilities$CompletionCapabilities"
+      "type": "io.modelcontextprotocol.spec.McpSchema$ServerCapabilities$CompletionCapabilities",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$ServerCapabilities$LoggingCapabilities"
+      "type": "io.modelcontextprotocol.spec.McpSchema$ServerCapabilities$LoggingCapabilities",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
       "type": "io.modelcontextprotocol.spec.McpSchema$ServerCapabilities$PromptCapabilities",
@@ -2666,7 +2682,8 @@
       ]
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$ServerCapabilities$ResourceCapabilities"
+      "type": "io.modelcontextprotocol.spec.McpSchema$ServerCapabilities$ResourceCapabilities",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
       "type": "io.modelcontextprotocol.spec.McpSchema$ServerCapabilities$ToolCapabilities",
@@ -2728,7 +2745,8 @@
       ]
     },
     {
-      "type": "io.modelcontextprotocol.spec.McpSchema$ToolAnnotations"
+      "type": "io.modelcontextprotocol.spec.McpSchema$ToolAnnotations",
+      "methods": [{"name": "<init>", "parameterTypes": []}]
     },
     {
       "type": "io.modelcontextprotocol.spec.McpSchema$Tool[]"
