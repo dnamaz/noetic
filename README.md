@@ -123,11 +123,85 @@ For Mistral Vibe, add the MCP server to your `.vibe/config.toml`:
 [[mcp_servers]]
 name = "noetic"
 transport = "stdio"
-command = "/path/to/project/bin/mcp-server.sh"
-args = []
+command = "noetic"
+args = ["--spring.profiles.active=stdio", "--spring.main.banner-mode=off"]
 ```
 
 The generated instructions include setup commands, all API endpoints, and workflow examples -- all pre-configured with resolved paths and port for the target project.
+
+## Prioritizing Noetic Over Built-in Search
+
+Most AI coding assistants ship with built-in web search and fetch tools. When Noetic is installed as an MCP server, the assistant has access to **both** sets of tools and may still default to its built-in ones. To ensure the assistant uses Noetic's MCP tools (`web_search`, `crawl_page`, `cache_query`, etc.), you need to create an explicit instruction or rule for your environment.
+
+### Why This Matters
+
+Built-in search tools are convenient but limited -- they don't cache results, can't build a knowledge base, and often return AI-summarized content that loses detail or accuracy. Noetic's MCP tools give the assistant semantic caching, page crawling, PDF extraction, and a persistent vector store that improves with use.
+
+### How to Configure by Environment
+
+Each AI assistant has its own mechanism for persistent instructions. Create the appropriate file with a directive to prefer Noetic:
+
+#### Cursor
+
+Create a rule file at `.cursor/rules/prefer-noetic.mdc`:
+
+```markdown
+---
+description: Prefer Noetic MCP tools over built-in search for web lookups
+alwaysApply: true
+---
+
+# Prefer Noetic MCP Tools for Web Search
+
+When the user asks to search the web, look something up online, or fetch web content:
+
+- Always prefer the Noetic MCP tools (web_search, crawl_page, cache_query, etc.) over built-in WebSearch and WebFetch tools.
+- Only fall back to built-in search tools if the Noetic MCP tools are unavailable or return errors.
+```
+
+#### Claude Code
+
+Append to `CLAUDE.md`:
+
+```markdown
+## Web Search
+
+Always use the Noetic MCP tools (web_search, crawl_page, cache_query) for web searches and page fetching instead of any built-in search tools. Fall back to built-in tools only if Noetic is unavailable.
+```
+
+#### Windsurf
+
+Append to `.windsurfrules`:
+
+```markdown
+## Web Search
+
+Always use the Noetic MCP tools (web_search, crawl_page, cache_query) for web searches and page fetching instead of any built-in search tools. Fall back to built-in tools only if Noetic is unavailable.
+```
+
+#### Copilot
+
+Append to `.github/copilot-instructions.md`:
+
+```markdown
+## Web Search
+
+Always use the Noetic MCP tools (web_search, crawl_page, cache_query) for web searches and page fetching instead of any built-in search tools. Fall back to built-in tools only if Noetic is unavailable.
+```
+
+#### Cline / Roo Code / Kilo Code
+
+Add the same directive to the target's instruction file (`.clinerules/noetic.md`, `.roo/rules/noetic.md`, or `.kilocode/skills/noetic/SKILL.md`). These environments route all tool calls through MCP, so the directive is usually only needed if the environment also exposes its own web tools.
+
+### General Pattern
+
+The key principle is the same across all environments: **tell the assistant which tools to prefer**. The instruction should:
+
+1. Name the Noetic MCP tools explicitly (`web_search`, `crawl_page`, `cache_query`, etc.)
+2. State they should be preferred over any built-in alternatives
+3. Specify fallback behavior (use built-in only if Noetic is unavailable)
+
+If your environment supports an "always apply" flag (like Cursor rules), use it so the directive applies to every conversation.
 
 ## REST API
 
