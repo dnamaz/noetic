@@ -19,5 +19,5 @@
         <appender-ref ref="FILE"/>
     </root>
 
-    <logger name="com.dnamaz.websearch" level="DEBUG"/>
+    <logger name="com.noetic.websearch" level="DEBUG"/>
 </configuration>

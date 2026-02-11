@@ -102,7 +102,7 @@ All providers follow the same pattern: **interface + capabilities record + enric
 
 ### 4.1 ContentFetcher
 
-**Interface:** `com.dnamaz.websearch.provider.ContentFetcher`
+**Interface:** `com.noetic.websearch.provider.ContentFetcher`
 
 | Method | Description |
 |---|---|
@@ -124,7 +124,7 @@ All providers follow the same pattern: **interface + capabilities record + enric
 
 ### 4.2 SearchProvider
 
-**Interface:** `com.dnamaz.websearch.provider.SearchProvider`
+**Interface:** `com.noetic.websearch.provider.SearchProvider`
 
 | Method | Description |
 |---|---|
@@ -144,7 +144,7 @@ All providers follow the same pattern: **interface + capabilities record + enric
 
 ### 4.3 EmbeddingProvider
 
-**Interface:** `com.dnamaz.websearch.provider.EmbeddingProvider`
+**Interface:** `com.noetic.websearch.provider.EmbeddingProvider`
 
 | Method | Description |
 |---|---|
@@ -164,7 +164,7 @@ All providers follow the same pattern: **interface + capabilities record + enric
 
 ### 4.4 VectorStore
 
-**Interface:** `com.dnamaz.websearch.provider.VectorStore` (extends `AutoCloseable`)
+**Interface:** `com.noetic.websearch.provider.VectorStore` (extends `AutoCloseable`)
 
 | Method | Description |
 |---|---|
@@ -185,7 +185,7 @@ All providers follow the same pattern: **interface + capabilities record + enric
 
 ### 4.5 ChunkingStrategy
 
-**Interface:** `com.dnamaz.websearch.provider.ChunkingStrategy`
+**Interface:** `com.noetic.websearch.provider.ChunkingStrategy`
 
 **Implementations:** `SentenceChunkingStrategy`, `TokenChunkingStrategy`, `SemanticChunkingStrategy`
 
@@ -246,7 +246,7 @@ All providers follow the same pattern: **interface + capabilities record + enric
 - `AuthType` -- NONE, API_KEY, AWS_CREDENTIALS, AZURE_IDENTITY, GCP_ADC
 
 ### Key Records
-All records are in `com.dnamaz.websearch.model`:
+All records are in `com.noetic.websearch.model`:
 
 | Record | Key Fields |
 |---|---|

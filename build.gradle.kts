@@ -5,7 +5,7 @@ plugins {
     id("org.graalvm.buildtools.native") version "0.11.1"
 }
 
-group = "com.dnamaz"
+group = "com.noetic"
 version = property("appVersion") as String
 
 java {
@@ -106,7 +106,7 @@ graalvmNative {
     binaries {
         named("main") {
             imageName = "noetic"
-            mainClass = "com.dnamaz.websearch.WebSearchApplication"
+            mainClass = "com.noetic.websearch.WebSearchApplication"
             buildArgs.addAll(
                 "--enable-preview",
                 "--no-fallback",
