@@ -26,9 +26,6 @@ class Noetic < Formula
     # Shell wrapper scripts for service management
     bin.install "noetic-start" if File.exist?("noetic-start")
     bin.install "noetic-stop"  if File.exist?("noetic-stop")
-
-    # MCP server launcher for IDE integration
-    bin.install "mcp-server.sh" if File.exist?("mcp-server.sh")
   end
 
   service do

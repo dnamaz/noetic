@@ -15,6 +15,23 @@ server:
 
 # MCP STDIO transport uses stdout for JSON-RPC.
 # Console logging MUST be disabled to avoid corrupting the protocol.
-# Use logback-stdio.xml which only has a FILE appender.
+#
+# Two-layer protection:
+#   1. logback-stdio.xml replaces the default logback config with FILE-only appender.
+#   2. logging.threshold.console=OFF disables the console appender via Spring Boot's
+#      built-in property -- acts as a safety net if the XML config fails to load
+#      (e.g. GraalVM native-image resource issues).
+#   3. logging.file.name enables the built-in file appender as a fallback destination.
 logging:
   config: classpath:logback-stdio.xml
+  threshold:
+    console: "OFF"
+  file:
+    name: ${user.home}/.websearch/mcp-server.log
+
+# Each STDIO session gets its own Lucene index so multiple Cursor windows
+# (or other MCP clients) can run concurrently without write-lock conflicts.
+# Searches merge results from both the per-session index and the shared index.
+websearch:
+  store:
+    agent-id: mcp-${random.uuid}

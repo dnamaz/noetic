@@ -143,7 +143,7 @@ cp "$BINARY" "$STAGING/noetic"
 chmod +x "$STAGING/noetic"
 
 # Include helper scripts if they exist
-for script in noetic-start noetic-stop mcp-server.sh; do
+for script in noetic-start noetic-stop; do
     if [[ -f "$PROJECT_DIR/bin/$script" ]]; then
         cp "$PROJECT_DIR/bin/$script" "$STAGING/$script"
         chmod +x "$STAGING/$script"

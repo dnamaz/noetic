@@ -149,7 +149,7 @@ jobs:
           cp build/native/nativeCompile/noetic dist/staging/noetic
           chmod +x dist/staging/noetic
 
-          for script in noetic-start noetic-stop mcp-server.sh; do
+          for script in noetic-start noetic-stop; do
             if [ -f "bin/$script" ]; then
               cp "bin/$script" "dist/staging/$script"
               chmod +x "dist/staging/$script"
@@ -237,7 +237,6 @@ jobs:
 
             - `noetic` - Single native binary (MCP server, REST API, CLI)
             - `noetic-start` / `noetic-stop` - Service management scripts
-            - `mcp-server.sh` - MCP STDIO launcher for IDE integration
 
             Linux binaries built on Ubuntu 22.04 (glibc 2.35+).
 

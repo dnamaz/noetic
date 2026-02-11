@@ -76,7 +76,6 @@ class Noetic < Formula
     bin.install "noetic"
     bin.install "noetic-start" if File.exist?("noetic-start")
     bin.install "noetic-stop"  if File.exist?("noetic-stop")
-    bin.install "mcp-server.sh" if File.exist?("mcp-server.sh")
   end
 
   service do

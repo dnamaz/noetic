@@ -18,9 +18,11 @@ import org.apache.lucene.util.Bits;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Stream;
 
 /**
  * Two-tier Lucene vector store with per-agent isolation and shared main index.
@@ -83,6 +85,12 @@ public class LuceneVectorStore implements VectorStore {
     public void initialize() {
         try {
             isAgentMode = agentId != null && !agentId.isBlank();
+
+            // Clean up stale agent directories from previous MCP sessions.
+            // Each STDIO session generates a unique agent-id (mcp-<uuid>); over
+            // time these accumulate. Purge directories older than 24 hours that
+            // are not locked by a live process.
+            purgeStaleAgentDirs();
 
             if (isAgentMode) {
                 // Agent mode: write to per-agent index, read from both
@@ -424,6 +432,74 @@ public class LuceneVectorStore implements VectorStore {
     }
 
     // -- Internal helpers --
+
+    /** Maximum age for agent index directories before they are purged. */
+    private static final Duration AGENT_DIR_MAX_AGE = Duration.ofHours(24);
+
+    /**
+     * Removes agent index directories that are older than {@link #AGENT_DIR_MAX_AGE}
+     * and not locked by a currently-running process. This prevents unbounded
+     * accumulation of per-session directories created by MCP STDIO instances.
+     */
+    private void purgeStaleAgentDirs() {
+        Path agentsPath = Path.of(agentsDir);
+        if (!Files.isDirectory(agentsPath)) {
+            return;
+        }
+        Instant cutoff = Instant.now().minus(AGENT_DIR_MAX_AGE);
+        try (Stream<Path> dirs = Files.list(agentsPath)) {
+            dirs.filter(Files::isDirectory)
+                .filter(dir -> !dir.getFileName().toString().equals(agentId)) // skip our own
+                .filter(dir -> isOlderThan(dir, cutoff))
+                .filter(dir -> !hasActiveLock(dir))
+                .forEach(this::deleteDirectoryQuietly);
+        } catch (IOException e) {
+            log.debug("Could not list agent directories for cleanup: {}", e.getMessage());
+        }
+    }
+
+    /** Returns true if the directory's last-modified time is before the cutoff. */
+    private static boolean isOlderThan(Path dir, Instant cutoff) {
+        try {
+            return Files.getLastModifiedTime(dir).toInstant().isBefore(cutoff);
+        } catch (IOException e) {
+            return false; // can't determine age, leave it alone
+        }
+    }
+
+    /** Returns true if the directory contains a Lucene write.lock held by a live process. */
+    private static boolean hasActiveLock(Path dir) {
+        Path lockFile = dir.resolve("write.lock");
+        if (!Files.exists(lockFile)) {
+            return false;
+        }
+        // If the lock file exists, try to acquire it briefly. If we can't,
+        // another process holds it and the directory is in use.
+        try (var channel = java.nio.channels.FileChannel.open(lockFile,
+                java.nio.file.StandardOpenOption.WRITE)) {
+            java.nio.channels.FileLock fileLock = channel.tryLock();
+            if (fileLock != null) {
+                fileLock.release();
+                return false; // lock was free, directory is stale
+            }
+            return true; // lock held by another process
+        } catch (IOException e) {
+            return true; // assume in use if we can't check
+        }
+    }
+
+    /** Recursively deletes a directory, logging but not throwing on failure. */
+    private void deleteDirectoryQuietly(Path dir) {
+        try (Stream<Path> walk = Files.walk(dir)) {
+            walk.sorted(Comparator.reverseOrder())
+                .forEach(p -> {
+                    try { Files.deleteIfExists(p); } catch (IOException ignored) {}
+                });
+            log.debug("Purged stale agent directory: {}", dir.getFileName());
+        } catch (IOException e) {
+            log.debug("Could not purge agent directory {}: {}", dir.getFileName(), e.getMessage());
+        }
+    }
 
     /**
      * Opens a reader that searches both the writable index and the shared index

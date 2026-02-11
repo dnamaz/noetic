@@ -276,45 +276,25 @@ public class InstallSkillCommand implements Runnable {
      *
      * <p>Resolution order for the MCP command:</p>
      * <ol>
-     *   <li>{@code noetic} on PATH (e.g. {@code ~/.local/bin/noetic})</li>
+     *   <li>{@code noetic} on PATH (e.g. {@code ~/.local/bin/noetic} or Homebrew)</li>
      *   <li>Native binary in the project build output</li>
-     *   <li>{@code bin/mcp-server.sh} launcher script (fallback)</li>
      * </ol>
      */
     private String buildMcpConfig(Path baseDir) {
         String command = detectMcpCommand(baseDir);
 
-        // If using the native binary directly, pass STDIO profile args.
-        // The mcp-server.sh script handles these internally.
-        boolean needsArgs = !command.endsWith("mcp-server.sh");
-
-        if (needsArgs) {
-            return """
-                    {
-                      "mcpServers": {
-                        "%s": {
-                          "command": "%s",
-                          "args": ["--spring.profiles.active=stdio", "--spring.main.banner-mode=off"],
-                          "disabled": false,
-                          "alwaysAllow": []
-                        }
-                      }
+        return """
+                {
+                  "mcpServers": {
+                    "%s": {
+                      "command": "%s",
+                      "args": ["--spring.profiles.active=stdio", "--spring.main.banner-mode=off"],
+                      "disabled": false,
+                      "alwaysAllow": []
                     }
-                    """.formatted(SKILL_NAME, escapeJson(command));
-        } else {
-            return """
-                    {
-                      "mcpServers": {
-                        "%s": {
-                          "command": "%s",
-                          "args": [],
-                          "disabled": false,
-                          "alwaysAllow": []
-                        }
-                      }
-                    }
-                    """.formatted(SKILL_NAME, escapeJson(command));
-        }
+                  }
+                }
+                """.formatted(SKILL_NAME, escapeJson(command));
     }
 
     /**
@@ -339,8 +319,8 @@ public class InstallSkillCommand implements Runnable {
             return nativeBin.toAbsolutePath().toString();
         }
 
-        // 3. Fallback to mcp-server.sh
-        return baseDir.resolve("bin/mcp-server.sh").toAbsolutePath().toString();
+        // Fallback: assume noetic will be on PATH at runtime
+        return "noetic";
     }
 
     /** Minimal JSON string escaping for file paths (backslashes on Windows). */
@@ -355,7 +335,6 @@ public class InstallSkillCommand implements Runnable {
      */
     private void printVibeMcpHint(Path baseDir) {
         String command = detectMcpCommand(baseDir);
-        boolean needsArgs = !command.endsWith("mcp-server.sh");
 
         System.out.println();
         System.out.println("To enable the MCP server, add this to your .vibe/config.toml:");
@@ -364,10 +343,6 @@ public class InstallSkillCommand implements Runnable {
         System.out.printf("  name = \"%s\"%n", SKILL_NAME);
         System.out.println("  transport = \"stdio\"");
         System.out.printf("  command = \"%s\"%n", command);
-        if (needsArgs) {
-            System.out.println("  args = [\"--spring.profiles.active=stdio\", \"--spring.main.banner-mode=off\"]");
-        } else {
-            System.out.println("  args = []");
-        }
+        System.out.println("  args = [\"--spring.profiles.active=stdio\", \"--spring.main.banner-mode=off\"]");
     }
 }

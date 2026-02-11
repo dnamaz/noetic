@@ -2362,7 +2362,16 @@
     },
     {
       "type": "io.modelcontextprotocol.spec.McpSchema$ClientCapabilities$Elicitation",
-      "methods": [{"name": "<init>", "parameterTypes": []}]
+      "methods": [
+        {"name": "<init>", "parameterTypes": []},
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "io.modelcontextprotocol.spec.McpSchema$ClientCapabilities$Elicitation$Form",
+            "io.modelcontextprotocol.spec.McpSchema$ClientCapabilities$Elicitation$Url"
+          ]
+        }
+      ]
     },
     {
       "type": "io.modelcontextprotocol.spec.McpSchema$ClientCapabilities$Elicitation$Form",
@@ -2374,7 +2383,10 @@
     },
     {
       "type": "io.modelcontextprotocol.spec.McpSchema$ClientCapabilities$RootCapabilities",
-      "methods": [{"name": "<init>", "parameterTypes": []}]
+      "methods": [
+        {"name": "<init>", "parameterTypes": []},
+        {"name": "<init>", "parameterTypes": ["java.lang.Boolean"]}
+      ]
     },
     {
       "type": "io.modelcontextprotocol.spec.McpSchema$ClientCapabilities$Sampling",

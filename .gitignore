@@ -9,7 +9,6 @@ out/
 # ── Compiled classes and binaries in bin/ ─────────────────────────────────────
 # Ignore everything in bin/ except the shell scripts we distribute
 bin/*
-!bin/mcp-server.sh
 !bin/noetic
 !bin/noetic-start
 !bin/noetic-stop
