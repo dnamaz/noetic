@@ -6,16 +6,16 @@ class Noetic < Formula
 
   on_macos do
     url "https://github.com/dnamaz/noetic/releases/download/v#{version}/noetic-#{version}-macos-arm64.tar.gz"
-    sha256 "0290c7ccd1c4d92d0964155ffc7de86e4a50184c6bd4871e261a6dab30f343fe"
+    sha256 "bc8056ad6a2a6a2300bb49be2000dd0a32477503e5ddc4a377b1693c07527a06"
   end
 
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/dnamaz/noetic/releases/download/v#{version}/noetic-#{version}-linux-arm64.tar.gz"
-      sha256 "d4f160b44a83db5baebed5b8968019f342ababcf3ad6444ff329ca7d13d52cf5"
+      sha256 "9ac919dec7a20624bf2f56c45807430c63eaa54a7916109ec53517d9e3f86088"
     else
       url "https://github.com/dnamaz/noetic/releases/download/v#{version}/noetic-#{version}-linux-x86_64.tar.gz"
-      sha256 "e5977b5065747c40e2c64f9000b67a515db079395ed7d7876ff63d917c455613"
+      sha256 "b323007566f55952ec80dd3adf92c5547de8cf4bfc4f91f64d00d3c1df944fec"
     end
   end
 
