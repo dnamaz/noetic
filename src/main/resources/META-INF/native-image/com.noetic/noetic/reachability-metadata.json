@@ -1,0 +1,6973 @@
+{
+  "reflection": [
+    {
+      "type": "ai.onnxruntime.OnnxRuntime",
+      "allDeclaredFields": true,
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "jniAccessible": true
+    },
+    {
+      "type": "ai.onnxruntime.OnnxTensor",
+      "allDeclaredFields": true,
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "jniAccessible": true
+    },
+    {
+      "type": "ai.onnxruntime.OnnxValue",
+      "allDeclaredFields": true,
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "jniAccessible": true
+    },
+    {
+      "type": "ai.onnxruntime.OrtEnvironment",
+      "allDeclaredFields": true,
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "jniAccessible": true
+    },
+    {
+      "type": "ai.onnxruntime.OrtProvider",
+      "allDeclaredFields": true,
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "jniAccessible": true
+    },
+    {
+      "type": "ai.onnxruntime.OrtSession",
+      "allDeclaredFields": true,
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "jniAccessible": true
+    },
+    {
+      "type": "ai.onnxruntime.OrtSession$SessionOptions",
+      "allDeclaredFields": true,
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "jniAccessible": true
+    },
+    {
+      "type": "apple.security.AppleProvider",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "boolean"
+    },
+    {
+      "type": "boolean[]"
+    },
+    {
+      "type": "byte[]"
+    },
+    {
+      "type": "ch.qos.logback.classic.BasicConfigurator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ch.qos.logback.classic.LoggerContext"
+    },
+    {
+      "type": "ch.qos.logback.classic.spi.LogbackServiceProvider"
+    },
+    {
+      "type": "ch.qos.logback.classic.util.DefaultJoranConfigurator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "char[]"
+    },
+    {
+      "type": "com.fasterxml.jackson.core.JsonGenerator"
+    },
+    {
+      "type": "com.fasterxml.jackson.core.ObjectCodec"
+    },
+    {
+      "type": "com.fasterxml.jackson.core.TreeCodec"
+    },
+    {
+      "type": "com.fasterxml.jackson.core.Versioned"
+    },
+    {
+      "type": "com.fasterxml.jackson.databind.ObjectMapper"
+    },
+    {
+      "type": "com.fasterxml.jackson.databind.deser.BeanDeserializerModifier[]"
+    },
+    {
+      "type": "com.fasterxml.jackson.databind.deser.Deserializers[]"
+    },
+    {
+      "type": "com.fasterxml.jackson.databind.deser.KeyDeserializers[]"
+    },
+    {
+      "type": "com.fasterxml.jackson.databind.deser.ValueInstantiators[]"
+    },
+    {
+      "type": "com.fasterxml.jackson.databind.ext.Java7SupportImpl",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.fasterxml.jackson.databind.ser.BeanSerializerModifier[]"
+    },
+    {
+      "type": "com.fasterxml.jackson.databind.ser.Serializers[]"
+    },
+    {
+      "type": "com.fasterxml.jackson.dataformat.cbor.CBORFactory"
+    },
+    {
+      "type": "com.fasterxml.jackson.dataformat.smile.SmileFactory"
+    },
+    {
+      "type": "com.fasterxml.jackson.dataformat.xml.XmlMapper"
+    },
+    {
+      "type": "com.fasterxml.jackson.dataformat.yaml.YAMLFactory"
+    },
+    {
+      "type": "com.fasterxml.jackson.datatype.jdk8.Jdk8Module"
+    },
+    {
+      "type": "com.fasterxml.jackson.datatype.jsr310.JavaTimeModule",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.fasterxml.jackson.module.paramnames.ParameterNamesModule"
+    },
+    {
+      "type": "com.google.gson.Gson"
+    },
+    {
+      "type": "com.ibm.lang.management.OperatingSystemMXBean"
+    },
+    {
+      "type": "com.noetic.websearch.WebSearchApplication",
+      "methods": [
+        {
+          "name": "main",
+          "parameterTypes": [
+            "java.lang.String[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.WebSearchApplication$FastPathRunner",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.cli.BatchCrawlCommand"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.cli.CacheCommand"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.cli.CachePromoteCommand"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.cli.ChunkCommand"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.cli.CliEntryPoint",
+      "fields": [
+        {
+          "name": "mode"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "org.springframework.context.ApplicationContext",
+            "com.noetic.websearch.adapter.cli.WebSearchCommand"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.cli.CrawlCommand",
+      "fields": [
+        {
+          "name": "fetchMode"
+        },
+        {
+          "name": "includeImages"
+        },
+        {
+          "name": "includeLinks"
+        },
+        {
+          "name": "outputFormat"
+        },
+        {
+          "name": "url"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "com.noetic.websearch.service.CrawlService"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.cli.InstallSkillCommand"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.cli.InstallSkillCommand$TargetConverter",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.cli.SearchCommand"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.cli.SitemapCommand"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.cli.WebSearchCommand",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.BatchCrawlMcpTool"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.BatchCrawlMcpTool$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.BatchCrawlMcpTool$$SpringCGLIB$$FastClass$$0",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.BatchCrawlMcpTool$$SpringCGLIB$$FastClass$$1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.CacheManageMcpTool"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.CacheManageMcpTool$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.CacheManageMcpTool$$SpringCGLIB$$FastClass$$0",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.CacheManageMcpTool$$SpringCGLIB$$FastClass$$1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.CachePromoteMcpTool"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.CachePromoteMcpTool$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.CachePromoteMcpTool$$SpringCGLIB$$FastClass$$0",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.CachePromoteMcpTool$$SpringCGLIB$$FastClass$$1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.CacheQueryMcpTool"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.CacheQueryMcpTool$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.CacheQueryMcpTool$$SpringCGLIB$$FastClass$$0",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.CacheQueryMcpTool$$SpringCGLIB$$FastClass$$1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.ChunkContentMcpTool"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.ChunkContentMcpTool$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.ChunkContentMcpTool$$SpringCGLIB$$FastClass$$0",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.ChunkContentMcpTool$$SpringCGLIB$$FastClass$$1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.CrawlPageMcpTool"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.CrawlPageMcpTool$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.CrawlPageMcpTool$$SpringCGLIB$$FastClass$$0",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.CrawlPageMcpTool$$SpringCGLIB$$FastClass$$1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.DiscoverSitemapMcpTool"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.DiscoverSitemapMcpTool$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.DiscoverSitemapMcpTool$$SpringCGLIB$$FastClass$$0",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.DiscoverSitemapMcpTool$$SpringCGLIB$$FastClass$$1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.JobStatusMcpTool"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.JobStatusMcpTool$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.JobStatusMcpTool$$SpringCGLIB$$FastClass$$0",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.JobStatusMcpTool$$SpringCGLIB$$FastClass$$1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.MapSiteMcpTool"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.MapSiteMcpTool$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.MapSiteMcpTool$$SpringCGLIB$$FastClass$$0",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.MapSiteMcpTool$$SpringCGLIB$$FastClass$$1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.WebSearchMcpTool"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.WebSearchMcpTool$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.WebSearchMcpTool$$SpringCGLIB$$FastClass$$0",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.WebSearchMcpTool$$SpringCGLIB$$FastClass$$1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.BuildKnowledgeBasePrompt"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.BuildKnowledgeBasePrompt$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.BuildKnowledgeBasePrompt$$SpringCGLIB$$FastClass$$0",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.BuildKnowledgeBasePrompt$$SpringCGLIB$$FastClass$$1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.CompareSourcesPrompt"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.CompareSourcesPrompt$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.CompareSourcesPrompt$$SpringCGLIB$$FastClass$$0",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.CompareSourcesPrompt$$SpringCGLIB$$FastClass$$1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.DeepResearchPrompt"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.DeepResearchPrompt$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.DeepResearchPrompt$$SpringCGLIB$$FastClass$$0",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.DeepResearchPrompt$$SpringCGLIB$$FastClass$$1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.ExtractStructuredDataPrompt"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.ExtractStructuredDataPrompt$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.ExtractStructuredDataPrompt$$SpringCGLIB$$FastClass$$0",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.ExtractStructuredDataPrompt$$SpringCGLIB$$FastClass$$1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.IngestWebsitePrompt"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.IngestWebsitePrompt$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.IngestWebsitePrompt$$SpringCGLIB$$FastClass$$0",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.IngestWebsitePrompt$$SpringCGLIB$$FastClass$$1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.MonitorPagePrompt"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.MonitorPagePrompt$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.MonitorPagePrompt$$SpringCGLIB$$FastClass$$0",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.mcp.prompt.MonitorPagePrompt$$SpringCGLIB$$FastClass$$1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.adapter.rest.CacheController"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.rest.ChunkController"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.rest.CrawlController"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.rest.MapController"
+    },
+    {
+      "type": "com.noetic.websearch.adapter.rest.WebSearchController"
+    },
+    {
+      "type": "com.noetic.websearch.config.McpServerConfig$JacksonConfig",
+      "methods": [
+        {
+          "name": "objectMapper",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.config.McpServerConfig$JacksonConfig$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "$$beanFactory"
+        },
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.config.McpServerConfig$JacksonConfig$$SpringCGLIB$$FastClass$$0",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.config.McpServerConfig$JacksonConfig$$SpringCGLIB$$FastClass$$1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.config.NativeImageConfig"
+    },
+    {
+      "type": "com.noetic.websearch.config.NativeImageConfig$$SpringCGLIB$$0",
+      "fields": [
+        {
+          "name": "CGLIB$CALLBACK_FILTER"
+        },
+        {
+          "name": "CGLIB$FACTORY_DATA"
+        }
+      ],
+      "methods": [
+        {
+          "name": "CGLIB$SET_STATIC_CALLBACKS",
+          "parameterTypes": [
+            "org.springframework.cglib.proxy.Callback[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.config.NativeImageConfig$Hints"
+    },
+    {
+      "type": "com.noetic.websearch.model.FetchResult",
+      "methods": [
+        {
+          "name": "content",
+          "parameterTypes": []
+        },
+        {
+          "name": "fetchTime",
+          "parameterTypes": []
+        },
+        {
+          "name": "fetcherUsed",
+          "parameterTypes": []
+        },
+        {
+          "name": "images",
+          "parameterTypes": []
+        },
+        {
+          "name": "links",
+          "parameterTypes": []
+        },
+        {
+          "name": "providerMeta",
+          "parameterTypes": []
+        },
+        {
+          "name": "rawHtml",
+          "parameterTypes": []
+        },
+        {
+          "name": "screenshot",
+          "parameterTypes": []
+        },
+        {
+          "name": "statusCode",
+          "parameterTypes": []
+        },
+        {
+          "name": "title",
+          "parameterTypes": []
+        },
+        {
+          "name": "url",
+          "parameterTypes": []
+        },
+        {
+          "name": "wordCount",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.provider.ChunkingStrategy"
+    },
+    {
+      "type": "com.noetic.websearch.provider.ContentFetcher"
+    },
+    {
+      "type": "com.noetic.websearch.provider.EmbeddingProvider"
+    },
+    {
+      "type": "com.noetic.websearch.provider.FetcherResolver",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.util.List",
+            "java.util.List",
+            "boolean",
+            "java.util.List"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.provider.SearchProvider"
+    },
+    {
+      "type": "com.noetic.websearch.provider.VectorStore"
+    },
+    {
+      "type": "com.noetic.websearch.provider.chunking.SemanticChunkingStrategy"
+    },
+    {
+      "type": "com.noetic.websearch.provider.chunking.SentenceChunkingStrategy"
+    },
+    {
+      "type": "com.noetic.websearch.provider.chunking.TokenChunkingStrategy"
+    },
+    {
+      "type": "com.noetic.websearch.provider.embedding.OnnxEmbeddingProvider"
+    },
+    {
+      "type": "com.noetic.websearch.provider.fetcher.DynamicContentFetcher",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "boolean",
+            "java.lang.String",
+            "int",
+            "int",
+            "boolean",
+            "java.lang.String",
+            "java.lang.String",
+            "int",
+            "com.noetic.websearch.provider.CaptchaSolver"
+          ]
+        },
+        {
+          "name": "initialize",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.provider.fetcher.LocalFileFetcher",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.provider.fetcher.StaticContentFetcher",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "boolean",
+            "java.lang.String",
+            "java.lang.String",
+            "int",
+            "java.lang.String",
+            "java.lang.String",
+            "boolean"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.provider.search.ScrapingSearchProvider"
+    },
+    {
+      "type": "com.noetic.websearch.provider.store.LuceneVectorStore",
+      "fields": [
+        {
+          "name": "agentId"
+        },
+        {
+          "name": "agentsDir"
+        },
+        {
+          "name": "sharedIndexPath"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "initialize",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.service.BatchCrawlService"
+    },
+    {
+      "type": "com.noetic.websearch.service.CacheService"
+    },
+    {
+      "type": "com.noetic.websearch.service.ChunkService"
+    },
+    {
+      "type": "com.noetic.websearch.service.CrawlService",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "com.noetic.websearch.provider.FetcherResolver"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.service.EvictionService",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "com.noetic.websearch.provider.VectorStore",
+            "boolean",
+            "long"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.noetic.websearch.service.JobService"
+    },
+    {
+      "type": "com.noetic.websearch.service.MapService"
+    },
+    {
+      "type": "com.noetic.websearch.service.NamespaceResolver"
+    },
+    {
+      "type": "com.noetic.websearch.service.SitemapParser"
+    },
+    {
+      "type": "com.noetic.websearch.service.WebSearchService"
+    },
+    {
+      "type": "com.rometools.rome.feed.WireFeed"
+    },
+    {
+      "type": "com.sun.management.GarbageCollectionNotificationInfo"
+    },
+    {
+      "type": "com.sun.management.GarbageCollectorMXBean"
+    },
+    {
+      "type": "com.sun.management.GcInfo",
+      "fields": [
+        {
+          "name": "builder"
+        },
+        {
+          "name": "extAttributes"
+        }
+      ]
+    },
+    {
+      "type": "com.sun.management.HotSpotDiagnosticMXBean",
+      "methods": [
+        {
+          "name": "getVMOption",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.sun.management.OperatingSystemMXBean"
+    },
+    {
+      "type": "com.sun.management.ThreadMXBean"
+    },
+    {
+      "type": "com.sun.management.UnixOperatingSystemMXBean"
+    },
+    {
+      "type": "com.sun.management.VMOption",
+      "methods": [
+        {
+          "name": "getValue",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.management.VMOption$Origin",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "ATTACH_ON_DEMAND"
+        },
+        {
+          "name": "CONFIG_FILE"
+        },
+        {
+          "name": "DEFAULT"
+        },
+        {
+          "name": "ENVIRON_VAR"
+        },
+        {
+          "name": "ERGONOMIC"
+        },
+        {
+          "name": "MANAGEMENT"
+        },
+        {
+          "name": "OTHER"
+        },
+        {
+          "name": "VM_CREATION"
+        }
+      ]
+    },
+    {
+      "type": "com.sun.management.internal.DiagnosticCommandArgumentInfo",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.String",
+            "java.lang.String",
+            "java.lang.String",
+            "java.lang.String",
+            "boolean",
+            "boolean",
+            "boolean",
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.sun.management.internal.DiagnosticCommandArgumentInfo[]"
+    },
+    {
+      "type": "com.sun.management.internal.DiagnosticCommandInfo",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.String",
+            "java.lang.String",
+            "java.lang.String",
+            "boolean",
+            "java.util.List"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.sun.management.internal.DiagnosticCommandInfo[]"
+    },
+    {
+      "type": "com.sun.management.internal.Flag",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.String",
+            "java.lang.Object",
+            "boolean",
+            "boolean",
+            "com.sun.management.VMOption$Origin"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.sun.management.internal.GarbageCollectorExtImpl"
+    },
+    {
+      "type": "com.sun.management.internal.HotSpotDiagnostic"
+    },
+    {
+      "type": "com.sun.management.internal.HotSpotThreadImpl"
+    },
+    {
+      "type": "com.sun.management.internal.OperatingSystemImpl"
+    },
+    {
+      "type": "com.sun.management.internal.VirtualThreadSchedulerImpls$VirtualThreadSchedulerImpl"
+    },
+    {
+      "type": "double[]"
+    },
+    {
+      "type": "float[]"
+    },
+    {
+      "type": "groovy.lang.Closure"
+    },
+    {
+      "type": "groovy.lang.MetaClass"
+    },
+    {
+      "type": "int[]"
+    },
+    {
+      "type": "io.micrometer.appoptics.AppOpticsMeterRegistry"
+    },
+    {
+      "type": "io.micrometer.atlas.AtlasMeterRegistry"
+    },
+    {
+      "type": "io.micrometer.common.annotation.ValueExpressionResolver"
+    },
+    {
+      "type": "io.micrometer.core.annotation.Timed"
+    },
+    {
+      "type": "io.micrometer.core.instrument.Clock"
+    },
+    {
+      "type": "io.micrometer.core.instrument.Clock$1"
+    },
+    {
+      "type": "io.micrometer.core.instrument.MeterRegistry"
+    },
+    {
+      "type": "io.micrometer.core.instrument.binder.MeterBinder"
+    },
+    {
+      "type": "io.micrometer.core.instrument.binder.jvm.ClassLoaderMetrics"
+    },
+    {
+      "type": "io.micrometer.core.instrument.binder.jvm.ExecutorServiceMetrics"
+    },
+    {
+      "type": "io.micrometer.core.instrument.binder.jvm.JvmCompilationMetrics"
+    },
+    {
+      "type": "io.micrometer.core.instrument.binder.jvm.JvmGcMetrics"
+    },
+    {
+      "type": "io.micrometer.core.instrument.binder.jvm.JvmHeapPressureMetrics"
+    },
+    {
+      "type": "io.micrometer.core.instrument.binder.jvm.JvmInfoMetrics"
+    },
+    {
+      "type": "io.micrometer.core.instrument.binder.jvm.JvmMemoryMetrics"
+    },
+    {
+      "type": "io.micrometer.core.instrument.binder.jvm.JvmThreadMetrics"
+    },
+    {
+      "type": "io.micrometer.core.instrument.binder.logging.Log4j2Metrics"
+    },
+    {
+      "type": "io.micrometer.core.instrument.binder.logging.LogbackMetrics"
+    },
+    {
+      "type": "io.micrometer.core.instrument.binder.system.FileDescriptorMetrics"
+    },
+    {
+      "type": "io.micrometer.core.instrument.binder.system.ProcessorMetrics"
+    },
+    {
+      "type": "io.micrometer.core.instrument.binder.system.UptimeMetrics"
+    },
+    {
+      "type": "io.micrometer.core.instrument.binder.tomcat.TomcatMetrics"
+    },
+    {
+      "type": "io.micrometer.core.instrument.composite.CompositeMeterRegistry"
+    },
+    {
+      "type": "io.micrometer.core.instrument.config.MeterFilter"
+    },
+    {
+      "type": "io.micrometer.core.instrument.config.MeterRegistryConfig"
+    },
+    {
+      "type": "io.micrometer.core.instrument.distribution.TimeWindowMax"
+    },
+    {
+      "type": "io.micrometer.core.instrument.distribution.TimeWindowSum"
+    },
+    {
+      "type": "io.micrometer.core.instrument.observation.DefaultMeterObservationHandler"
+    },
+    {
+      "type": "io.micrometer.core.instrument.observation.MeterObservationHandler"
+    },
+    {
+      "type": "io.micrometer.core.instrument.simple.SimpleConfig"
+    },
+    {
+      "type": "io.micrometer.core.instrument.simple.SimpleMeterRegistry"
+    },
+    {
+      "type": "io.micrometer.datadog.DatadogMeterRegistry"
+    },
+    {
+      "type": "io.micrometer.dynatrace.DynatraceMeterRegistry"
+    },
+    {
+      "type": "io.micrometer.elastic.ElasticMeterRegistry"
+    },
+    {
+      "type": "io.micrometer.ganglia.GangliaMeterRegistry"
+    },
+    {
+      "type": "io.micrometer.graphite.GraphiteMeterRegistry"
+    },
+    {
+      "type": "io.micrometer.humio.HumioMeterRegistry"
+    },
+    {
+      "type": "io.micrometer.influx.InfluxMeterRegistry"
+    },
+    {
+      "type": "io.micrometer.java21.instrument.binder.jdk.VirtualThreadMetrics"
+    },
+    {
+      "type": "io.micrometer.jmx.JmxMeterRegistry"
+    },
+    {
+      "type": "io.micrometer.kairos.KairosMeterRegistry"
+    },
+    {
+      "type": "io.micrometer.newrelic.NewRelicMeterRegistry"
+    },
+    {
+      "type": "io.micrometer.observation.Observation"
+    },
+    {
+      "type": "io.micrometer.observation.ObservationFilter"
+    },
+    {
+      "type": "io.micrometer.observation.ObservationHandler"
+    },
+    {
+      "type": "io.micrometer.observation.ObservationPredicate"
+    },
+    {
+      "type": "io.micrometer.observation.ObservationRegistry"
+    },
+    {
+      "type": "io.micrometer.observation.SimpleObservationRegistry"
+    },
+    {
+      "type": "io.micrometer.prometheusmetrics.PrometheusMeterRegistry"
+    },
+    {
+      "type": "io.micrometer.registry.otlp.OtlpMeterRegistry"
+    },
+    {
+      "type": "io.micrometer.stackdriver.StackdriverMeterRegistry"
+    },
+    {
+      "type": "io.micrometer.statsd.StatsdMeterRegistry"
+    },
+    {
+      "type": "io.modelcontextprotocol.server.McpServerFeatures$SyncPromptSpecification"
+    },
+    {
+      "type": "io.modelcontextprotocol.server.McpServerFeatures$SyncToolSpecification"
+    },
+    {
+      "type": "io.reactivex.rxjava3.core.Flowable"
+    },
+    {
+      "type": "io.smallrye.mutiny.Multi"
+    },
+    {
+      "type": "jakarta.annotation.PostConstruct"
+    },
+    {
+      "type": "jakarta.annotation.PreDestroy"
+    },
+    {
+      "type": "jakarta.annotation.Resource"
+    },
+    {
+      "type": "jakarta.ejb.EJB"
+    },
+    {
+      "type": "jakarta.faces.context.FacesContext"
+    },
+    {
+      "type": "jakarta.inject.Inject"
+    },
+    {
+      "type": "jakarta.inject.Named"
+    },
+    {
+      "type": "jakarta.inject.Provider"
+    },
+    {
+      "type": "jakarta.inject.Qualifier"
+    },
+    {
+      "type": "jakarta.json.bind.Jsonb"
+    },
+    {
+      "type": "jakarta.persistence.EntityManagerFactory"
+    },
+    {
+      "type": "jakarta.persistence.Persistence"
+    },
+    {
+      "type": "jakarta.persistence.PersistenceContext"
+    },
+    {
+      "type": "jakarta.servlet.Filter"
+    },
+    {
+      "type": "jakarta.servlet.GenericFilter"
+    },
+    {
+      "type": "jakarta.servlet.GenericServlet"
+    },
+    {
+      "type": "jakarta.servlet.MultipartConfigElement"
+    },
+    {
+      "type": "jakarta.servlet.Servlet"
+    },
+    {
+      "type": "jakarta.servlet.ServletConfig"
+    },
+    {
+      "type": "jakarta.servlet.ServletContext"
+    },
+    {
+      "type": "jakarta.servlet.ServletRegistration"
+    },
+    {
+      "type": "jakarta.servlet.ServletRequest"
+    },
+    {
+      "type": "jakarta.servlet.http.HttpServlet"
+    },
+    {
+      "type": "jakarta.validation.Validator"
+    },
+    {
+      "type": "jakarta.validation.ValidatorFactory"
+    },
+    {
+      "type": "jakarta.validation.bootstrap.GenericBootstrap"
+    },
+    {
+      "type": "jakarta.validation.executable.ExecutableValidator"
+    },
+    {
+      "type": "jakarta.xml.bind.Binder"
+    },
+    {
+      "type": "jakarta.xml.ws.WebServiceRef"
+    },
+    {
+      "type": "java.awt.image.BufferedImage",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "colorModel"
+        },
+        {
+          "name": "imageType"
+        },
+        {
+          "name": "raster"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getRGB",
+          "parameterTypes": [
+            "int",
+            "int",
+            "int",
+            "int",
+            "int[]",
+            "int",
+            "int"
+          ]
+        },
+        {
+          "name": "setRGB",
+          "parameterTypes": [
+            "int",
+            "int",
+            "int",
+            "int",
+            "int[]",
+            "int",
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.awt.image.ColorModel",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "colorSpace"
+        },
+        {
+          "name": "colorSpaceType"
+        },
+        {
+          "name": "isAlphaPremultiplied"
+        },
+        {
+          "name": "is_sRGB"
+        },
+        {
+          "name": "nBits"
+        },
+        {
+          "name": "numComponents"
+        },
+        {
+          "name": "supportsAlpha"
+        },
+        {
+          "name": "transparency"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getRGBdefault",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.awt.image.Raster",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "dataBuffer"
+        },
+        {
+          "name": "height"
+        },
+        {
+          "name": "minX"
+        },
+        {
+          "name": "minY"
+        },
+        {
+          "name": "numBands"
+        },
+        {
+          "name": "numDataElements"
+        },
+        {
+          "name": "sampleModel"
+        },
+        {
+          "name": "sampleModelTranslateX"
+        },
+        {
+          "name": "sampleModelTranslateY"
+        },
+        {
+          "name": "width"
+        }
+      ]
+    },
+    {
+      "type": "java.awt.image.SampleModel",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "height"
+        },
+        {
+          "name": "width"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getPixels",
+          "parameterTypes": [
+            "int",
+            "int",
+            "int",
+            "int",
+            "int[]",
+            "java.awt.image.DataBuffer"
+          ]
+        },
+        {
+          "name": "setPixels",
+          "parameterTypes": [
+            "int",
+            "int",
+            "int",
+            "int",
+            "int[]",
+            "java.awt.image.DataBuffer"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.awt.image.SinglePixelPackedSampleModel",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "bitMasks"
+        },
+        {
+          "name": "bitOffsets"
+        },
+        {
+          "name": "bitSizes"
+        },
+        {
+          "name": "maxBitSize"
+        }
+      ]
+    },
+    {
+      "type": "java.beans.Introspector"
+    },
+    {
+      "type": "java.io.Closeable"
+    },
+    {
+      "type": "java.io.Serializable"
+    },
+    {
+      "type": "java.io.Serializable[]"
+    },
+    {
+      "type": "java.lang.AutoCloseable"
+    },
+    {
+      "type": "java.lang.Boolean",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "TYPE"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "getBoolean",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Byte",
+      "fields": [
+        {
+          "name": "TYPE"
+        }
+      ]
+    },
+    {
+      "type": "java.lang.CharSequence[]"
+    },
+    {
+      "type": "java.lang.Character",
+      "fields": [
+        {
+          "name": "TYPE"
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Class",
+      "methods": [
+        {
+          "name": "getModule",
+          "parameterTypes": []
+        },
+        {
+          "name": "getRecordComponents",
+          "parameterTypes": []
+        },
+        {
+          "name": "isRecord",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.lang.ClassLoader",
+      "fields": [
+        {
+          "name": "classLoaderValueMap"
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Class[]"
+    },
+    {
+      "type": "java.lang.Comparable"
+    },
+    {
+      "type": "java.lang.Comparable[]"
+    },
+    {
+      "type": "java.lang.Deprecated"
+    },
+    {
+      "type": "java.lang.Double",
+      "fields": [
+        {
+          "name": "TYPE"
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Float",
+      "fields": [
+        {
+          "name": "TYPE"
+        }
+      ]
+    },
+    {
+      "type": "java.lang.FunctionalInterface"
+    },
+    {
+      "type": "java.lang.Integer",
+      "fields": [
+        {
+          "name": "TYPE"
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Iterable"
+    },
+    {
+      "type": "java.lang.Long",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "TYPE"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Module",
+      "methods": [
+        {
+          "name": "isNamed",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Number"
+    },
+    {
+      "type": "java.lang.Object"
+    },
+    {
+      "type": "java.lang.Object[]"
+    },
+    {
+      "type": "java.lang.Record"
+    },
+    {
+      "type": "java.lang.Runnable"
+    },
+    {
+      "type": "java.lang.Short",
+      "fields": [
+        {
+          "name": "TYPE"
+        }
+      ]
+    },
+    {
+      "type": "java.lang.StackTraceElement"
+    },
+    {
+      "type": "java.lang.String"
+    },
+    {
+      "type": "java.lang.String[]"
+    },
+    {
+      "type": "java.lang.System",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "load",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Thread"
+    },
+    {
+      "type": "java.lang.Thread$Builder"
+    },
+    {
+      "type": "java.lang.Void",
+      "fields": [
+        {
+          "name": "TYPE"
+        }
+      ]
+    },
+    {
+      "type": "java.lang.WrongThreadException"
+    },
+    {
+      "type": "java.lang.annotation.Annotation[]"
+    },
+    {
+      "type": "java.lang.annotation.Documented"
+    },
+    {
+      "type": "java.lang.annotation.Inherited"
+    },
+    {
+      "type": "java.lang.annotation.Repeatable"
+    },
+    {
+      "type": "java.lang.annotation.Retention"
+    },
+    {
+      "type": "java.lang.annotation.Target"
+    },
+    {
+      "type": "java.lang.constant.Constable"
+    },
+    {
+      "type": "java.lang.constant.Constable[]"
+    },
+    {
+      "type": "java.lang.constant.ConstantDesc[]"
+    },
+    {
+      "type": "java.lang.foreign.MemorySegment[]"
+    },
+    {
+      "type": "java.lang.invoke.TypeDescriptor$OfField"
+    },
+    {
+      "type": "java.lang.management.BufferPoolMXBean"
+    },
+    {
+      "type": "java.lang.management.ClassLoadingMXBean"
+    },
+    {
+      "type": "java.lang.management.CompilationMXBean"
+    },
+    {
+      "type": "java.lang.management.LockInfo"
+    },
+    {
+      "type": "java.lang.management.ManagementFactory",
+      "methods": [
+        {
+          "name": "getPlatformMXBean",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.lang.management.MemoryMXBean"
+    },
+    {
+      "type": "java.lang.management.MemoryManagerMXBean"
+    },
+    {
+      "type": "java.lang.management.MemoryPoolMXBean"
+    },
+    {
+      "type": "java.lang.management.MemoryUsage",
+      "methods": [
+        {
+          "name": "from",
+          "parameterTypes": [
+            "javax.management.openmbean.CompositeData"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.lang.management.MonitorInfo"
+    },
+    {
+      "type": "java.lang.management.PlatformLoggingMXBean"
+    },
+    {
+      "type": "java.lang.management.RuntimeMXBean"
+    },
+    {
+      "type": "java.lang.management.ThreadInfo"
+    },
+    {
+      "type": "java.lang.reflect.AnnotatedElement"
+    },
+    {
+      "type": "java.lang.reflect.GenericDeclaration"
+    },
+    {
+      "type": "java.lang.reflect.ParameterizedType",
+      "methods": [
+        {
+          "name": "getActualTypeArguments",
+          "parameterTypes": []
+        },
+        {
+          "name": "getRawType",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.lang.reflect.RecordComponent",
+      "methods": [
+        {
+          "name": "getName",
+          "parameterTypes": []
+        },
+        {
+          "name": "getType",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.lang.reflect.Type"
+    },
+    {
+      "type": "java.lang.reflect.WildcardType",
+      "methods": [
+        {
+          "name": "getLowerBounds",
+          "parameterTypes": []
+        },
+        {
+          "name": "getUpperBounds",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.math.BigDecimal"
+    },
+    {
+      "type": "java.math.BigInteger"
+    },
+    {
+      "type": "java.nio.file.Path"
+    },
+    {
+      "type": "java.nio.file.Paths"
+    },
+    {
+      "type": "java.sql.Connection"
+    },
+    {
+      "type": "java.sql.Date"
+    },
+    {
+      "type": "java.sql.Driver"
+    },
+    {
+      "type": "java.sql.DriverManager"
+    },
+    {
+      "type": "java.sql.Time"
+    },
+    {
+      "type": "java.sql.Timestamp"
+    },
+    {
+      "type": "java.text.ListFormat"
+    },
+    {
+      "type": "java.time.Duration"
+    },
+    {
+      "type": "java.time.Instant"
+    },
+    {
+      "type": "java.time.LocalDate"
+    },
+    {
+      "type": "java.time.LocalDateTime"
+    },
+    {
+      "type": "java.time.LocalTime"
+    },
+    {
+      "type": "java.time.MonthDay"
+    },
+    {
+      "type": "java.time.OffsetDateTime"
+    },
+    {
+      "type": "java.time.OffsetTime"
+    },
+    {
+      "type": "java.time.Period"
+    },
+    {
+      "type": "java.time.Year"
+    },
+    {
+      "type": "java.time.YearMonth"
+    },
+    {
+      "type": "java.time.ZoneId"
+    },
+    {
+      "type": "java.time.ZoneOffset"
+    },
+    {
+      "type": "java.time.ZonedDateTime"
+    },
+    {
+      "type": "java.util.AbstractCollection"
+    },
+    {
+      "type": "java.util.AbstractMap"
+    },
+    {
+      "type": "java.util.Arrays",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "asList",
+          "parameterTypes": [
+            "java.lang.Object[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.util.Collection"
+    },
+    {
+      "type": "java.util.Date"
+    },
+    {
+      "type": "java.util.EventListener"
+    },
+    {
+      "type": "java.util.ImmutableCollections$AbstractImmutableCollection"
+    },
+    {
+      "type": "java.util.ImmutableCollections$AbstractImmutableList"
+    },
+    {
+      "type": "java.util.ImmutableCollections$AbstractImmutableMap"
+    },
+    {
+      "type": "java.util.ImmutableCollections$ListN"
+    },
+    {
+      "type": "java.util.ImmutableCollections$MapN"
+    },
+    {
+      "type": "java.util.List"
+    },
+    {
+      "type": "java.util.Map"
+    },
+    {
+      "type": "java.util.RandomAccess"
+    },
+    {
+      "type": "java.util.SequencedCollection"
+    },
+    {
+      "type": "java.util.concurrent.Executor"
+    },
+    {
+      "type": "java.util.concurrent.ScheduledExecutorService"
+    },
+    {
+      "type": "java.util.concurrent.ThreadFactory"
+    },
+    {
+      "type": "java.util.concurrent.ThreadPerTaskExecutor"
+    },
+    {
+      "type": "java.util.function.BiPredicate"
+    },
+    {
+      "type": "java.util.logging.LogManager"
+    },
+    {
+      "type": "java.util.logging.SimpleFormatter",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "javafx.beans.value.ObservableValue"
+    },
+    {
+      "type": "javax.management.MBeanOperationInfo"
+    },
+    {
+      "type": "javax.management.MBeanServerBuilder",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "javax.management.ObjectName"
+    },
+    {
+      "type": "javax.management.StandardEmitterMBean"
+    },
+    {
+      "type": "javax.management.openmbean.CompositeData"
+    },
+    {
+      "type": "javax.management.openmbean.CompositeData[]"
+    },
+    {
+      "type": "javax.management.openmbean.OpenMBeanOperationInfoSupport"
+    },
+    {
+      "type": "javax.management.openmbean.TabularData"
+    },
+    {
+      "type": "javax.money.MonetaryAmount"
+    },
+    {
+      "type": "javax.naming.InitialContext"
+    },
+    {
+      "type": "javax.net.ssl.SSLParameters"
+    },
+    {
+      "type": "javax.security.auth.Subject"
+    },
+    {
+      "type": "jdk.crac.management.CRaCMXBean"
+    },
+    {
+      "type": "jdk.internal.loader.ClassLoaders$AppClassLoader"
+    },
+    {
+      "type": "jdk.internal.loader.ClassLoaders$PlatformClassLoader"
+    },
+    {
+      "type": "jdk.internal.misc.Unsafe"
+    },
+    {
+      "type": "jdk.management.VirtualThreadSchedulerMXBean"
+    },
+    {
+      "type": "jdk.management.jfr.ConfigurationInfo"
+    },
+    {
+      "type": "jdk.management.jfr.EventTypeInfo"
+    },
+    {
+      "type": "jdk.management.jfr.FlightRecorderMXBean"
+    },
+    {
+      "type": "jdk.management.jfr.FlightRecorderMXBeanImpl"
+    },
+    {
+      "type": "jdk.management.jfr.RecordingInfo"
+    },
+    {
+      "type": "jdk.management.jfr.SettingDescriptorInfo"
+    },
+    {
+      "type": "kotlin.Metadata"
+    },
+    {
+      "type": "kotlin.coroutines.Continuation"
+    },
+    {
+      "type": "kotlin.jvm.JvmInline"
+    },
+    {
+      "type": "kotlin.reflect.full.KClasses"
+    },
+    {
+      "type": "kotlinx.coroutines.reactor.MonoKt"
+    },
+    {
+      "type": "kotlinx.serialization.Serializable"
+    },
+    {
+      "type": "kotlinx.serialization.cbor.Cbor"
+    },
+    {
+      "type": "kotlinx.serialization.json.Json"
+    },
+    {
+      "type": "kotlinx.serialization.protobuf.ProtoBuf"
+    },
+    {
+      "type": "long[]"
+    },
+    {
+      "type": "org.apache.catalina.Manager"
+    },
+    {
+      "type": "org.apache.catalina.core.ApplicationContextFacade"
+    },
+    {
+      "type": "org.apache.catalina.startup.Tomcat"
+    },
+    {
+      "type": "org.apache.catalina.util.CharsetMapper",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.apache.commons.logging.LogFactory"
+    },
+    {
+      "type": "org.apache.commons.logging.impl.Slf4jLogFactory",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.apache.commons.logging.impl.WeakHashtable",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.apache.coyote.AbstractProtocol",
+      "methods": [
+        {
+          "name": "getAddress",
+          "parameterTypes": []
+        },
+        {
+          "name": "getLocalPort",
+          "parameterTypes": []
+        },
+        {
+          "name": "getNameIndex",
+          "parameterTypes": []
+        },
+        {
+          "name": "getProperty",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setPort",
+          "parameterTypes": [
+            "int"
+          ]
+        },
+        {
+          "name": "setProperty",
+          "parameterTypes": [
+            "java.lang.String",
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.apache.coyote.UpgradeProtocol"
+    },
+    {
+      "type": "org.apache.coyote.http11.AbstractHttp11Protocol",
+      "methods": [
+        {
+          "name": "isSSLEnabled",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.apache.coyote.http11.Http11NioProtocol"
+    },
+    {
+      "type": "org.apache.el.ExpressionFactoryImpl",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.apache.jasper.compiler.JspConfig"
+    },
+    {
+      "type": "org.apache.jasper.servlet.JspServlet"
+    },
+    {
+      "type": "org.apache.logging.log4j.core.LoggerContext"
+    },
+    {
+      "type": "org.apache.logging.log4j.core.impl.Log4jContextFactory"
+    },
+    {
+      "type": "org.apache.logging.log4j.util.EnvironmentPropertySource"
+    },
+    {
+      "type": "org.apache.logging.log4j.util.SystemPropertiesPropertySource"
+    },
+    {
+      "type": "org.apache.logging.slf4j.SLF4JProvider"
+    },
+    {
+      "type": "org.apache.lucene.codecs.lucene101.Lucene101Codec"
+    },
+    {
+      "type": "org.apache.lucene.index.ConcurrentMergeScheduler"
+    },
+    {
+      "type": "org.apache.lucene.index.IndexWriter"
+    },
+    {
+      "type": "org.apache.lucene.index.SegmentReader"
+    },
+    {
+      "type": "org.apache.lucene.internal.hppc.IntObjectHashMap"
+    },
+    {
+      "type": "org.apache.lucene.internal.hppc.LongHashSet"
+    },
+    {
+      "type": "org.apache.lucene.store.FilterIndexInput"
+    },
+    {
+      "type": "org.apache.lucene.store.MemorySegmentIndexInputProvider",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.apache.lucene.util.ByteBlockPool"
+    },
+    {
+      "type": "org.apache.lucene.util.FrequencyTrackingRingBuffer"
+    },
+    {
+      "type": "org.apache.lucene.util.FrequencyTrackingRingBuffer$IntBag"
+    },
+    {
+      "type": "org.apache.tomcat.util.net.AbstractEndpoint",
+      "methods": [
+        {
+          "name": "setBindOnInit",
+          "parameterTypes": [
+            "boolean"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.apache.tomcat.util.net.NioEndpoint"
+    },
+    {
+      "type": "org.apache.tomcat.websocket.server.WsFilter"
+    },
+    {
+      "type": "org.apache.tomcat.websocket.server.WsSci"
+    },
+    {
+      "type": "org.aspectj.weaver.Advice"
+    },
+    {
+      "type": "org.crac.Core"
+    },
+    {
+      "type": "org.eclipse.core.runtime.FileLocator"
+    },
+    {
+      "type": "org.graalvm.nativeimage.ImageInfo",
+      "methods": [
+        {
+          "name": "inImageCode",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.hibernate.validator.HibernateValidator"
+    },
+    {
+      "type": "org.hibernate.validator.internal.engine.AbstractConfigurationImpl",
+      "methods": [
+        {
+          "name": "externalClassLoader",
+          "parameterTypes": [
+            "java.lang.ClassLoader"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.hibernate.validator.internal.engine.ConfigurationImpl"
+    },
+    {
+      "type": "org.hibernate.validator.internal.util.logging.Log_$logger",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "org.jboss.logging.Logger"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.hibernate.validator.internal.util.logging.Log_$logger_en"
+    },
+    {
+      "type": "org.hibernate.validator.internal.util.logging.Log_$logger_en_US"
+    },
+    {
+      "type": "org.hibernate.validator.internal.util.logging.Messages_$bundle",
+      "fields": [
+        {
+          "name": "INSTANCE"
+        }
+      ]
+    },
+    {
+      "type": "org.hibernate.validator.internal.util.logging.Messages_$bundle_en"
+    },
+    {
+      "type": "org.hibernate.validator.internal.util.logging.Messages_$bundle_en_US"
+    },
+    {
+      "type": "org.jboss.logging.Logger"
+    },
+    {
+      "type": "org.joda.time.ReadableInstant"
+    },
+    {
+      "type": "org.osgi.framework.FrameworkUtil"
+    },
+    {
+      "type": "org.reactivestreams.Publisher"
+    },
+    {
+      "type": "org.slf4j.LoggerFactory"
+    },
+    {
+      "type": "org.slf4j.bridge.SLF4JBridgeHandler"
+    },
+    {
+      "type": "org.slf4j.helpers.Log4jLoggerFactory"
+    },
+    {
+      "type": "org.slf4j.spi.LocationAwareLogger"
+    },
+    {
+      "type": "org.springframework.aop.framework.AbstractAdvisingBeanPostProcessor"
+    },
+    {
+      "type": "org.springframework.aop.framework.AopInfrastructureBean"
+    },
+    {
+      "type": "org.springframework.aop.framework.ProxyConfig",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setProxyTargetClass",
+          "parameterTypes": [
+            "boolean"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.aop.framework.ProxyProcessorSupport",
+      "methods": [
+        {
+          "name": "setOrder",
+          "parameterTypes": [
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator"
+    },
+    {
+      "type": "org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator"
+    },
+    {
+      "type": "org.springframework.aop.framework.autoproxy.AbstractBeanFactoryAwareAdvisingPostProcessor"
+    },
+    {
+      "type": "org.springframework.aop.framework.autoproxy.InfrastructureAdvisorAutoProxyCreator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.aot.generate.Generated"
+    },
+    {
+      "type": "org.springframework.aot.hint.annotation.Reflective"
+    },
+    {
+      "type": "org.springframework.aot.hint.annotation.RegisterReflectionForBinding"
+    },
+    {
+      "type": "org.springframework.beans.factory.Aware"
+    },
+    {
+      "type": "org.springframework.beans.factory.BeanClassLoaderAware"
+    },
+    {
+      "type": "org.springframework.beans.factory.BeanFactoryAware"
+    },
+    {
+      "type": "org.springframework.beans.factory.BeanNameAware"
+    },
+    {
+      "type": "org.springframework.beans.factory.DisposableBean"
+    },
+    {
+      "type": "org.springframework.beans.factory.FactoryBean"
+    },
+    {
+      "type": "org.springframework.beans.factory.InitializingBean"
+    },
+    {
+      "type": "org.springframework.beans.factory.SmartInitializingSingleton"
+    },
+    {
+      "type": "org.springframework.beans.factory.annotation.Autowired"
+    },
+    {
+      "type": "org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor"
+    },
+    {
+      "type": "org.springframework.beans.factory.annotation.Qualifier"
+    },
+    {
+      "type": "org.springframework.beans.factory.annotation.Value"
+    },
+    {
+      "type": "org.springframework.beans.factory.aot.BeanFactoryInitializationAotProcessor"
+    },
+    {
+      "type": "org.springframework.beans.factory.aot.BeanRegistrationAotProcessor"
+    },
+    {
+      "type": "org.springframework.beans.factory.config.BeanFactoryPostProcessor"
+    },
+    {
+      "type": "org.springframework.beans.factory.config.BeanPostProcessor"
+    },
+    {
+      "type": "org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor"
+    },
+    {
+      "type": "org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor"
+    },
+    {
+      "type": "org.springframework.beans.factory.config.PlaceholderConfigurerSupport"
+    },
+    {
+      "type": "org.springframework.beans.factory.config.PropertyResourceConfigurer"
+    },
+    {
+      "type": "org.springframework.beans.factory.config.SmartInstantiationAwareBeanPostProcessor"
+    },
+    {
+      "type": "org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor"
+    },
+    {
+      "type": "org.springframework.beans.factory.support.MergedBeanDefinitionPostProcessor"
+    },
+    {
+      "type": "org.springframework.beans.factory.support.NullBean"
+    },
+    {
+      "type": "org.springframework.boot.ApplicationProperties",
+      "methods": [
+        {
+          "name": "setBannerMode",
+          "parameterTypes": [
+            "org.springframework.boot.Banner$Mode"
+          ]
+        },
+        {
+          "name": "setLazyInitialization",
+          "parameterTypes": [
+            "boolean"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.ClearCachesApplicationListener",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.CommandLineRunner"
+    },
+    {
+      "type": "org.springframework.boot.LazyInitializationExcludeFilter"
+    },
+    {
+      "type": "org.springframework.boot.Runner"
+    },
+    {
+      "type": "org.springframework.boot.SpringBootConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.actuate.audit.AuditEventRepository"
+    },
+    {
+      "type": "org.springframework.boot.actuate.audit.AuditEventsEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.condition.ConditionsReportEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.endpoint.EndpointAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "endpointCachingOperationInvokerAdvisor",
+          "parameterTypes": [
+            "org.springframework.core.env.Environment"
+          ]
+        },
+        {
+          "name": "endpointOperationParameterMapper",
+          "parameterTypes": [
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        },
+        {
+          "name": "propertiesEndpointAccessResolver",
+          "parameterTypes": [
+            "org.springframework.core.env.Environment"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.endpoint.PropertiesEndpointAccessResolver"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.endpoint.condition.ConditionalOnAvailableEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.endpoint.condition.OnAvailableEndpointCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.endpoint.expose.EndpointExposure"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.endpoint.expose.EndpointExposure[]"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.endpoint.expose.IncludeExcludeEndpointFilter"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.endpoint.jackson.Jackson2EndpointAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "jackson2EndpointJsonMapper",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.endpoint.jackson.JacksonEndpointAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "endpointJsonMapper",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.endpoint.web.MappingWebEndpointPathMapper"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "org.springframework.context.ApplicationContext",
+            "org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties"
+          ]
+        },
+        {
+          "name": "controllerEndpointDiscoverer",
+          "parameterTypes": [
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        },
+        {
+          "name": "controllerExposeExcludePropertyEndpointFilter",
+          "parameterTypes": []
+        },
+        {
+          "name": "endpointMediaTypes",
+          "parameterTypes": []
+        },
+        {
+          "name": "webAccessPropertiesOperationFilter",
+          "parameterTypes": [
+            "org.springframework.boot.actuate.endpoint.EndpointAccessResolver"
+          ]
+        },
+        {
+          "name": "webEndpointDiscoverer",
+          "parameterTypes": [
+            "org.springframework.boot.actuate.endpoint.invoke.ParameterValueMapper",
+            "org.springframework.boot.actuate.endpoint.web.EndpointMediaTypes",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        },
+        {
+          "name": "webEndpointPathMapper",
+          "parameterTypes": []
+        },
+        {
+          "name": "webExposeExcludePropertyEndpointFilter",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointAutoConfiguration$WebEndpointServletConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "servletEndpointDiscoverer",
+          "parameterTypes": [
+            "org.springframework.context.ApplicationContext",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "getExposure",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties$Exposure",
+      "methods": [
+        {
+          "name": "getInclude",
+          "parameterTypes": []
+        },
+        {
+          "name": "setInclude",
+          "parameterTypes": [
+            "java.util.Set"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.info.ConditionalOnEnabledInfoContributor"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.info.InfoContributorAutoConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.info.InfoContributorFallback"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.info.InfoContributorProperties"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.info.InfoEndpointAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "infoEndpoint",
+          "parameterTypes": [
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.info.OnEnabledInfoContributorCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.startup.StartupEndpointAutoConfiguration$ApplicationStartupCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.web.ManagementContextConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.web.ManagementContextType"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.web.server.ConditionalOnManagementPort"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.web.server.EnableManagementContext"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextAutoConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextAutoConfiguration$SameManagementContextConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "org.springframework.core.env.Environment"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextAutoConfiguration$SameManagementContextConfiguration$EnableSameManagementContextConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextConfigurationImportSelector",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextFactory"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.web.server.ManagementPortType"
+    },
+    {
+      "type": "org.springframework.boot.actuate.autoconfigure.web.server.OnManagementPortCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.actuate.beans.BeansEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.context.ShutdownEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.context.properties.ConfigurationPropertiesReportEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.EndpointAccessResolver"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.EndpointFilter"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.EndpointsSupplier"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.OperationFilter"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.annotation.Endpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.annotation.EndpointConverter"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.annotation.EndpointDiscoverer"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.annotation.EndpointExtension"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.annotation.FilteredEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.annotation.ReadOperation"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.invoke.OperationInvokerAdvisor"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.invoke.ParameterValueMapper"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.invoke.convert.ConversionServiceParameterValueMapper"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.invoker.cache.CachingOperationInvokerAdvisor"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.jackson.EndpointJackson2ObjectMapper"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.jackson.EndpointJsonMapper"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.web.AdditionalPathsMapper"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.web.EndpointMediaTypes"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.web.PathMappedEndpoints"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.web.PathMapper"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.web.ServletEndpointRegistrar"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.web.WebEndpointsSupplier"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.web.annotation.ControllerEndpointDiscoverer"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.web.annotation.ControllerEndpointsSupplier"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.web.annotation.EndpointWebExtension"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.web.annotation.ServletEndpointDiscoverer"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.web.annotation.ServletEndpointsSupplier"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.web.annotation.WebEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.web.annotation.WebEndpointDiscoverer"
+    },
+    {
+      "type": "org.springframework.boot.actuate.endpoint.web.annotation.WebEndpointFilter",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.actuate.env.EnvironmentEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.info.InfoEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.logging.LogFileWebEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.logging.LoggersEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.management.HeapDumpWebEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.management.ThreadDumpEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.sbom.SbomEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.scheduling.ScheduledTasksEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.web.exchanges.HttpExchangeRepository"
+    },
+    {
+      "type": "org.springframework.boot.actuate.web.exchanges.HttpExchangesEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.actuate.web.mappings.MappingsEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.ansi.AnsiOutput$Enabled"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.AutoConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.AutoConfigurationExcludeFilter",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.AutoConfigurationImportSelector",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.AutoConfigurationImportSelector$AutoConfigurationGroup",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.AutoConfigurationPackage"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.AutoConfigurationPackages$BasePackages",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.String[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.AutoConfigurationPackages$Registrar",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.AutoConfigureAfter"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.AutoConfigureBefore"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.AutoConfigureOrder"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.EnableAutoConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.SharedMetadataReaderFactoryContextInitializer",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.SpringBootApplication"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.aop.AopAutoConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.aop.AopAutoConfiguration$ClassProxyingConfiguration",
+      "methods": [
+        {
+          "name": "forceAutoProxyCreatorToUseClassProxying",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.availability.ApplicationAvailabilityAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "applicationAvailability",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.ConditionEvaluationReportAutoConfigurationImportListener",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.ConditionalOnBean"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.ConditionalOnClass"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.ConditionalOnMissingFilterBean"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.ConditionalOnNotWarDeployment"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.ConditionalOnProperty"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.ConditionalOnResource"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.ConditionalOnThreading"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication$Type"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.OnBeanCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.OnClassCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.OnPropertyCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.OnResourceCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.OnThreadingCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.OnWarDeploymentCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.OnWebApplicationCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.condition.SearchStrategy"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.context.ConfigurationPropertiesAutoConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.context.LifecycleAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "defaultLifecycleProcessor",
+          "parameterTypes": [
+            "org.springframework.boot.autoconfigure.context.LifecycleProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.context.LifecycleProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration$ResourceBundleCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration",
+      "methods": [
+        {
+          "name": "propertySourcesPlaceholderConfigurer",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration$GitResourceAvailableCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.info.ProjectInfoProperties"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.preinitialize.BackgroundPreinitializingApplicationListener",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.preinitialize.CharsetsBackgroundPreinitializer",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.preinitialize.ConversionServiceBackgroundPreinitializer",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.ssl.FileWatcher"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.ssl.SslAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "org.springframework.core.io.ResourceLoader",
+            "org.springframework.boot.autoconfigure.ssl.SslProperties"
+          ]
+        },
+        {
+          "name": "fileWatcher",
+          "parameterTypes": []
+        },
+        {
+          "name": "sslBundleRegistry",
+          "parameterTypes": [
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        },
+        {
+          "name": "sslPropertiesSslBundleRegistrar",
+          "parameterTypes": [
+            "org.springframework.boot.autoconfigure.ssl.FileWatcher"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.ssl.SslBundleRegistrar"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.ssl.SslProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.ssl.SslPropertiesBundleRegistrar"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.task.ScheduledBeanLazyInitializationExcludeFilter"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.task.TaskExecutionProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$ApplicationTaskExecutorAsyncConfigurer"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$AsyncConfigurerConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$AsyncConfigurerWrapperConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$BootstrapExecutorConfiguration",
+      "methods": [
+        {
+          "name": "bootstrapExecutorAliasPostProcessor",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$OnExecutorCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$SimpleAsyncTaskExecutorBuilderConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$TaskExecutorConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "applicationTaskExecutor",
+          "parameterTypes": [
+            "org.springframework.boot.task.ThreadPoolTaskExecutorBuilder"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$ThreadPoolTaskExecutorBuilderConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "threadPoolTaskExecutorBuilder",
+          "parameterTypes": [
+            "org.springframework.boot.autoconfigure.task.TaskExecutionProperties",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration",
+      "methods": [
+        {
+          "name": "scheduledBeanLazyInitializationExcludeFilter",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.task.TaskSchedulingConfigurations$SimpleAsyncTaskSchedulerBuilderConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.task.TaskSchedulingConfigurations$TaskSchedulerConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "taskScheduler",
+          "parameterTypes": [
+            "org.springframework.boot.task.ThreadPoolTaskSchedulerBuilder"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.task.TaskSchedulingConfigurations$ThreadPoolTaskSchedulerBuilderConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "threadPoolTaskSchedulerBuilder",
+          "parameterTypes": [
+            "org.springframework.boot.autoconfigure.task.TaskSchedulingProperties",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.task.TaskSchedulingProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.web.ConditionalOnEnabledResourceChain"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.web.OnEnabledResourceChainCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.web.WebProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.web.WebResourcesRuntimeHints"
+    },
+    {
+      "type": "org.springframework.boot.autoconfigure.web.format.WebConversionService"
+    },
+    {
+      "type": "org.springframework.boot.availability.ApplicationAvailability"
+    },
+    {
+      "type": "org.springframework.boot.availability.ApplicationAvailabilityBean"
+    },
+    {
+      "type": "org.springframework.boot.builder.ParentContextCloserApplicationListener",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.cloud.CloudFoundryVcapEnvironmentPostProcessor",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "org.springframework.boot.logging.DeferredLogFactory"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.ConfigurationWarningsApplicationContextInitializer",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.ContextIdApplicationContextInitializer",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.FileEncodingApplicationListener",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.TypeExcludeFilter",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.config.ConfigDataEnvironmentPostProcessor",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "org.springframework.boot.logging.DeferredLogFactory",
+            "org.springframework.boot.bootstrap.ConfigurableBootstrapContext"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.config.ConfigDataLocation[]"
+    },
+    {
+      "type": "org.springframework.boot.context.config.ConfigDataNotFoundAction"
+    },
+    {
+      "type": "org.springframework.boot.context.config.ConfigDataProperties"
+    },
+    {
+      "type": "org.springframework.boot.context.config.ConfigTreeConfigDataLoader",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.config.ConfigTreeConfigDataLocationResolver",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "org.springframework.core.io.ResourceLoader"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.config.StandardConfigDataLoader",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.config.StandardConfigDataLocationResolver",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "org.springframework.boot.logging.DeferredLogFactory",
+            "org.springframework.boot.context.properties.bind.Binder",
+            "org.springframework.core.io.ResourceLoader"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.config.SystemEnvironmentConfigDataLoader",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.config.SystemEnvironmentConfigDataLocationResolver",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.event.EventPublishingRunListener",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "org.springframework.boot.SpringApplication",
+            "java.lang.String[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.logging.LoggingApplicationListener",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.properties.BoundConfigurationProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.properties.ConfigurationProperties"
+    },
+    {
+      "type": "org.springframework.boot.context.properties.ConfigurationPropertiesBinder"
+    },
+    {
+      "type": "org.springframework.boot.context.properties.ConfigurationPropertiesBinder$ConfigurationPropertiesBinderFactory",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.properties.ConfigurationPropertiesSource"
+    },
+    {
+      "type": "org.springframework.boot.context.properties.EnableConfigurationProperties"
+    },
+    {
+      "type": "org.springframework.boot.context.properties.EnableConfigurationPropertiesRegistrar",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.context.properties.NestedConfigurationProperty"
+    },
+    {
+      "type": "org.springframework.boot.context.properties.bind.Name"
+    },
+    {
+      "type": "org.springframework.boot.context.properties.bind.Nested"
+    },
+    {
+      "type": "org.springframework.boot.convert.DurationUnit"
+    },
+    {
+      "type": "org.springframework.boot.env.PropertiesPropertySourceLoader",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.env.YamlPropertySourceLoader",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.health.actuate.endpoint.HealthEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.health.actuate.endpoint.HealthEndpointGroups"
+    },
+    {
+      "type": "org.springframework.boot.health.actuate.endpoint.HealthEndpointGroupsPostProcessor"
+    },
+    {
+      "type": "org.springframework.boot.health.actuate.endpoint.HealthEndpointSupport"
+    },
+    {
+      "type": "org.springframework.boot.health.actuate.endpoint.HealthEndpointWebExtension"
+    },
+    {
+      "type": "org.springframework.boot.health.actuate.endpoint.HttpCodeStatusMapper"
+    },
+    {
+      "type": "org.springframework.boot.health.actuate.endpoint.SimpleHttpCodeStatusMapper"
+    },
+    {
+      "type": "org.springframework.boot.health.actuate.endpoint.SimpleStatusAggregator"
+    },
+    {
+      "type": "org.springframework.boot.health.actuate.endpoint.StatusAggregator"
+    },
+    {
+      "type": "org.springframework.boot.health.application.AvailabilityStateHealthIndicator"
+    },
+    {
+      "type": "org.springframework.boot.health.application.DiskSpaceHealthIndicator"
+    },
+    {
+      "type": "org.springframework.boot.health.application.LivenessStateHealthIndicator"
+    },
+    {
+      "type": "org.springframework.boot.health.application.ReadinessStateHealthIndicator"
+    },
+    {
+      "type": "org.springframework.boot.health.application.SslHealthIndicator"
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.actuate.endpoint.AutoConfiguredHealthEndpointGroups"
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.actuate.endpoint.AvailabilityProbesAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "availabilityProbesHealthEndpointGroupsPostProcessor",
+          "parameterTypes": [
+            "org.springframework.core.env.Environment"
+          ]
+        },
+        {
+          "name": "livenessStateHealthIndicator",
+          "parameterTypes": [
+            "org.springframework.boot.availability.ApplicationAvailability"
+          ]
+        },
+        {
+          "name": "readinessStateHealthIndicator",
+          "parameterTypes": [
+            "org.springframework.boot.availability.ApplicationAvailability"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.actuate.endpoint.AvailabilityProbesHealthEndpointGroups"
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.actuate.endpoint.AvailabilityProbesHealthEndpointGroupsPostProcessor"
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.actuate.endpoint.GroupsHealthContributorNameValidator"
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.actuate.endpoint.HealthEndpointAutoConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.actuate.endpoint.HealthEndpointConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "groupsHealthContributorNameValidator",
+          "parameterTypes": [
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        },
+        {
+          "name": "healthEndpoint",
+          "parameterTypes": [
+            "org.springframework.boot.health.registry.HealthContributorRegistry",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.boot.health.actuate.endpoint.HealthEndpointGroups",
+            "org.springframework.boot.health.autoconfigure.actuate.endpoint.HealthEndpointProperties"
+          ]
+        },
+        {
+          "name": "healthEndpointGroupMembershipValidator",
+          "parameterTypes": [
+            "org.springframework.boot.health.autoconfigure.actuate.endpoint.HealthEndpointProperties",
+            "org.springframework.boot.health.registry.HealthContributorRegistry",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        },
+        {
+          "name": "healthEndpointGroups",
+          "parameterTypes": [
+            "org.springframework.context.ApplicationContext",
+            "org.springframework.boot.health.autoconfigure.actuate.endpoint.HealthEndpointProperties"
+          ]
+        },
+        {
+          "name": "healthEndpointGroupsBeanPostProcessor",
+          "parameterTypes": [
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        },
+        {
+          "name": "healthHttpCodeStatusMapper",
+          "parameterTypes": [
+            "org.springframework.boot.health.autoconfigure.actuate.endpoint.HealthEndpointProperties"
+          ]
+        },
+        {
+          "name": "healthStatusAggregator",
+          "parameterTypes": [
+            "org.springframework.boot.health.autoconfigure.actuate.endpoint.HealthEndpointProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.actuate.endpoint.HealthEndpointConfiguration$HealthEndpointGroupMembershipValidator"
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.actuate.endpoint.HealthEndpointConfiguration$HealthEndpointGroupsBeanPostProcessor"
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.actuate.endpoint.HealthEndpointProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.actuate.endpoint.HealthEndpointReactiveWebExtensionConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.actuate.endpoint.HealthEndpointWebExtensionConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "healthEndpointWebExtension",
+          "parameterTypes": [
+            "org.springframework.boot.health.registry.HealthContributorRegistry",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.boot.health.actuate.endpoint.HealthEndpointGroups",
+            "org.springframework.boot.health.autoconfigure.actuate.endpoint.HealthEndpointProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.actuate.endpoint.HealthProperties"
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.application.AvailabilityHealthContributorAutoConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.application.DiskSpaceHealthContributorAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "diskSpaceHealthIndicator",
+          "parameterTypes": [
+            "org.springframework.boot.health.autoconfigure.application.DiskSpaceHealthIndicatorProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.application.DiskSpaceHealthIndicatorProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.application.SslHealthContributorAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "sslHealthIndicator",
+          "parameterTypes": [
+            "org.springframework.boot.info.SslInfo",
+            "org.springframework.boot.health.autoconfigure.application.SslHealthIndicatorProperties"
+          ]
+        },
+        {
+          "name": "sslInfo",
+          "parameterTypes": [
+            "org.springframework.boot.ssl.SslBundles"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.application.SslHealthIndicatorProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.contributor.ConditionalOnEnabledHealthIndicator"
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.contributor.HealthContributorAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "pingHealthContributor",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.contributor.OnEnabledHealthIndicatorCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.registry.HealthContributorRegistryAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "healthContributorRegistry",
+          "parameterTypes": [
+            "java.util.Map",
+            "org.springframework.beans.factory.ObjectProvider",
+            "java.util.List"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.health.autoconfigure.registry.HealthContributorRegistryAutoConfiguration$ReactiveHealthContributorRegistryConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "reactiveHealthContributorRegistry",
+          "parameterTypes": [
+            "java.util.Map",
+            "org.springframework.beans.factory.ObjectProvider",
+            "java.util.List"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.health.contributor.AbstractHealthIndicator"
+    },
+    {
+      "type": "org.springframework.boot.health.contributor.Health"
+    },
+    {
+      "type": "org.springframework.boot.health.contributor.HealthContributor"
+    },
+    {
+      "type": "org.springframework.boot.health.contributor.HealthContributors"
+    },
+    {
+      "type": "org.springframework.boot.health.contributor.HealthIndicator"
+    },
+    {
+      "type": "org.springframework.boot.health.contributor.PingHealthIndicator"
+    },
+    {
+      "type": "org.springframework.boot.health.contributor.ReactiveHealthContributors"
+    },
+    {
+      "type": "org.springframework.boot.health.registry.AbstractRegistry"
+    },
+    {
+      "type": "org.springframework.boot.health.registry.DefaultHealthContributorRegistry"
+    },
+    {
+      "type": "org.springframework.boot.health.registry.DefaultReactiveHealthContributorRegistry"
+    },
+    {
+      "type": "org.springframework.boot.health.registry.HealthContributorNameValidator"
+    },
+    {
+      "type": "org.springframework.boot.health.registry.HealthContributorRegistry"
+    },
+    {
+      "type": "org.springframework.boot.health.registry.ReactiveHealthContributorRegistry"
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.ClientHttpMessageConvertersCustomizer"
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.DefaultServerHttpMessageConvertersCustomizer"
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.GsonHttpMessageConvertersConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.GsonHttpMessageConvertersConfiguration$JacksonAndJsonbUnavailableCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.GsonHttpMessageConvertersConfiguration$PreferGsonOrJacksonAndJsonbUnavailableCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.HttpMessageConvertersAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "serverConvertersCustomizer",
+          "parameterTypes": [
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.HttpMessageConvertersAutoConfiguration$NotReactiveWebApplicationCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.HttpMessageConvertersAutoConfiguration$StringHttpMessageConverterConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "stringHttpMessageConvertersCustomizer",
+          "parameterTypes": [
+            "org.springframework.boot.http.converter.autoconfigure.HttpMessageConvertersProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.HttpMessageConvertersAutoConfiguration$StringHttpMessageConvertersCustomizer"
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.HttpMessageConvertersProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.Jackson2HttpMessageConvertersConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.Jackson2HttpMessageConvertersConfiguration$Jackson2JsonMessageConvertersCustomizer"
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.Jackson2HttpMessageConvertersConfiguration$PreferJackson2OrJacksonUnavailableCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.JacksonHttpMessageConvertersConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.JacksonHttpMessageConvertersConfiguration$JacksonJsonHttpMessageConverterConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "jacksonJsonHttpMessageConvertersCustomizer",
+          "parameterTypes": [
+            "tools.jackson.databind.json.JsonMapper"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.JacksonHttpMessageConvertersConfiguration$JacksonJsonHttpMessageConvertersCustomizer"
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.JsonbHttpMessageConvertersConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.KotlinSerializationHttpMessageConvertersConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.MessageConverterBackgroundPreinitializer",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.http.converter.autoconfigure.ServerHttpMessageConvertersCustomizer"
+    },
+    {
+      "type": "org.springframework.boot.info.BuildProperties"
+    },
+    {
+      "type": "org.springframework.boot.info.GitProperties"
+    },
+    {
+      "type": "org.springframework.boot.info.SslInfo"
+    },
+    {
+      "type": "org.springframework.boot.io.Base64ProtocolResolver",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.io.ClassPathResourceFilePathResolver",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.io.ProtocolResolverApplicationContextInitializer",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.jackson.JacksonComponentModule"
+    },
+    {
+      "type": "org.springframework.boot.jackson.JacksonMixinModule"
+    },
+    {
+      "type": "org.springframework.boot.jackson.JacksonMixinModuleEntries"
+    },
+    {
+      "type": "org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "jacksonJsonMapper",
+          "parameterTypes": [
+            "tools.jackson.databind.json.JsonMapper$Builder"
+          ]
+        },
+        {
+          "name": "jsonComponentModule",
+          "parameterTypes": []
+        },
+        {
+          "name": "jsonMapperBuilder",
+          "parameterTypes": [
+            "java.util.List"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration$AbstractMapperBuilderCustomizer"
+    },
+    {
+      "type": "org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration$JacksonJsonMapperBuilderCustomizerConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "standardJsonMapperBuilderCustomizer",
+          "parameterTypes": [
+            "org.springframework.boot.jackson.autoconfigure.JacksonProperties",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration$JacksonJsonMapperBuilderCustomizerConfiguration$StandardJsonMapperBuilderCustomizer"
+    },
+    {
+      "type": "org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration$JacksonMixinConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "jacksonMixinModule",
+          "parameterTypes": [
+            "org.springframework.context.ApplicationContext",
+            "org.springframework.boot.jackson.JacksonMixinModuleEntries"
+          ]
+        },
+        {
+          "name": "jacksonMixinModuleEntries",
+          "parameterTypes": [
+            "org.springframework.context.ApplicationContext"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration$JsonProblemDetailsConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "problemDetailJsonMapperBuilderCustomizer",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration$JsonProblemDetailsConfiguration$ProblemDetailJsonMapperBuilderCustomizer"
+    },
+    {
+      "type": "org.springframework.boot.jackson.autoconfigure.JacksonBackgroundPreinitializer",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.jackson.autoconfigure.JacksonProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer"
+    },
+    {
+      "type": "org.springframework.boot.loader.launch.LaunchedClassLoader"
+    },
+    {
+      "type": "org.springframework.boot.logging.LogLevelEditor"
+    },
+    {
+      "type": "org.springframework.boot.logging.java.JavaLoggingSystem$Factory",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.logging.log4j2.Log4J2LoggingSystem$Factory",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.logging.log4j2.SpringBootPropertySource"
+    },
+    {
+      "type": "org.springframework.boot.logging.logback.LogbackLoggingSystem$Factory",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.logging.logback.RootLogLevelConfigurator"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.MaximumAllowableTagsMeterFilter"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.actuate.endpoint.MetricsEndpoint"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.CompositeMeterRegistryAutoConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.CompositeMeterRegistryConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.CompositeMeterRegistryConfiguration$MultipleNonPrimaryMeterRegistriesCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.MeterRegistryPostProcessor"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.MetricsAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "defaultMeterObservationHandler",
+          "parameterTypes": [
+            "org.springframework.beans.factory.ObjectProvider",
+            "io.micrometer.core.instrument.Clock",
+            "org.springframework.boot.micrometer.metrics.autoconfigure.MetricsProperties"
+          ]
+        },
+        {
+          "name": "meterRegistryPostProcessor",
+          "parameterTypes": [
+            "org.springframework.context.ApplicationContext",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        },
+        {
+          "name": "metricsObservationHandlerGroup",
+          "parameterTypes": []
+        },
+        {
+          "name": "micrometerClock",
+          "parameterTypes": []
+        },
+        {
+          "name": "propertiesMeterFilter",
+          "parameterTypes": [
+            "org.springframework.boot.micrometer.metrics.autoconfigure.MetricsProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.MetricsAutoConfiguration$MeterRegistryCloser"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.MetricsEndpointAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "metricsEndpoint",
+          "parameterTypes": [
+            "io.micrometer.core.instrument.MeterRegistry"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.MetricsProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.NoOpMeterRegistryConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.PropertiesMeterFilter"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.export.ConditionalOnEnabledMetricsExport"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.export.OnMetricsExportEnabledCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.export.properties.PropertiesConfigAdapter"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.export.simple.SimpleMetricsExportAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "simpleConfig",
+          "parameterTypes": [
+            "org.springframework.boot.micrometer.metrics.autoconfigure.export.simple.SimpleProperties"
+          ]
+        },
+        {
+          "name": "simpleMeterRegistry",
+          "parameterTypes": [
+            "io.micrometer.core.instrument.simple.SimpleConfig",
+            "io.micrometer.core.instrument.Clock"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.export.simple.SimpleProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.export.simple.SimplePropertiesConfigAdapter"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.jvm.JvmMetricsAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "classLoaderMetrics",
+          "parameterTypes": []
+        },
+        {
+          "name": "jvmCompilationMetrics",
+          "parameterTypes": []
+        },
+        {
+          "name": "jvmGcMetrics",
+          "parameterTypes": []
+        },
+        {
+          "name": "jvmHeapPressureMetrics",
+          "parameterTypes": []
+        },
+        {
+          "name": "jvmInfoMetrics",
+          "parameterTypes": []
+        },
+        {
+          "name": "jvmMemoryMetrics",
+          "parameterTypes": []
+        },
+        {
+          "name": "jvmThreadMetrics",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.logging.logback.LogbackMetricsAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "logbackMetrics",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.logging.logback.LogbackMetricsAutoConfiguration$LogbackLoggingCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.ssl.SslMeterBinder"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.ssl.SslMetricsAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "sslMeterBinder",
+          "parameterTypes": [
+            "org.springframework.boot.ssl.SslBundles",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.startup.StartupTimeMetricsListenerAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "startupTimeMetrics",
+          "parameterTypes": [
+            "io.micrometer.core.instrument.MeterRegistry"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.system.SystemMetricsAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "diskSpaceMetrics",
+          "parameterTypes": [
+            "org.springframework.boot.micrometer.metrics.autoconfigure.MetricsProperties"
+          ]
+        },
+        {
+          "name": "fileDescriptorMetrics",
+          "parameterTypes": []
+        },
+        {
+          "name": "processorMetrics",
+          "parameterTypes": []
+        },
+        {
+          "name": "uptimeMetrics",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.autoconfigure.task.TaskExecutorMetricsAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "bindTaskExecutorsToRegistry",
+          "parameterTypes": [
+            "org.springframework.beans.factory.config.ConfigurableListableBeanFactory",
+            "io.micrometer.core.instrument.MeterRegistry"
+          ]
+        },
+        {
+          "name": "eagerTaskExecutorMetrics",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.startup.StartupTimeMetricsListener"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.metrics.system.DiskSpaceMetricsBinder"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.observation.autoconfigure.ObservationAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "observationRegistry",
+          "parameterTypes": []
+        },
+        {
+          "name": "observationRegistryPostProcessor",
+          "parameterTypes": [
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        },
+        {
+          "name": "propertiesObservationFilter",
+          "parameterTypes": [
+            "org.springframework.boot.micrometer.observation.autoconfigure.ObservationProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.micrometer.observation.autoconfigure.ObservationHandlerGroup"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.observation.autoconfigure.ObservationProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.micrometer.observation.autoconfigure.ObservationRegistryPostProcessor"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.observation.autoconfigure.PropertiesObservationFilterPredicate"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.observation.autoconfigure.ScheduledTasksObservationAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "observabilitySchedulingConfigurer",
+          "parameterTypes": [
+            "io.micrometer.observation.ObservationRegistry"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.micrometer.observation.autoconfigure.ScheduledTasksObservationAutoConfiguration$ObservabilitySchedulingConfigurer"
+    },
+    {
+      "type": "org.springframework.boot.micrometer.observation.autoconfigure.SpelValueExpressionResolver"
+    },
+    {
+      "type": "org.springframework.boot.servlet.autoconfigure.HttpEncodingAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "characterEncodingFilter",
+          "parameterTypes": [
+            "org.springframework.boot.servlet.autoconfigure.ServletEncodingProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.servlet.autoconfigure.MultipartAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "org.springframework.boot.servlet.autoconfigure.MultipartProperties"
+          ]
+        },
+        {
+          "name": "multipartConfigElement",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.servlet.autoconfigure.MultipartProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.servlet.autoconfigure.ServletEncodingProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.servlet.autoconfigure.actuate.web.ManagementServletContext"
+    },
+    {
+      "type": "org.springframework.boot.servlet.autoconfigure.actuate.web.ServletEndpointManagementContextConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "servletExposeExcludePropertyEndpointFilter",
+          "parameterTypes": [
+            "org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.servlet.autoconfigure.actuate.web.ServletManagementContextAutoConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.servlet.filter.OrderedCharacterEncodingFilter"
+    },
+    {
+      "type": "org.springframework.boot.servlet.filter.OrderedFilter"
+    },
+    {
+      "type": "org.springframework.boot.servlet.filter.OrderedFormContentFilter"
+    },
+    {
+      "type": "org.springframework.boot.servlet.filter.OrderedRequestContextFilter"
+    },
+    {
+      "type": "org.springframework.boot.ssl.DefaultSslBundleRegistry"
+    },
+    {
+      "type": "org.springframework.boot.ssl.SslBundleRegistry"
+    },
+    {
+      "type": "org.springframework.boot.ssl.SslBundles"
+    },
+    {
+      "type": "org.springframework.boot.support.AnsiOutputApplicationListener",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.support.EnvironmentPostProcessorApplicationListener",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.support.RandomValuePropertySourceEnvironmentPostProcessor",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "org.springframework.boot.logging.DeferredLogFactory"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.support.SpringApplicationJsonEnvironmentPostProcessor",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.support.SystemEnvironmentPropertySourceEnvironmentPostProcessor",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.task.SimpleAsyncTaskExecutorBuilder"
+    },
+    {
+      "type": "org.springframework.boot.task.SimpleAsyncTaskSchedulerBuilder"
+    },
+    {
+      "type": "org.springframework.boot.task.ThreadPoolTaskExecutorBuilder"
+    },
+    {
+      "type": "org.springframework.boot.task.ThreadPoolTaskSchedulerBuilder"
+    },
+    {
+      "type": "org.springframework.boot.thread.Threading"
+    },
+    {
+      "type": "org.springframework.boot.tomcat.ConfigurableTomcatWebServerFactory"
+    },
+    {
+      "type": "org.springframework.boot.tomcat.TomcatWebServerFactory"
+    },
+    {
+      "type": "org.springframework.boot.tomcat.autoconfigure.TomcatBackgroundPreinitializer",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.tomcat.autoconfigure.TomcatServerProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.tomcat.autoconfigure.TomcatWebServerConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "tomcatWebServerFactoryCustomizer",
+          "parameterTypes": [
+            "org.springframework.core.env.Environment",
+            "org.springframework.boot.web.server.autoconfigure.ServerProperties",
+            "org.springframework.boot.tomcat.autoconfigure.TomcatServerProperties",
+            "org.springframework.boot.autoconfigure.web.WebProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.tomcat.autoconfigure.TomcatWebServerConfiguration$TomcatWebSocketConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "webSocketWebServerCustomizer",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.tomcat.autoconfigure.TomcatWebServerFactoryCustomizer"
+    },
+    {
+      "type": "org.springframework.boot.tomcat.autoconfigure.WebSocketTomcatWebServerFactoryCustomizer"
+    },
+    {
+      "type": "org.springframework.boot.tomcat.autoconfigure.metrics.TomcatMetricsAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "tomcatMetricsBinder",
+          "parameterTypes": [
+            "io.micrometer.core.instrument.MeterRegistry"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.tomcat.autoconfigure.servlet.TomcatServletWebServerAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "org.springframework.boot.tomcat.autoconfigure.TomcatServerProperties"
+          ]
+        },
+        {
+          "name": "tomcatServletWebServerFactory",
+          "parameterTypes": [
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        },
+        {
+          "name": "tomcatServletWebServerFactoryCustomizer",
+          "parameterTypes": [
+            "org.springframework.boot.tomcat.autoconfigure.TomcatServerProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.tomcat.autoconfigure.servlet.TomcatServletWebServerFactoryCustomizer"
+    },
+    {
+      "type": "org.springframework.boot.tomcat.metrics.TomcatMetricsBinder"
+    },
+    {
+      "type": "org.springframework.boot.tomcat.reactive.TomcatReactiveWebServerFactory"
+    },
+    {
+      "type": "org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory"
+    },
+    {
+      "type": "org.springframework.boot.validation.autoconfigure.JakartaValidationBackgroundPreinitializer",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.validation.autoconfigure.PrimaryDefaultValidatorPostProcessor",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.validation.autoconfigure.ValidationAutoConfiguration",
+      "methods": [
+        {
+          "name": "defaultValidator",
+          "parameterTypes": [
+            "org.springframework.context.ApplicationContext",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        },
+        {
+          "name": "methodValidationPostProcessor",
+          "parameterTypes": [
+            "org.springframework.core.env.Environment",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.validation.beanvalidation.FilteredMethodValidationPostProcessor"
+    },
+    {
+      "type": "org.springframework.boot.validation.beanvalidation.MethodValidationExcludeFilter",
+      "methods": [
+        {
+          "name": "byAnnotation",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.web.context.reactive.FilteredReactiveWebContextResourceFilePathResolver",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.web.context.servlet.ServletContextResourceFilePathResolver",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.web.error.ErrorPageRegistrar"
+    },
+    {
+      "type": "org.springframework.boot.web.error.ErrorPageRegistrarBeanPostProcessor",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.web.error.ErrorPageRegistry"
+    },
+    {
+      "type": "org.springframework.boot.web.server.AbstractConfigurableWebServerFactory"
+    },
+    {
+      "type": "org.springframework.boot.web.server.ConfigurableWebServerFactory"
+    },
+    {
+      "type": "org.springframework.boot.web.server.WebServerFactory"
+    },
+    {
+      "type": "org.springframework.boot.web.server.WebServerFactoryCustomizer"
+    },
+    {
+      "type": "org.springframework.boot.web.server.WebServerFactoryCustomizerBeanPostProcessor",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.web.server.autoconfigure.ServerProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setPort",
+          "parameterTypes": [
+            "java.lang.Integer"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.web.server.autoconfigure.servlet.ServletWebServerConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "servletWebServerFactoryCustomizer",
+          "parameterTypes": [
+            "org.springframework.boot.web.server.autoconfigure.ServerProperties",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.web.server.autoconfigure.servlet.ServletWebServerConfiguration$BeanPostProcessorsRegistrar",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.web.server.autoconfigure.servlet.ServletWebServerFactoryCustomizer"
+    },
+    {
+      "type": "org.springframework.boot.web.server.context.ServerPortInfoApplicationContextInitializer",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.web.server.reactive.context.ReactiveWebServerApplicationContextFactory",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.web.server.servlet.ConfigurableServletWebServerFactory"
+    },
+    {
+      "type": "org.springframework.boot.web.server.servlet.ServletWebServerFactory"
+    },
+    {
+      "type": "org.springframework.boot.web.server.servlet.WebListenerRegistry"
+    },
+    {
+      "type": "org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContextFactory",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.web.servlet.AbstractFilterRegistrationBean"
+    },
+    {
+      "type": "org.springframework.boot.web.servlet.DynamicRegistrationBean"
+    },
+    {
+      "type": "org.springframework.boot.web.servlet.FilterRegistrationBean"
+    },
+    {
+      "type": "org.springframework.boot.web.servlet.RegistrationBean"
+    },
+    {
+      "type": "org.springframework.boot.web.servlet.ServletContextInitializer"
+    },
+    {
+      "type": "org.springframework.boot.web.servlet.ServletRegistrationBean"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.WebMvcWebApplicationTypeDeducer",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.webmvc.actuate.endpoint.web.AbstractWebMvcEndpointHandlerMapping"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.actuate.endpoint.web.AbstractWebMvcEndpointHandlerMapping$LinksHandler"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.actuate.endpoint.web.AbstractWebMvcEndpointHandlerMapping$OperationHandler"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.actuate.endpoint.web.AdditionalHealthEndpointPathsWebMvcHandlerMapping"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.actuate.endpoint.web.ControllerEndpointHandlerMapping"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.actuate.endpoint.web.WebMvcEndpointHandlerMapping"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.actuate.endpoint.web.WebMvcEndpointHandlerMapping$WebMvcLinksHandler"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.DispatcherServletAutoConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.DispatcherServletAutoConfiguration$DefaultDispatcherServletCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.DispatcherServletAutoConfiguration$DispatcherServletConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "dispatcherServlet",
+          "parameterTypes": [
+            "org.springframework.boot.webmvc.autoconfigure.WebMvcProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.DispatcherServletAutoConfiguration$DispatcherServletRegistrationCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.DispatcherServletAutoConfiguration$DispatcherServletRegistrationConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "dispatcherServletRegistration",
+          "parameterTypes": [
+            "org.springframework.web.servlet.DispatcherServlet",
+            "org.springframework.boot.webmvc.autoconfigure.WebMvcProperties",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.DispatcherServletPath"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.DispatcherServletRegistrationBean"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.JspTemplateAvailabilityProvider",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.WebMvcAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "formContentFilter",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.WebMvcAutoConfiguration$EnableWebMvcConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "org.springframework.boot.webmvc.autoconfigure.WebMvcProperties",
+            "org.springframework.boot.autoconfigure.web.WebProperties",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ListableBeanFactory"
+          ]
+        },
+        {
+          "name": "mvcApiVersionStrategy",
+          "parameterTypes": []
+        },
+        {
+          "name": "mvcConversionService",
+          "parameterTypes": []
+        },
+        {
+          "name": "welcomePageHandlerMapping",
+          "parameterTypes": [
+            "org.springframework.context.ApplicationContext",
+            "org.springframework.format.support.FormattingConversionService",
+            "org.springframework.web.servlet.resource.ResourceUrlProvider"
+          ]
+        },
+        {
+          "name": "welcomePageNotAcceptableHandlerMapping",
+          "parameterTypes": [
+            "org.springframework.context.ApplicationContext",
+            "org.springframework.format.support.FormattingConversionService",
+            "org.springframework.web.servlet.resource.ResourceUrlProvider"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.WebMvcAutoConfiguration$MvcValidatorRuntimeHints"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "org.springframework.boot.autoconfigure.web.WebProperties",
+            "org.springframework.boot.webmvc.autoconfigure.WebMvcProperties",
+            "org.springframework.beans.factory.ListableBeanFactory",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.beans.factory.ObjectProvider"
+          ]
+        },
+        {
+          "name": "requestContextFilter",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.WebMvcObservationAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "webMvcObservationFilter",
+          "parameterTypes": [
+            "io.micrometer.observation.ObservationRegistry",
+            "org.springframework.beans.factory.ObjectProvider",
+            "org.springframework.boot.micrometer.observation.autoconfigure.ObservationProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.WebMvcObservationAutoConfiguration$MeterFilterConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "metricsHttpServerUriTagFilter",
+          "parameterTypes": [
+            "org.springframework.boot.micrometer.observation.autoconfigure.ObservationProperties",
+            "org.springframework.boot.micrometer.metrics.autoconfigure.MetricsProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.WebMvcProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.WelcomePageHandlerMapping"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.WelcomePageNotAcceptableHandlerMapping"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.actuate.endpoint.web.WebMvcHealthEndpointExtensionAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "healthEndpointWebMvcHandlerMapping",
+          "parameterTypes": [
+            "org.springframework.boot.actuate.endpoint.web.WebEndpointsSupplier",
+            "org.springframework.boot.health.actuate.endpoint.HealthEndpointGroups"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.actuate.web.WebMvcEndpointManagementContextConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "controllerEndpointHandlerMapping",
+          "parameterTypes": [
+            "org.springframework.boot.actuate.endpoint.web.annotation.ControllerEndpointsSupplier",
+            "org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties",
+            "org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties",
+            "org.springframework.boot.actuate.endpoint.EndpointAccessResolver"
+          ]
+        },
+        {
+          "name": "endpointJackson2ObjectMapperWebMvcConfigurer",
+          "parameterTypes": [
+            "org.springframework.boot.actuate.endpoint.jackson.EndpointJackson2ObjectMapper"
+          ]
+        },
+        {
+          "name": "endpointJsonMapperWebMvcConfigurer",
+          "parameterTypes": [
+            "org.springframework.boot.actuate.endpoint.jackson.EndpointJsonMapper"
+          ]
+        },
+        {
+          "name": "servletEndpointRegistrar",
+          "parameterTypes": [
+            "org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties",
+            "org.springframework.boot.actuate.endpoint.web.annotation.ServletEndpointsSupplier",
+            "org.springframework.boot.webmvc.autoconfigure.DispatcherServletPath",
+            "org.springframework.boot.actuate.endpoint.EndpointAccessResolver"
+          ]
+        },
+        {
+          "name": "webEndpointServletHandlerMapping",
+          "parameterTypes": [
+            "org.springframework.boot.actuate.endpoint.web.WebEndpointsSupplier",
+            "org.springframework.boot.actuate.endpoint.web.annotation.ServletEndpointsSupplier",
+            "org.springframework.boot.actuate.endpoint.web.annotation.ControllerEndpointsSupplier",
+            "org.springframework.boot.actuate.endpoint.web.EndpointMediaTypes",
+            "org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties",
+            "org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties",
+            "org.springframework.core.env.Environment"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.actuate.web.WebMvcEndpointManagementContextConfiguration$EndpointJackson2ObjectMapperWebMvcConfigurer"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.actuate.web.WebMvcEndpointManagementContextConfiguration$EndpointJsonMapperWebMvcConfigurer"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.error.AbstractErrorController"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.error.BasicErrorController"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.error.DefaultErrorViewResolver"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.error.ErrorMvcAutoConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "org.springframework.boot.autoconfigure.web.WebProperties"
+          ]
+        },
+        {
+          "name": "errorPageCustomizer",
+          "parameterTypes": [
+            "org.springframework.boot.webmvc.autoconfigure.DispatcherServletPath"
+          ]
+        },
+        {
+          "name": "preserveErrorControllerTargetClassPostProcessor",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.error.ErrorMvcAutoConfiguration$DefaultErrorViewResolverConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.error.ErrorMvcAutoConfiguration$ErrorPageCustomizer"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.error.ErrorMvcAutoConfiguration$ErrorTemplateMissingCondition",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.error.ErrorMvcAutoConfiguration$PreserveErrorControllerTargetClassPostProcessor"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.error.ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.autoconfigure.error.ErrorViewResolver"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.error.DefaultErrorAttributes"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.error.ErrorAttributes"
+    },
+    {
+      "type": "org.springframework.boot.webmvc.error.ErrorController"
+    },
+    {
+      "type": "org.springframework.context.ApplicationContextAware"
+    },
+    {
+      "type": "org.springframework.context.ApplicationListener"
+    },
+    {
+      "type": "org.springframework.context.ApplicationStartupAware"
+    },
+    {
+      "type": "org.springframework.context.EmbeddedValueResolverAware"
+    },
+    {
+      "type": "org.springframework.context.EnvironmentAware"
+    },
+    {
+      "type": "org.springframework.context.Lifecycle"
+    },
+    {
+      "type": "org.springframework.context.LifecycleProcessor"
+    },
+    {
+      "type": "org.springframework.context.Phased"
+    },
+    {
+      "type": "org.springframework.context.ResourceLoaderAware"
+    },
+    {
+      "type": "org.springframework.context.SmartLifecycle"
+    },
+    {
+      "type": "org.springframework.context.annotation.AnnotationScopeMetadataResolver",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.context.annotation.Bean"
+    },
+    {
+      "type": "org.springframework.context.annotation.CommonAnnotationBeanPostProcessor",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.context.annotation.ComponentScan"
+    },
+    {
+      "type": "org.springframework.context.annotation.ComponentScan$Filter"
+    },
+    {
+      "type": "org.springframework.context.annotation.Conditional"
+    },
+    {
+      "type": "org.springframework.context.annotation.Configuration"
+    },
+    {
+      "type": "org.springframework.context.annotation.ConfigurationClassEnhancer$EnhancedConfiguration"
+    },
+    {
+      "type": "org.springframework.context.annotation.ConfigurationClassParser$DefaultDeferredImportSelectorGroup",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.context.annotation.ConfigurationClassPostProcessor",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setMetadataReaderFactory",
+          "parameterTypes": [
+            "org.springframework.core.type.classreading.MetadataReaderFactory"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.context.annotation.Import"
+    },
+    {
+      "type": "org.springframework.context.annotation.ImportRuntimeHints"
+    },
+    {
+      "type": "org.springframework.context.annotation.Lazy"
+    },
+    {
+      "type": "org.springframework.context.annotation.Primary"
+    },
+    {
+      "type": "org.springframework.context.annotation.Role"
+    },
+    {
+      "type": "org.springframework.context.annotation.Scope"
+    },
+    {
+      "type": "org.springframework.context.event.DefaultEventListenerFactory",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.context.event.EventListener"
+    },
+    {
+      "type": "org.springframework.context.event.EventListenerFactory"
+    },
+    {
+      "type": "org.springframework.context.event.EventListenerMethodProcessor",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.context.event.SmartApplicationListener"
+    },
+    {
+      "type": "org.springframework.context.support.ApplicationObjectSupport"
+    },
+    {
+      "type": "org.springframework.context.support.DefaultLifecycleProcessor"
+    },
+    {
+      "type": "org.springframework.context.support.PropertySourcesPlaceholderConfigurer"
+    },
+    {
+      "type": "org.springframework.core.Ordered"
+    },
+    {
+      "type": "org.springframework.core.PriorityOrdered"
+    },
+    {
+      "type": "org.springframework.core.annotation.AliasFor"
+    },
+    {
+      "type": "org.springframework.core.annotation.AnnotationAttributes[]"
+    },
+    {
+      "type": "org.springframework.core.annotation.Order"
+    },
+    {
+      "type": "org.springframework.core.convert.ConversionService"
+    },
+    {
+      "type": "org.springframework.core.convert.converter.ConverterRegistry"
+    },
+    {
+      "type": "org.springframework.core.convert.support.ConfigurableConversionService"
+    },
+    {
+      "type": "org.springframework.core.convert.support.GenericConversionService"
+    },
+    {
+      "type": "org.springframework.core.env.EnvironmentCapable"
+    },
+    {
+      "type": "org.springframework.core.io.support.PropertiesLoaderSupport"
+    },
+    {
+      "type": "org.springframework.core.task.AsyncTaskExecutor"
+    },
+    {
+      "type": "org.springframework.core.task.TaskExecutor"
+    },
+    {
+      "type": "org.springframework.core.type.classreading.AbstractMetadataReaderFactory"
+    },
+    {
+      "type": "org.springframework.core.type.classreading.CachingMetadataReaderFactory"
+    },
+    {
+      "type": "org.springframework.core.type.classreading.MetadataReaderFactory"
+    },
+    {
+      "type": "org.springframework.data.rest.webmvc.alps.AlpsJacksonJsonHttpMessageConverter"
+    },
+    {
+      "type": "org.springframework.format.FormatterRegistry"
+    },
+    {
+      "type": "org.springframework.format.support.DefaultFormattingConversionService"
+    },
+    {
+      "type": "org.springframework.format.support.FormattingConversionService"
+    },
+    {
+      "type": "org.springframework.hateoas.server.mvc.TypeConstrainedJacksonJsonHttpMessageConverter"
+    },
+    {
+      "type": "org.springframework.http.ProblemDetail"
+    },
+    {
+      "type": "org.springframework.http.ReactiveHttpInputMessage"
+    },
+    {
+      "type": "org.springframework.http.converter.HttpMessageConverter"
+    },
+    {
+      "type": "org.springframework.http.converter.StringHttpMessageConverter"
+    },
+    {
+      "type": "org.springframework.http.converter.json.Jackson2ObjectMapperBuilder"
+    },
+    {
+      "type": "org.springframework.http.converter.json.JacksonJsonHttpMessageConverter"
+    },
+    {
+      "type": "org.springframework.jmx.export.MBeanExporter"
+    },
+    {
+      "type": "org.springframework.scheduling.SchedulingTaskExecutor"
+    },
+    {
+      "type": "org.springframework.scheduling.TaskScheduler"
+    },
+    {
+      "type": "org.springframework.scheduling.annotation.AsyncConfigurer"
+    },
+    {
+      "type": "org.springframework.scheduling.annotation.EnableScheduling"
+    },
+    {
+      "type": "org.springframework.scheduling.annotation.Scheduled"
+    },
+    {
+      "type": "org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor"
+    },
+    {
+      "type": "org.springframework.scheduling.annotation.Schedules"
+    },
+    {
+      "type": "org.springframework.scheduling.annotation.SchedulingConfiguration",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "scheduledAnnotationProcessor",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.scheduling.annotation.SchedulingConfigurer"
+    },
+    {
+      "type": "org.springframework.scheduling.concurrent.CustomizableThreadFactory"
+    },
+    {
+      "type": "org.springframework.scheduling.concurrent.ExecutorConfigurationSupport"
+    },
+    {
+      "type": "org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
+    },
+    {
+      "type": "org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler"
+    },
+    {
+      "type": "org.springframework.scheduling.config.ScheduledTaskHolder"
+    },
+    {
+      "type": "org.springframework.stereotype.Component"
+    },
+    {
+      "type": "org.springframework.stereotype.Controller"
+    },
+    {
+      "type": "org.springframework.stereotype.Indexed"
+    },
+    {
+      "type": "org.springframework.stereotype.Service"
+    },
+    {
+      "type": "org.springframework.util.ConcurrentReferenceHashMap$Segment[]"
+    },
+    {
+      "type": "org.springframework.util.CustomizableThreadCreator"
+    },
+    {
+      "type": "org.springframework.util.PathMatcher"
+    },
+    {
+      "type": "org.springframework.validation.SmartValidator"
+    },
+    {
+      "type": "org.springframework.validation.Validator"
+    },
+    {
+      "type": "org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"
+    },
+    {
+      "type": "org.springframework.validation.beanvalidation.MethodValidationPostProcessor"
+    },
+    {
+      "type": "org.springframework.validation.beanvalidation.SpringValidatorAdapter"
+    },
+    {
+      "type": "org.springframework.web.accept.ApiVersionStrategy"
+    },
+    {
+      "type": "org.springframework.web.accept.ApiVersionStrategyEditor"
+    },
+    {
+      "type": "org.springframework.web.accept.ContentNegotiationManager"
+    },
+    {
+      "type": "org.springframework.web.accept.ContentNegotiationStrategy"
+    },
+    {
+      "type": "org.springframework.web.accept.MediaTypeFileExtensionResolver"
+    },
+    {
+      "type": "org.springframework.web.bind.annotation.DeleteMapping"
+    },
+    {
+      "type": "org.springframework.web.bind.annotation.ExceptionHandler"
+    },
+    {
+      "type": "org.springframework.web.bind.annotation.GetMapping"
+    },
+    {
+      "type": "org.springframework.web.bind.annotation.Mapping"
+    },
+    {
+      "type": "org.springframework.web.bind.annotation.PathVariable"
+    },
+    {
+      "type": "org.springframework.web.bind.annotation.PostMapping"
+    },
+    {
+      "type": "org.springframework.web.bind.annotation.RequestBody"
+    },
+    {
+      "type": "org.springframework.web.bind.annotation.RequestMapping"
+    },
+    {
+      "type": "org.springframework.web.bind.annotation.RequestMethod[]"
+    },
+    {
+      "type": "org.springframework.web.bind.annotation.RequestParam"
+    },
+    {
+      "type": "org.springframework.web.bind.annotation.ResponseBody"
+    },
+    {
+      "type": "org.springframework.web.bind.annotation.RestController"
+    },
+    {
+      "type": "org.springframework.web.context.ConfigurableWebApplicationContext"
+    },
+    {
+      "type": "org.springframework.web.context.ServletContextAware"
+    },
+    {
+      "type": "org.springframework.web.context.WebApplicationContext"
+    },
+    {
+      "type": "org.springframework.web.context.request.RequestContextListener"
+    },
+    {
+      "type": "org.springframework.web.context.support.GenericWebApplicationContext"
+    },
+    {
+      "type": "org.springframework.web.context.support.ServletContextResource"
+    },
+    {
+      "type": "org.springframework.web.context.support.WebApplicationObjectSupport"
+    },
+    {
+      "type": "org.springframework.web.filter.CharacterEncodingFilter"
+    },
+    {
+      "type": "org.springframework.web.filter.FormContentFilter"
+    },
+    {
+      "type": "org.springframework.web.filter.GenericFilterBean"
+    },
+    {
+      "type": "org.springframework.web.filter.OncePerRequestFilter"
+    },
+    {
+      "type": "org.springframework.web.filter.RequestContextFilter"
+    },
+    {
+      "type": "org.springframework.web.filter.ServerHttpObservationFilter"
+    },
+    {
+      "type": "org.springframework.web.method.support.CompositeUriComponentsContributor"
+    },
+    {
+      "type": "org.springframework.web.method.support.UriComponentsContributor"
+    },
+    {
+      "type": "org.springframework.web.multipart.MultipartResolver"
+    },
+    {
+      "type": "org.springframework.web.multipart.support.StandardServletMultipartResolver"
+    },
+    {
+      "type": "org.springframework.web.reactive.HandlerResult"
+    },
+    {
+      "type": "org.springframework.web.servlet.DispatcherServlet"
+    },
+    {
+      "type": "org.springframework.web.servlet.FlashMapManager"
+    },
+    {
+      "type": "org.springframework.web.servlet.FrameworkServlet"
+    },
+    {
+      "type": "org.springframework.web.servlet.HandlerAdapter"
+    },
+    {
+      "type": "org.springframework.web.servlet.HandlerExceptionResolver"
+    },
+    {
+      "type": "org.springframework.web.servlet.HandlerMapping"
+    },
+    {
+      "type": "org.springframework.web.servlet.HandlerMappingEditor"
+    },
+    {
+      "type": "org.springframework.web.servlet.HttpServletBean"
+    },
+    {
+      "type": "org.springframework.web.servlet.LocaleResolver"
+    },
+    {
+      "type": "org.springframework.web.servlet.RequestToViewNameTranslator"
+    },
+    {
+      "type": "org.springframework.web.servlet.View"
+    },
+    {
+      "type": "org.springframework.web.servlet.ViewResolver"
+    },
+    {
+      "type": "org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration",
+      "methods": [
+        {
+          "name": "setConfigurers",
+          "parameterTypes": [
+            "java.util.List"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.web.servlet.config.annotation.EnableWebMvc"
+    },
+    {
+      "type": "org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport",
+      "methods": [
+        {
+          "name": "beanNameHandlerMapping",
+          "parameterTypes": [
+            "org.springframework.format.support.FormattingConversionService",
+            "org.springframework.web.servlet.resource.ResourceUrlProvider"
+          ]
+        },
+        {
+          "name": "defaultServletHandlerMapping",
+          "parameterTypes": []
+        },
+        {
+          "name": "mvcContentNegotiationManager",
+          "parameterTypes": []
+        },
+        {
+          "name": "mvcResourceUrlProvider",
+          "parameterTypes": []
+        },
+        {
+          "name": "requestMappingHandlerMapping",
+          "parameterTypes": [
+            "org.springframework.web.accept.ContentNegotiationManager",
+            "org.springframework.web.accept.ApiVersionStrategy",
+            "org.springframework.format.support.FormattingConversionService",
+            "org.springframework.web.servlet.resource.ResourceUrlProvider"
+          ]
+        },
+        {
+          "name": "resourceHandlerMapping",
+          "parameterTypes": [
+            "org.springframework.web.accept.ContentNegotiationManager",
+            "org.springframework.format.support.FormattingConversionService",
+            "org.springframework.web.servlet.resource.ResourceUrlProvider"
+          ]
+        },
+        {
+          "name": "routerFunctionMapping",
+          "parameterTypes": [
+            "org.springframework.format.support.FormattingConversionService",
+            "org.springframework.web.servlet.resource.ResourceUrlProvider",
+            "org.springframework.web.accept.ApiVersionStrategy"
+          ]
+        },
+        {
+          "name": "viewControllerHandlerMapping",
+          "parameterTypes": [
+            "org.springframework.format.support.FormattingConversionService",
+            "org.springframework.web.servlet.resource.ResourceUrlProvider"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "org.springframework.web.servlet.config.annotation.WebMvcConfigurer"
+    },
+    {
+      "type": "org.springframework.web.servlet.function.support.HandlerFunctionAdapter"
+    },
+    {
+      "type": "org.springframework.web.servlet.function.support.RouterFunctionMapping"
+    },
+    {
+      "type": "org.springframework.web.servlet.handler.AbstractDetectingUrlHandlerMapping"
+    },
+    {
+      "type": "org.springframework.web.servlet.handler.AbstractHandlerMapping"
+    },
+    {
+      "type": "org.springframework.web.servlet.handler.AbstractHandlerMethodMapping"
+    },
+    {
+      "type": "org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$EmptyHandler"
+    },
+    {
+      "type": "org.springframework.web.servlet.handler.AbstractUrlHandlerMapping"
+    },
+    {
+      "type": "org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"
+    },
+    {
+      "type": "org.springframework.web.servlet.handler.MatchableHandlerMapping"
+    },
+    {
+      "type": "org.springframework.web.servlet.handler.SimpleUrlHandlerMapping"
+    },
+    {
+      "type": "org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"
+    },
+    {
+      "type": "org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"
+    },
+    {
+      "type": "org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter"
+    },
+    {
+      "type": "org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping"
+    },
+    {
+      "type": "org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping$HttpOptionsHandler"
+    },
+    {
+      "type": "org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"
+    },
+    {
+      "type": "org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"
+    },
+    {
+      "type": "org.springframework.web.servlet.resource.ResourceUrlProvider"
+    },
+    {
+      "type": "org.springframework.web.servlet.support.WebContentGenerator"
+    },
+    {
+      "type": "org.springframework.web.servlet.view.AbstractCachingViewResolver"
+    },
+    {
+      "type": "org.springframework.web.servlet.view.BeanNameViewResolver"
+    },
+    {
+      "type": "org.springframework.web.servlet.view.ContentNegotiatingViewResolver"
+    },
+    {
+      "type": "org.springframework.web.servlet.view.InternalResourceViewResolver"
+    },
+    {
+      "type": "org.springframework.web.servlet.view.UrlBasedViewResolver"
+    },
+    {
+      "type": "org.springframework.web.util.UrlPathHelper"
+    },
+    {
+      "type": "org.springframework.web.util.pattern.PathPatternParser"
+    },
+    {
+      "type": "org.webjars.WebJarAssetLocator"
+    },
+    {
+      "type": "org.webjars.WebJarVersionLocator"
+    },
+    {
+      "type": "org.yaml.snakeyaml.Yaml"
+    },
+    {
+      "type": "picocli.CommandLine$AutoHelpMixin",
+      "fields": [
+        {
+          "name": "helpRequested"
+        },
+        {
+          "name": "versionRequested"
+        }
+      ]
+    },
+    {
+      "type": "picocli.CommandLine$Command"
+    },
+    {
+      "type": "picocli.CommandLine$Option"
+    },
+    {
+      "type": "picocli.CommandLine$Parameters"
+    },
+    {
+      "type": "reactor.core.publisher.Flux"
+    },
+    {
+      "type": "reactor.core.publisher.Mono"
+    },
+    {
+      "type": "short[]"
+    },
+    {
+      "type": "sun.awt.image.IntegerComponentRaster",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "data"
+        },
+        {
+          "name": "dataOffsets"
+        },
+        {
+          "name": "pixelStride"
+        },
+        {
+          "name": "scanlineStride"
+        },
+        {
+          "name": "type"
+        }
+      ]
+    },
+    {
+      "type": "sun.management.ClassLoadingImpl"
+    },
+    {
+      "type": "sun.management.CompilationImpl"
+    },
+    {
+      "type": "sun.management.ManagementFactoryHelper$1"
+    },
+    {
+      "type": "sun.management.ManagementFactoryHelper$PlatformLoggingImpl"
+    },
+    {
+      "type": "sun.management.MemoryImpl"
+    },
+    {
+      "type": "sun.management.MemoryManagerImpl"
+    },
+    {
+      "type": "sun.management.MemoryPoolImpl"
+    },
+    {
+      "type": "sun.management.RuntimeImpl"
+    },
+    {
+      "type": "sun.management.VMManagementImpl",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "compTimeMonitoringSupport"
+        },
+        {
+          "name": "currentThreadCpuTimeSupport"
+        },
+        {
+          "name": "objectMonitorUsageSupport"
+        },
+        {
+          "name": "otherThreadCpuTimeSupport"
+        },
+        {
+          "name": "remoteDiagnosticCommandsSupport"
+        },
+        {
+          "name": "synchronizerUsageSupport"
+        },
+        {
+          "name": "threadAllocatedMemorySupport"
+        },
+        {
+          "name": "threadContentionMonitoringSupport"
+        }
+      ]
+    },
+    {
+      "type": "sun.misc.Unsafe",
+      "fields": [
+        {
+          "name": "theUnsafe"
+        }
+      ],
+      "methods": [
+        {
+          "name": "invokeCleaner",
+          "parameterTypes": [
+            "java.nio.ByteBuffer"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.security.provider.NativePRNG",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.security.SecureRandomParameters"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.security.provider.SHA",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.text.resources.cldr.FormatData"
+    },
+    {
+      "type": "sun.text.resources.cldr.FormatData_en"
+    },
+    {
+      "type": "sun.text.resources.cldr.FormatData_en_US"
+    },
+    {
+      "type": "sun.util.resources.cldr.CalendarData"
+    },
+    {
+      "type": "sun.util.resources.cldr.TimeZoneNames"
+    },
+    {
+      "type": "sun.util.resources.cldr.TimeZoneNames_en"
+    },
+    {
+      "type": "sun.util.resources.cldr.TimeZoneNames_en_US"
+    },
+    {
+      "type": "tools.jackson.core.TreeCodec"
+    },
+    {
+      "type": "tools.jackson.core.Versioned"
+    },
+    {
+      "type": "tools.jackson.databind.JacksonModule"
+    },
+    {
+      "type": "tools.jackson.databind.ObjectMapper"
+    },
+    {
+      "type": "tools.jackson.databind.cfg.MapperBuilder"
+    },
+    {
+      "type": "tools.jackson.databind.deser.Deserializers[]"
+    },
+    {
+      "type": "tools.jackson.databind.deser.KeyDeserializers[]"
+    },
+    {
+      "type": "tools.jackson.databind.deser.ValueInstantiators[]"
+    },
+    {
+      "type": "tools.jackson.databind.json.JsonMapper"
+    },
+    {
+      "type": "tools.jackson.databind.json.JsonMapper$Builder"
+    },
+    {
+      "type": "tools.jackson.databind.module.SimpleModule"
+    },
+    {
+      "type": "tools.jackson.databind.ser.Serializers[]"
+    },
+    {
+      "type": "tools.jackson.dataformat.cbor.CBORMapper"
+    },
+    {
+      "type": "tools.jackson.dataformat.smile.SmileMapper"
+    },
+    {
+      "type": "tools.jackson.dataformat.xml.XmlMapper"
+    },
+    {
+      "type": "tools.jackson.dataformat.yaml.YAMLMapper"
+    },
+    {
+      "type": {
+        "proxy": [
+          "java.lang.reflect.ParameterizedType",
+          "org.springframework.core.SerializableTypeWrapper$SerializableTypeProxy",
+          "java.io.Serializable"
+        ]
+      }
+    },
+    {
+      "type": {
+        "proxy": [
+          "java.lang.reflect.TypeVariable",
+          "org.springframework.core.SerializableTypeWrapper$SerializableTypeProxy",
+          "java.io.Serializable"
+        ]
+      }
+    },
+    {
+      "type": {
+        "proxy": [
+          "java.lang.reflect.WildcardType",
+          "org.springframework.core.SerializableTypeWrapper$SerializableTypeProxy",
+          "java.io.Serializable"
+        ]
+      }
+    },
+    {
+      "type": {
+        "proxy": [
+          "org.springframework.boot.actuate.endpoint.annotation.EndpointExtension"
+        ]
+      }
+    },
+    {
+      "type": {
+        "proxy": [
+          "org.springframework.boot.context.properties.ConfigurationProperties"
+        ]
+      }
+    },
+    {
+      "type": {
+        "proxy": [
+          "org.springframework.web.bind.annotation.PathVariable"
+        ]
+      }
+    },
+    {
+      "type": {
+        "proxy": [
+          "org.springframework.web.bind.annotation.RequestMapping"
+        ]
+      }
+    },
+    {
+      "type": {
+        "proxy": [
+          "org.springframework.web.bind.annotation.RequestParam"
+        ]
+      }
+    },
+    {
+      "type": {
+        "lambda": {
+          "declaringClass": "org.springframework.boot.LazyInitializationExcludeFilter",
+          "interfaces": [
+            "org.springframework.boot.LazyInitializationExcludeFilter"
+          ]
+        }
+      }
+    },
+    {
+      "type": {
+        "lambda": {
+          "declaringClass": "org.springframework.boot.actuate.autoconfigure.endpoint.jackson.Jackson2EndpointAutoConfiguration",
+          "interfaces": [
+            "org.springframework.boot.actuate.endpoint.jackson.EndpointJackson2ObjectMapper"
+          ]
+        }
+      }
+    },
+    {
+      "type": {
+        "lambda": {
+          "declaringClass": "org.springframework.boot.actuate.autoconfigure.endpoint.jackson.JacksonEndpointAutoConfiguration",
+          "interfaces": [
+            "org.springframework.boot.actuate.endpoint.jackson.EndpointJsonMapper"
+          ]
+        }
+      }
+    },
+    {
+      "type": {
+        "lambda": {
+          "declaringClass": "org.springframework.boot.actuate.endpoint.OperationFilter",
+          "interfaces": [
+            "org.springframework.boot.actuate.endpoint.OperationFilter"
+          ]
+        }
+      }
+    },
+    {
+      "type": {
+        "lambda": {
+          "declaringClass": "org.springframework.boot.autoconfigure.aop.AopAutoConfiguration$ClassProxyingConfiguration",
+          "interfaces": [
+            "org.springframework.beans.factory.config.BeanFactoryPostProcessor"
+          ]
+        }
+      }
+    },
+    {
+      "type": {
+        "lambda": {
+          "declaringClass": "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$BootstrapExecutorConfiguration",
+          "interfaces": [
+            "org.springframework.beans.factory.config.BeanFactoryPostProcessor"
+          ]
+        }
+      }
+    },
+    {
+      "type": {
+        "lambda": {
+          "declaringClass": "org.springframework.boot.micrometer.observation.autoconfigure.ObservationHandlerGroup",
+          "interfaces": [
+            "org.springframework.boot.micrometer.observation.autoconfigure.ObservationHandlerGroup"
+          ]
+        }
+      }
+    },
+    {
+      "type": {
+        "lambda": {
+          "declaringClass": "org.springframework.boot.validation.beanvalidation.MethodValidationExcludeFilter",
+          "interfaces": [
+            "org.springframework.boot.validation.beanvalidation.MethodValidationExcludeFilter"
+          ]
+        }
+      }
+    }
+  ],
+  "foreign": {
+    "downcalls": [
+      {
+        "returnType": "jint",
+        "parameterTypes": [
+          "void*",
+          "jlong",
+          "jint"
+        ]
+      },
+      {
+        "returnType": "jint",
+        "parameterTypes": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+Native PDF Test - Error Chain & Fix (2026-03-16)
+================================================
+
+Command:
+  ./build/native/nativeCompile/noetic --websearch.adapter.default-mode=cli crawl "file:///tmp/sample.pdf"
+
+Test file: /tmp/sample.pdf (1MB real PDF from TestFileHub)
+
+Error chain (fixed iteratively):
+  1. SampleModel.initIDs() - UnsatisfiedLinkError
+  2. BufferedImage.initIDs() - UnsatisfiedLinkError  
+  3. SinglePixelPackedSampleModel.initIDs() - UnsatisfiedLinkError
+  4. Can't load library: awt | java.library.path = [.]
+     (IntegerComponentRaster triggers NativeLibLoader.loadLibraries at runtime)
+
+Fix applied in build.gradle.kts:
+  -H:CLibraryPath=$jdkLibPath
+  -H:NativeLinkerOption=-lawt
+  --initialize-at-build-time=java.awt.image.ColorModel
+  --initialize-at-build-time=java.awt.image.Raster
+  --initialize-at-build-time=java.awt.image.SampleModel
+  --initialize-at-build-time=java.awt.image.BufferedImage
+  --initialize-at-build-time=java.awt.image.SinglePixelPackedSampleModel
+  --initialize-at-build-time=sun.awt.image.IntegerComponentRaster
+
+Result: PDF extraction works in native binary.

@@ -3,8 +3,9 @@
 # with SHA256 checksums from a GitHub Release.
 #
 # Usage:
-#   ./scripts/update-formula.sh              # uses latest release
+#   ./scripts/update-formula.sh              # uses latest release (all platforms)
 #   ./scripts/update-formula.sh 0.2.0        # specific version
+#   ./scripts/update-formula.sh 0.2.0 --macos-only   # macos-arm64 only (for local-release workflow)
 #
 # Requires: gh (GitHub CLI) authenticated with repo access to dnamaz/homebrew-tap
 
@@ -12,10 +13,21 @@ set -euo pipefail
 
 REPO="dnamaz/noetic"
 TAP_REPO="dnamaz/homebrew-tap"
+MACOS_ONLY=false
+
+# Parse args
+ARGS=()
+for arg in "$@"; do
+    if [[ "$arg" == "--macos-only" ]]; then
+        MACOS_ONLY=true
+    else
+        ARGS+=("$arg")
+    fi
+done
 
 # Resolve version
-if [[ -n "${1:-}" ]]; then
-    VERSION="$1"
+if [[ -n "${ARGS[0]:-}" ]]; then
+    VERSION="${ARGS[0]}"
 else
     VERSION=$(gh release view --repo "$REPO" --json tagName --jq '.tagName' | sed 's/^v//')
     echo "Using latest release: v${VERSION}"
@@ -23,7 +35,7 @@ fi
 
 TAG="v${VERSION}"
 
-echo "==> Updating Homebrew Formula for ${TAG}"
+echo "==> Updating Homebrew Formula for ${TAG}${MACOS_ONLY:+ (macos-only)}"
 
 # Download checksums from release
 CHECKSUMS=$(gh release download "$TAG" --repo "$REPO" --pattern "checksums.txt" --output -)
@@ -35,8 +47,13 @@ SHA_MACOS_ARM64=$(echo "$CHECKSUMS" | grep "macos-arm64" | awk '{print $1}')
 SHA_LINUX_X86_64=$(echo "$CHECKSUMS" | grep "linux-x86_64" | awk '{print $1}')
 SHA_LINUX_ARM64=$(echo "$CHECKSUMS" | grep "linux-arm64" | awk '{print $1}')
 
-if [[ -z "$SHA_MACOS_ARM64" || -z "$SHA_LINUX_X86_64" || -z "$SHA_LINUX_ARM64" ]]; then
-    echo "Error: Could not extract all SHA256 values from checksums.txt"
+if [[ -z "$SHA_MACOS_ARM64" ]]; then
+    echo "Error: macos-arm64 SHA256 not found in checksums.txt"
+    exit 1
+fi
+
+if [[ "$MACOS_ONLY" == false ]] && { [[ -z "$SHA_LINUX_X86_64" ]] || [[ -z "$SHA_LINUX_ARM64" ]]; }; then
+    echo "Error: Could not extract all SHA256 values. Use --macos-only for macos-only releases."
     echo "  macos-arm64:  ${SHA_MACOS_ARM64:-MISSING}"
     echo "  linux-x86_64: ${SHA_LINUX_X86_64:-MISSING}"
     echo "  linux-arm64:  ${SHA_LINUX_ARM64:-MISSING}"
@@ -45,12 +62,64 @@ fi
 
 echo "SHA256 values:"
 echo "  macos-arm64:  $SHA_MACOS_ARM64"
-echo "  linux-x86_64: $SHA_LINUX_X86_64"
-echo "  linux-arm64:  $SHA_LINUX_ARM64"
+[[ -n "$SHA_LINUX_X86_64" ]] && echo "  linux-x86_64: $SHA_LINUX_X86_64"
+[[ -n "$SHA_LINUX_ARM64" ]] && echo "  linux-arm64:  $SHA_LINUX_ARM64"
 echo ""
 
 # Generate Formula
-cat > /tmp/noetic.rb << FORMULA
+if [[ "$MACOS_ONLY" == true ]]; then
+  cat > /tmp/noetic.rb << FORMULA
+class Noetic < Formula
+  desc "Web search, crawl, and knowledge cache for AI coding assistants"
+  homepage "https://github.com/dnamaz/noetic"
+  version "${VERSION}"
+  license "MIT"
+
+  on_macos do
+    url "https://github.com/dnamaz/noetic/releases/download/v#{version}/noetic-#{version}-macos-arm64.tar.gz"
+    sha256 "${SHA_MACOS_ARM64}"
+  end
+
+  on_linux do
+    odie "Noetic v#{version} does not support Linux. Use v0.2.1 or earlier."
+  end
+
+  def install
+    bin.install "noetic"
+    bin.install "noetic-start" if File.exist?("noetic-start")
+    bin.install "noetic-stop"  if File.exist?("noetic-stop")
+  end
+
+  def caveats
+    <<~EOS
+      CLI (works immediately, no server needed):
+        noetic --websearch.adapter.default-mode=cli search "your query"
+        noetic --websearch.adapter.default-mode=cli crawl "https://example.com"
+
+      Start the REST API server as a background service:
+        brew services start noetic
+
+      Or run the MCP server (foreground, for IDE integration):
+        noetic
+
+      Install AI assistant instructions:
+        noetic install-skill --target=cursor
+        noetic install-skill --list
+
+      Server logs:  #{var}/log/noetic.log
+      Model cache:  ~/.websearch/models/
+      Vector cache: ~/.websearch/index/
+    EOS
+  end
+
+  test do
+    assert_match "noetic", shell_output("#{bin}/noetic --version")
+    assert_match version.to_s, shell_output("#{bin}/noetic --version")
+  end
+end
+FORMULA
+else
+  cat > /tmp/noetic.rb << FORMULA
 class Noetic < Formula
   desc "Web search, crawl, and knowledge cache for AI coding assistants"
   homepage "https://github.com/dnamaz/noetic"
@@ -121,6 +190,7 @@ class Noetic < Formula
   end
 end
 FORMULA
+fi
 
 # Push to tap repo
 TAP_SHA=$(gh api "repos/${TAP_REPO}/contents/Formula/noetic.rb" --jq '.sha')

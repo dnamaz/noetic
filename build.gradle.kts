@@ -107,7 +107,12 @@ graalvmNative {
         named("main") {
             imageName = "noetic"
             mainClass = "com.noetic.websearch.WebSearchApplication"
+            // Explicitly link libawt so its JNI symbols are available at runtime.
+            // java.home at build time is the GraalVM installation (has libawt.dylib in lib/).
+            val jdkLibPath = "${System.getProperty("java.home")}/lib"
             buildArgs.addAll(
+                "-H:CLibraryPath=$jdkLibPath",
+                "-H:NativeLinkerOption=-lawt",
                 "--enable-preview",
                 "--no-fallback",
                 "-H:+ReportExceptionStackTraces",
@@ -118,6 +123,17 @@ graalvmNative {
                 "-H:+ForeignAPISupport",
                 "--initialize-at-build-time=org.slf4j",
                 "--initialize-at-build-time=ch.qos.logback",
+                // Initializing AWT image classes at build time lets GraalVM's analysis
+                // detect System.loadLibrary("awt") and have JNIRegistrationAWTSupport
+                // register libawt as a linker dependency — embedding it in the binary.
+                // AWT image classes required by PDFBox. Build-time init lets GraalVM register
+                // JNI symbols from libawt. Add classes as UnsatisfiedLinkError reveals them.
+                "--initialize-at-build-time=java.awt.image.ColorModel",
+                "--initialize-at-build-time=java.awt.image.Raster",
+                "--initialize-at-build-time=java.awt.image.SampleModel",
+                "--initialize-at-build-time=java.awt.image.BufferedImage",
+                "--initialize-at-build-time=java.awt.image.SinglePixelPackedSampleModel",
+                "--initialize-at-build-time=sun.awt.image.IntegerComponentRaster",
                 "--initialize-at-run-time=ai.onnxruntime",
                 "--initialize-at-run-time=com.microsoft.onnxruntime",
                 "--initialize-at-run-time=ai.djl.onnxruntime.engine",

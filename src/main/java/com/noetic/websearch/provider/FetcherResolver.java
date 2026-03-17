@@ -2,6 +2,7 @@ package com.noetic.websearch.provider;
 
 import com.noetic.websearch.model.FetchRequest;
 import com.noetic.websearch.model.FetchResult;
+import com.noetic.websearch.provider.fetcher.LocalFileFetcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -88,6 +89,16 @@ public class FetcherResolver {
      * @return the fetch result
      */
     public FetchResult resolve(FetchRequest request, String fetchMode) {
+        // 0. Local file paths -- bypass the HTTP fetcher chain entirely
+        if (LocalFileFetcher.isLocalPath(request.url())) {
+            ContentFetcher localFetcher = fetchersByType.get("local");
+            if (localFetcher != null) {
+                log.debug("Local path detected for {}: routing to local fetcher", request.url());
+                return localFetcher.fetch(request);
+            }
+            throw new RuntimeException("No local file fetcher available for: " + request.url());
+        }
+
         // 1. Explicit mode -- select directly
         if (fetchMode != null && !fetchMode.equalsIgnoreCase("auto")) {
             ContentFetcher fetcher = fetchersByType.get(fetchMode.toLowerCase());

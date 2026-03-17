@@ -1,22 +1,30 @@
 # Build native binaries and publish a GitHub Release.
 #
 # Triggers:
-#   - Tag push:          git tag v0.2.0 && git push --tags
-#   - Manual dispatch:   Actions UI with version + platform selection
+#   - Manual dispatch only (workflow_dispatch). Tag push disabled to avoid
+#     expensive CI builds; use local build + release.sh + gh release create.
 #
 # Matrix builds for:
 #   - macOS arm64 (Apple Silicon)
 #   - Linux x86_64 (Ubuntu 22.04, glibc 2.35+)
 #   - Linux arm64  (Ubuntu 22.04, glibc 2.35+)
 #
+# Hybrid release workflow:
+#   1. Build locally: ./gradlew nativeCompile
+#   2. Package: ./scripts/release.sh --skip-build
+#   3. Tag and push: git tag vX.Y.Z && git push origin vX.Y.Z
+#   4. Create release: gh release create vX.Y.Z dist/*.tar.gz dist/checksums.txt ...
+#   5. Update tap: ./scripts/update-formula.sh X.Y.Z
+#
 # After release, manually update dnamaz/homebrew-tap Formula with SHA256s.
 
 name: Release
 
 on:
-  push:
-    tags:
-      - "v*"
+  # push/tags disabled - use local build + manual release to avoid expensive Mac runners
+  # push:
+  #   tags:
+  #     - "v*"
   workflow_dispatch:
     inputs:
       version:

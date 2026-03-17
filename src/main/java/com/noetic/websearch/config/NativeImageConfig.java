@@ -1,6 +1,7 @@
 package com.noetic.websearch.config;
 
 import com.noetic.websearch.model.*;
+import com.noetic.websearch.provider.fetcher.LocalFileFetcher;
 import com.noetic.websearch.service.BatchCrawlService;
 import com.noetic.websearch.service.EvictionService;
 import com.noetic.websearch.service.SitemapParser;
@@ -32,6 +33,9 @@ public class NativeImageConfig {
         @Override
         public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
             var reflection = hints.reflection();
+
+            // ---- Fetchers ----
+            registerAllMembers(reflection, LocalFileFetcher.class);
 
             // ---- Domain records (JSON serialization) ----
             registerAllMembers(reflection, FetchRequest.class);
